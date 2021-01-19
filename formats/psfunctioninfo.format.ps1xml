@@ -12,11 +12,11 @@ format type data generated 01/27/2020 10:30:02 by BOVINE320\Jeff
       </ViewSelectedBy>
       <TableControl>
         <!--Delete the AutoSize node if you want to use the defined widths.-->
-       <!--  <AutoSize /> -->
+        <!--  <AutoSize /> -->
         <TableHeaders>
           <TableColumnHeader>
             <Label>Name</Label>
-            <Width>35</Width>
+            <Width>25</Width>
             <Alignment>left</Alignment>
           </TableColumnHeader>
           <TableColumnHeader>
@@ -25,13 +25,13 @@ format type data generated 01/27/2020 10:30:02 by BOVINE320\Jeff
             <Alignment>left</Alignment>
           </TableColumnHeader>
           <TableColumnHeader>
-            <Label>Source</Label>
-            <Width>30</Width>
+            <Label>Alias</Label>
+            <Width>7</Width>
             <Alignment>left</Alignment>
           </TableColumnHeader>
           <TableColumnHeader>
-            <Label>Module</Label>
-            <Width>30</Width>
+            <Label>Source</Label>
+            <Width>40</Width>
             <Alignment>left</Alignment>
           </TableColumnHeader>
         </TableHeaders>
@@ -45,10 +45,57 @@ format type data generated 01/27/2020 10:30:02 by BOVINE320\Jeff
                 <PropertyName>Version</PropertyName>
               </TableColumnItem>
               <TableColumnItem>
-                <PropertyName>Source</PropertyName>
+                <PropertyName>Alias</PropertyName>
               </TableColumnItem>
               <TableColumnItem>
-                <PropertyName>Module</PropertyName>
+                <PropertyName>Source</PropertyName>
+              </TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+    <View>
+      <!--Created 01/19/2021 17:44:52 by PROSPERO\Jeff-->
+      <Name>source</Name>
+      <ViewSelectedBy>
+        <TypeName>PSFunctionInfo</TypeName>
+      </ViewSelectedBy>
+      <GroupBy>
+        <PropertyName>Source</PropertyName>
+        <Label>Source</Label>
+      </GroupBy>
+      <TableControl>
+        <!--Delete the AutoSize node if you want to use the defined widths.
+        <AutoSize />-->
+        <TableHeaders>
+          <TableColumnHeader>
+            <Label>Name</Label>
+            <Width>25</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Version</Label>
+            <Width>10</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Description</Label>
+            <Width>45</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+              <TableColumnItem>
+                <PropertyName>Name</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>Version</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>Description</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
