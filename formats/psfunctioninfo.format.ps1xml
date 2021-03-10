@@ -26,7 +26,7 @@ format type data generated 01/27/2020 10:30:02 by BOVINE320\Jeff
           </TableColumnHeader>
           <TableColumnHeader>
             <Label>Alias</Label>
-            <Width>7</Width>
+            <Width>20</Width>
             <Alignment>left</Alignment>
           </TableColumnHeader>
           <TableColumnHeader>
