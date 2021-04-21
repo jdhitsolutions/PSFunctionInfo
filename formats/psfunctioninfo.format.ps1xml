@@ -1,6 +1,10 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <!--
 format type data generated 01/27/2020 10:30:02 by BOVINE320\Jeff
+
+This file was created using the New-PSFormatXML command that is part
+of the PSScriptTools module.
+https://github.com/jdhitsolutions/PSScriptTools
 -->
 <Configuration>
   <ViewDefinitions>
@@ -81,7 +85,6 @@ format type data generated 01/27/2020 10:30:02 by BOVINE320\Jeff
           </TableColumnHeader>
           <TableColumnHeader>
             <Label>Description</Label>
-            <Width>45</Width>
             <Alignment>left</Alignment>
           </TableColumnHeader>
         </TableHeaders>

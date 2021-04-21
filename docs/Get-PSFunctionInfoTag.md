@@ -18,16 +18,27 @@ Get-PSFunctionInfoTag [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+
+PSFunctionInfo metadata can contain tags. Get-PSFunctionInfoTag will create a list of all tags currently in use. The tag list is built from the functions currently loaded into your PowerShell session.
 
 ## EXAMPLES
 
 ### Example 1
+
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> Get-PSFunctionInfoTag
+backup
+cim
+console
+directory
+git
+powershellget
+profile
+secrets
+Web
 ```
 
-{{ Add example description here }}
+Get a list of current tags.
 
 ## PARAMETERS
 
@@ -41,7 +52,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
-### System.Object
+### System.String
 
 ## NOTES
 

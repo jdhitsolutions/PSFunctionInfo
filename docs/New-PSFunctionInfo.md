@@ -14,22 +14,22 @@ Create function metadata
 ## SYNTAX
 
 ```yaml
-New-PSFunctionInfo [-Name] <String> -Path <String> [-Author <String>] [-CompanyName <String>]
- [-Copyright <String>] [-Description <String>] [-Version <String>] [-Guid <Guid>] [-Tags <String[]>]
- [-Updated <DateTime>] [-ToClipboard] [-WhatIf] [-Confirm] [<CommonParameters>]
+New-PSFunctionInfo [-Name] <String> -Path <String> [-Author <String>] [-CompanyName <String>] [-Copyright <String>] [-Description <String>]
+[-Version <String>] [-Guid <Guid>] [-Tags <String[]>] [-Updated <DateTime>] [-ToClipboard] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
 
 This command will create a function metadata comment block and insert it into the source script file. Or you can copy it to the clipboard and insert it yourself. It is assumed that if you update the function, you can manually update the metadata at the same time.
 
+This command will not work properly with one-line function declarations like Function Get-This { Get-Date }.
+
 ## EXAMPLES
 
 ### Example 1
 
 ```powershell
-PS C:\> New-PSFunctionInfo -Path c:\scripts\Test-ConsoleColors.ps1 -Description "show console color combinations" -Name Test-ConsoleColor -Author "Jeff Hicks" -CompanyName "JDH IT Solutions" -Copyright "2020 JDH IT Solutions, Inc." -Tags "scripting","console"
-
+PS C:\> New-PSFunctionInfo -Path c:\scripts\Test-ConsoleColors.ps1 -Description "show console color combinations" -Name Test-ConsoleColor -Author "Jeff Hicks" -CompanyName "JDH IT Solutions" -Copyright "2021 JDH IT Solutions, Inc." -Tags "scripting","console"
 ```
 
 Insert function metadata into the script file before the [cmdletbinding()] tag. This example will produce this comment block:
@@ -42,7 +42,7 @@ Author Jeff Hicks
 
 CompanyName JDH IT Solutions
 
-Copyright 2020 JDH IT Solutions, Inc.
+Copyright 2021 JDH IT Solutions, Inc.
 
 Description show console color combinations
 
@@ -53,6 +53,14 @@ Tags scripting,console
 LastUpdate 10/02/2020 10:34:18
 
 Source C:\Scripts\Test-ConsoleColors.ps1
+
+### Example 2
+
+```powershell
+PS C:\> New-PSFunctionInfo -Path c:\scripts\Test-ConsoleColors.ps1 -Description "show console color combinations" -Name Test-ConsoleColor -Author "Jeff Hicks" -CompanyName "JDH IT Solutions" -Copyright "2021 JDH IT Solutions, Inc." -Tags "scripting","console" -toclipboard
+```
+
+This will create the same metadata as the first example. Except it will be copied to the clipboard and not to the file.
 
 ## PARAMETERS
 
@@ -219,7 +227,7 @@ Accept wildcard characters: False
 
 ### -Updated
 
-Specify a datetime. The default is the current date and time.
+Specify a datetime. The default is the current date and time. When manually updating, you should use a command like Get-Date -format g. Whatever date format you use, the string must be able to be treated as a [datetime] object.
 
 ```yaml
 Type: DateTime
@@ -235,7 +243,7 @@ Accept wildcard characters: False
 
 ### -Version
 
-Specify a version number.
+Specify a version number. It is recommended to use a standard version numbering system.
 
 ```yaml
 Type: String
@@ -280,9 +288,10 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## NOTES
 
+This function has an alias of npfi.
+
 Learn more about PowerShell: http://jdhitsolutions.com/blog/essential-powershell-resources/
 
 ## RELATED LINKS
 
 [Get-PSFunctionInfo](Get-PSFunctionInfo.md)
-

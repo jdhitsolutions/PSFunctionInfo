@@ -6,7 +6,7 @@
       <command:verb>Get</command:verb>
       <command:noun>PSFunctionInfo</command:noun>
       <maml:description>
-        <maml:para>Get metadata for stand-alone functions</maml:para>
+        <maml:para>Get metadata for stand-alone functions.</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
@@ -15,25 +15,23 @@
     <command:syntax>
       <command:syntaxItem>
         <maml:name>Get-PSFunctionInfo</maml:name>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-          <maml:name>All</maml:name>
-          <maml:Description>
-            <maml:para>Get all functions regardless of whether or not they belong to a module.</maml:para>
-          </maml:Description>
-          <dev:type>
-            <maml:name>SwitchParameter</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-      </command:syntaxItem>
-      <command:syntaxItem>
-        <maml:name>Get-PSFunctionInfo</maml:name>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="0" aliases="none">
           <maml:name>Name</maml:name>
-          <maml:Description>
+          <maml:description>
             <maml:para>Specify the name of a loaded function. The default is all functions that don't belong to a module.</maml:para>
-          </maml:Description>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>Tag</maml:name>
+          <maml:description>
+            <maml:para>Specify a tag</maml:para>
+          </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
             <maml:name>String</maml:name>
@@ -44,23 +42,23 @@
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-        <maml:name>All</maml:name>
-        <maml:Description>
-          <maml:para>Get all functions regardless of whether or not they belong to a module.</maml:para>
-        </maml:Description>
-        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
-        <dev:type>
-          <maml:name>SwitchParameter</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>False</dev:defaultValue>
-      </command:parameter>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="0" aliases="none">
         <maml:name>Name</maml:name>
-        <maml:Description>
+        <maml:description>
           <maml:para>Specify the name of a loaded function. The default is all functions that don't belong to a module.</maml:para>
-        </maml:Description>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>Tag</maml:name>
+        <maml:description>
+          <maml:para>Specify a tag</maml:para>
+        </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
           <maml:name>String</maml:name>
@@ -91,6 +89,7 @@
     </command:returnValues>
     <maml:alertSet>
       <maml:alert>
+        <maml:para>This function has an alias of gpfi.</maml:para>
         <maml:para>Learn more about PowerShell: http://jdhitsolutions.com/blog/essential-powershell-resources/</maml:para>
       </maml:alert>
     </maml:alertSet>
@@ -99,33 +98,26 @@
         <maml:title>-------------------------- Example 1 --------------------------</maml:title>
         <dev:code>PS C:\&gt; Get-PSFunctionInfo
 
-Name                           Version    Source                         Module
-----                           -------    ------                         ------
-Get-QOTD                       2.0.0      C:\scripts\Get-QOTD.ps1
-Tee-MyObject                   1.0.0      C:\scripts\Tee-MyObject.ps1
-Publish-Project                2.3.0      C:\scripts\Publish-Project.ps1
-Get-Status                     1.2.0      C:\scripts\getstat.ps1
-Out-Copy                       2.0.0      C:\scripts\Out-Copy.ps1
-Convert-Expression             1.0.0      C:\scripts\Convert-Expression…
-Add-BackupEntry                1.1.0      C:\scripts\PSBackup\Add-Backu…
-Get-UTCString                  2.0.0      C:\scripts\JDH-Functions.ps1
-Set-FunctionDescription        1.0.0      C:\scripts\JDH-Functions.ps1
-Start-GitBash                  1.0.0      C:\scripts\JDH-Functions.ps1
-Get-DiskFree                   1.0.0      C:\scripts\JDH-Functions.ps1
-Test-IsAdministrator           1.0.0      C:\scripts\JDH-Functions.ps1
-dw                             1.1.0      C:\scripts\JDH-Functions.ps1
-Set-Title                      1.0.0      C:\scripts\JDH-Functions.ps1
-Save-Title                     1.0.0      C:\scripts\JDH-Functions.ps1
-Get-LastBoot                   1.0.0      C:\scripts\JDH-Functions.ps1
-Get-ModifiedFile               1.1.0      C:\scripts\JDH-Functions.ps1
-Get-MyFunctions                1.0.0      C:\scripts\JDH-Functions.ps1</dev:code>
+Name                      Version    Alias                Source
+----                      -------    -----                ------
+prompt
+Get-QOTD                  2.0.0      qotd                 C:\scripts\Get-QOTD.ps1
+Get-Status                2.1.0      gst                  C:\scripts\getstat.ps1
+Get-StatusString          1.1.0      gss                  C:\scripts\getstat.ps1
+Convert-Expression        1.0.0      spoof                C:\scripts\Convert-Expression.ps1
+Add-BackupEntry           1.3.0      abe                  C:\scripts\PSBackup\Add-BackupEntry.ps1
+Get-MyBackupFile          1.0.0      gbf                  C:\scripts\PSBackup\Get-MyBackupFile.ps1
+ConvertTo-ASCIIArt                   cart
+Test-IsAdministrator      1.0.0                           C:\Scripts\JDH-Functions.ps1
+Open-VSCode               2.0.0      code                 C:\Scripts\JDH-Functions.ps1
+...</dev:code>
         <dev:remarks>
           <maml:para></maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
         <maml:title>-------------------------- Example 2 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; Get-PSFunctionInfo get* | Select Name,Source
+        <dev:code>PS C:\&gt; Get-PSFunctionInfo -name get* | Select Name,Source
 
 Name             Source
 ----             ------
@@ -137,13 +129,152 @@ Get-LastBoot     C:\Scripts\JDH-Functions.ps1
 Get-ModifiedFile C:\Scripts\JDH-Functions.ps1
 Get-MyFunctions  C:\Scripts\JDH-Functions.ps1</dev:code>
         <dev:remarks>
-          <maml:para></maml:para>
+          <maml:para>Get function information by the function name.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- Example 3 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; Get-PSFunctionInfo | Sort Source | Format-Table -View Source
+
+
+   Source:
+
+Name                      Version    Description
+----                      -------    -----------
+tm                                   profile-defined
+Hide-Git                             profile-defined
+Get-LogStamp                         profile-defined
+dt                                   profile-defined
+ConvertTo-ASCIIArt                   profile-defined
+prompt
+
+
+   Source: C:\scripts\Convert-Expression.ps1
+
+Name                      Version    Description
+----                      -------    -----------
+Convert-Expression        1.0.0      Spoof command output
+
+
+   Source: C:\Scripts\JDH-Functions.ps1
+
+Name                      Version    Description
+----                      -------    -----------
+Get-DiskFree              1.0.0      My version of the df command
+Get-ModifiedFile          1.1.0      find all files of modified within a given..
+Get-LastFile              2.1.0      Get files sorted by last modified date
+Get-LastBoot              1.0.0      Get the last boot up time
+...</dev:code>
+        <dev:remarks>
+          <maml:para>Use the custom table view called Source.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- Example 4 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; Get-PSFunctionInfo -Tag cim
+
+Name                      Version    Alias                Source
+----                      -------    -----                ------
+Get-Status                2.1.0      gst                  C:\scripts\getstat.ps1
+Get-StatusString          1.1.0      gss                  C:\scripts\getstat.ps1</dev:code>
+        <dev:remarks>
+          <maml:para>Get functions by tag.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- Example 5 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; get-psfunctioninfo Get-qotd | Select-Object *
+
+Name        : Get-QOTD
+Version     : 2.0.0
+Source      : C:\scripts\Get-QOTD.ps1
+CompanyName : JDH IT Solutions
+Copyright   : 2020
+Description : Get a quote of the day
+LastUpdate  : 5/21/2020 5:56:01 PM
+Module      :
+Path        : C:\scripts\Get-QOTD.ps1
+Alias       : qotd
+Author      : Jeff
+Guid        : 16b5d672-4778-46d9-bbe5-08e7860e4e8a
+Tags        : {Web,profile}
+Commandtype : Function</dev:code>
+        <dev:remarks>
+          <maml:para>Get all properties for a single function.</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
     <command:relatedLinks>
       <maml:navigationLink>
         <maml:linkText>New-PSFunctionInfo</maml:linkText>
+        <maml:uri></maml:uri>
+      </maml:navigationLink>
+    </command:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Get-PSFunctionInfoTag</command:name>
+      <command:verb>Get</command:verb>
+      <command:noun>PSFunctionInfoTag</command:noun>
+      <maml:description>
+        <maml:para>Get a list of function tags.</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>PSFunctionInfo metadata can contain tags. Get-PSFunctionInfoTag will create a list of all tags currently in use. The tag list is built from the functions currently loaded into your PowerShell session.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Get-PSFunctionInfoTag</maml:name>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters />
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name>None</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>System.String</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para>Learn more about PowerShell: http://jdhitsolutions.com/blog/essential-powershell-resources/</maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; Get-PSFunctionInfoTag
+backup
+cim
+console
+directory
+git
+powershellget
+profile
+secrets
+Web</dev:code>
+        <dev:remarks>
+          <maml:para>Get a list of current tags.</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>Get-PSFunctionInfo</maml:linkText>
         <maml:uri></maml:uri>
       </maml:navigationLink>
     </command:relatedLinks>
@@ -158,16 +289,17 @@ Get-MyFunctions  C:\Scripts\JDH-Functions.ps1</dev:code>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>This command will create a function metadata comment block and insert it into the source script file. Or you can copy it to the clipboard and insert it yourself.</maml:para>
+      <maml:para>This command will create a function metadata comment block and insert it into the source script file. Or you can copy it to the clipboard and insert it yourself. It is assumed that if you update the function, you can manually update the metadata at the same time.</maml:para>
+      <maml:para>This command will not work properly with one-line function declarations like Function Get-This { Get-Date }.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
         <maml:name>New-PSFunctionInfo</maml:name>
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
           <maml:name>Name</maml:name>
-          <maml:Description>
+          <maml:description>
             <maml:para>Specify name of the function.</maml:para>
-          </maml:Description>
+          </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
             <maml:name>String</maml:name>
@@ -177,9 +309,9 @@ Get-MyFunctions  C:\Scripts\JDH-Functions.ps1</dev:code>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Author</maml:name>
-          <maml:Description>
+          <maml:description>
             <maml:para>Specify the function author.</maml:para>
-          </maml:Description>
+          </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
             <maml:name>String</maml:name>
@@ -189,9 +321,9 @@ Get-MyFunctions  C:\Scripts\JDH-Functions.ps1</dev:code>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>CompanyName</maml:name>
-          <maml:Description>
+          <maml:description>
             <maml:para>Specify a company or organization.</maml:para>
-          </maml:Description>
+          </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
             <maml:name>String</maml:name>
@@ -201,9 +333,9 @@ Get-MyFunctions  C:\Scripts\JDH-Functions.ps1</dev:code>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="cf">
           <maml:name>Confirm</maml:name>
-          <maml:Description>
+          <maml:description>
             <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
-          </maml:Description>
+          </maml:description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
             <maml:uri />
@@ -212,9 +344,9 @@ Get-MyFunctions  C:\Scripts\JDH-Functions.ps1</dev:code>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Copyright</maml:name>
-          <maml:Description>
+          <maml:description>
             <maml:para>Specify a copyright for the function.</maml:para>
-          </maml:Description>
+          </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
             <maml:name>String</maml:name>
@@ -224,9 +356,9 @@ Get-MyFunctions  C:\Scripts\JDH-Functions.ps1</dev:code>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Description</maml:name>
-          <maml:Description>
+          <maml:description>
             <maml:para>Specify a brief function description.</maml:para>
-          </maml:Description>
+          </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
             <maml:name>String</maml:name>
@@ -236,9 +368,9 @@ Get-MyFunctions  C:\Scripts\JDH-Functions.ps1</dev:code>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Guid</maml:name>
-          <maml:Description>
+          <maml:description>
             <maml:para>The metadata requires a GUID. This is set automatically.</maml:para>
-          </maml:Description>
+          </maml:description>
           <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
           <dev:type>
             <maml:name>Guid</maml:name>
@@ -248,9 +380,9 @@ Get-MyFunctions  C:\Scripts\JDH-Functions.ps1</dev:code>
         </command:parameter>
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Path</maml:name>
-          <maml:Description>
+          <maml:description>
             <maml:para>Specify the path to the .ps1 file that contains the function.</maml:para>
-          </maml:Description>
+          </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
             <maml:name>String</maml:name>
@@ -260,9 +392,9 @@ Get-MyFunctions  C:\Scripts\JDH-Functions.ps1</dev:code>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Tags</maml:name>
-          <maml:Description>
+          <maml:description>
             <maml:para>Specify an array of optional tags.</maml:para>
-          </maml:Description>
+          </maml:description>
           <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
           <dev:type>
             <maml:name>String[]</maml:name>
@@ -272,9 +404,9 @@ Get-MyFunctions  C:\Scripts\JDH-Functions.ps1</dev:code>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="clip">
           <maml:name>ToClipboard</maml:name>
-          <maml:Description>
+          <maml:description>
             <maml:para>Copy the metadata to the clipboard. The file is left untouched.</maml:para>
-          </maml:Description>
+          </maml:description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
             <maml:uri />
@@ -283,9 +415,9 @@ Get-MyFunctions  C:\Scripts\JDH-Functions.ps1</dev:code>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Updated</maml:name>
-          <maml:Description>
-            <maml:para>Specify a datetime. The default is the current date and time.</maml:para>
-          </maml:Description>
+          <maml:description>
+            <maml:para>Specify a datetime. The default is the current date and time. When manually updating, you should use a command like Get-Date -format g. Whatever date format you use, the string must be able to be treated as a [datetime] object.</maml:para>
+          </maml:description>
           <command:parameterValue required="true" variableLength="false">DateTime</command:parameterValue>
           <dev:type>
             <maml:name>DateTime</maml:name>
@@ -295,9 +427,9 @@ Get-MyFunctions  C:\Scripts\JDH-Functions.ps1</dev:code>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Version</maml:name>
-          <maml:Description>
-            <maml:para>Specify a version number.</maml:para>
-          </maml:Description>
+          <maml:description>
+            <maml:para>Specify a version number. It is recommended to use a standard version numbering system.</maml:para>
+          </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
             <maml:name>String</maml:name>
@@ -307,9 +439,9 @@ Get-MyFunctions  C:\Scripts\JDH-Functions.ps1</dev:code>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
           <maml:name>WhatIf</maml:name>
-          <maml:Description>
+          <maml:description>
             <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
-          </maml:Description>
+          </maml:description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
             <maml:uri />
@@ -321,9 +453,9 @@ Get-MyFunctions  C:\Scripts\JDH-Functions.ps1</dev:code>
     <command:parameters>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>Author</maml:name>
-        <maml:Description>
+        <maml:description>
           <maml:para>Specify the function author.</maml:para>
-        </maml:Description>
+        </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
           <maml:name>String</maml:name>
@@ -333,9 +465,9 @@ Get-MyFunctions  C:\Scripts\JDH-Functions.ps1</dev:code>
       </command:parameter>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>CompanyName</maml:name>
-        <maml:Description>
+        <maml:description>
           <maml:para>Specify a company or organization.</maml:para>
-        </maml:Description>
+        </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
           <maml:name>String</maml:name>
@@ -345,9 +477,9 @@ Get-MyFunctions  C:\Scripts\JDH-Functions.ps1</dev:code>
       </command:parameter>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="cf">
         <maml:name>Confirm</maml:name>
-        <maml:Description>
+        <maml:description>
           <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
-        </maml:Description>
+        </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
           <maml:name>SwitchParameter</maml:name>
@@ -357,9 +489,9 @@ Get-MyFunctions  C:\Scripts\JDH-Functions.ps1</dev:code>
       </command:parameter>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>Copyright</maml:name>
-        <maml:Description>
+        <maml:description>
           <maml:para>Specify a copyright for the function.</maml:para>
-        </maml:Description>
+        </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
           <maml:name>String</maml:name>
@@ -369,9 +501,9 @@ Get-MyFunctions  C:\Scripts\JDH-Functions.ps1</dev:code>
       </command:parameter>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>Description</maml:name>
-        <maml:Description>
+        <maml:description>
           <maml:para>Specify a brief function description.</maml:para>
-        </maml:Description>
+        </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
           <maml:name>String</maml:name>
@@ -381,9 +513,9 @@ Get-MyFunctions  C:\Scripts\JDH-Functions.ps1</dev:code>
       </command:parameter>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>Guid</maml:name>
-        <maml:Description>
+        <maml:description>
           <maml:para>The metadata requires a GUID. This is set automatically.</maml:para>
-        </maml:Description>
+        </maml:description>
         <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
         <dev:type>
           <maml:name>Guid</maml:name>
@@ -393,9 +525,9 @@ Get-MyFunctions  C:\Scripts\JDH-Functions.ps1</dev:code>
       </command:parameter>
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
         <maml:name>Name</maml:name>
-        <maml:Description>
+        <maml:description>
           <maml:para>Specify name of the function.</maml:para>
-        </maml:Description>
+        </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
           <maml:name>String</maml:name>
@@ -405,9 +537,9 @@ Get-MyFunctions  C:\Scripts\JDH-Functions.ps1</dev:code>
       </command:parameter>
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>Path</maml:name>
-        <maml:Description>
+        <maml:description>
           <maml:para>Specify the path to the .ps1 file that contains the function.</maml:para>
-        </maml:Description>
+        </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
           <maml:name>String</maml:name>
@@ -417,9 +549,9 @@ Get-MyFunctions  C:\Scripts\JDH-Functions.ps1</dev:code>
       </command:parameter>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>Tags</maml:name>
-        <maml:Description>
+        <maml:description>
           <maml:para>Specify an array of optional tags.</maml:para>
-        </maml:Description>
+        </maml:description>
         <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
         <dev:type>
           <maml:name>String[]</maml:name>
@@ -429,9 +561,9 @@ Get-MyFunctions  C:\Scripts\JDH-Functions.ps1</dev:code>
       </command:parameter>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="clip">
         <maml:name>ToClipboard</maml:name>
-        <maml:Description>
+        <maml:description>
           <maml:para>Copy the metadata to the clipboard. The file is left untouched.</maml:para>
-        </maml:Description>
+        </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
           <maml:name>SwitchParameter</maml:name>
@@ -441,9 +573,9 @@ Get-MyFunctions  C:\Scripts\JDH-Functions.ps1</dev:code>
       </command:parameter>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>Updated</maml:name>
-        <maml:Description>
-          <maml:para>Specify a datetime. The default is the current date and time.</maml:para>
-        </maml:Description>
+        <maml:description>
+          <maml:para>Specify a datetime. The default is the current date and time. When manually updating, you should use a command like Get-Date -format g. Whatever date format you use, the string must be able to be treated as a [datetime] object.</maml:para>
+        </maml:description>
         <command:parameterValue required="true" variableLength="false">DateTime</command:parameterValue>
         <dev:type>
           <maml:name>DateTime</maml:name>
@@ -453,9 +585,9 @@ Get-MyFunctions  C:\Scripts\JDH-Functions.ps1</dev:code>
       </command:parameter>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>Version</maml:name>
-        <maml:Description>
-          <maml:para>Specify a version number.</maml:para>
-        </maml:Description>
+        <maml:description>
+          <maml:para>Specify a version number. It is recommended to use a standard version numbering system.</maml:para>
+        </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
           <maml:name>String</maml:name>
@@ -465,9 +597,9 @@ Get-MyFunctions  C:\Scripts\JDH-Functions.ps1</dev:code>
       </command:parameter>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
         <maml:name>WhatIf</maml:name>
-        <maml:Description>
+        <maml:description>
           <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
-        </maml:Description>
+        </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
           <maml:name>SwitchParameter</maml:name>
@@ -498,25 +630,33 @@ Get-MyFunctions  C:\Scripts\JDH-Functions.ps1</dev:code>
     </command:returnValues>
     <maml:alertSet>
       <maml:alert>
+        <maml:para>This function has an alias of npfi.</maml:para>
         <maml:para>Learn more about PowerShell: http://jdhitsolutions.com/blog/essential-powershell-resources/</maml:para>
       </maml:alert>
     </maml:alertSet>
     <command:examples>
       <command:example>
         <maml:title>-------------------------- Example 1 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; New-PSFunctionInfo -Path c:\scripts\Test-ConsoleColors.ps1 -Description "show console color combinations" -Name Test-ConsoleColor -Author "Jeff Hicks" -CompanyName "JDH IT Solutions" -Copyright "2020 JDH IT Solutions, Inc." -Tags "scripting","console"</dev:code>
+        <dev:code>PS C:\&gt; New-PSFunctionInfo -Path c:\scripts\Test-ConsoleColors.ps1 -Description "show console color combinations" -Name Test-ConsoleColor -Author "Jeff Hicks" -CompanyName "JDH IT Solutions" -Copyright "2021 JDH IT Solutions, Inc." -Tags "scripting","console"</dev:code>
         <dev:remarks>
           <maml:para>Insert function metadata into the script file before the [cmdletbinding()] tag. This example will produce this comment block:</maml:para>
           <maml:para>PSFunctionInfo</maml:para>
           <maml:para>Version 1.0.0</maml:para>
           <maml:para>Author Jeff Hicks</maml:para>
           <maml:para>CompanyName JDH IT Solutions</maml:para>
-          <maml:para>Copyright 2020 JDH IT Solutions, Inc.</maml:para>
+          <maml:para>Copyright 2021 JDH IT Solutions, Inc.</maml:para>
           <maml:para>Description show console color combinations</maml:para>
           <maml:para>Guid e07e256e-a2d6-4acc-a1cf-5d8d1be7db27</maml:para>
           <maml:para>Tags scripting,console</maml:para>
           <maml:para>LastUpdate 10/02/2020 10:34:18</maml:para>
           <maml:para>Source C:\Scripts\Test-ConsoleColors.ps1</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- Example 2 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; New-PSFunctionInfo -Path c:\scripts\Test-ConsoleColors.ps1 -Description "show console color combinations" -Name Test-ConsoleColor -Author "Jeff Hicks" -CompanyName "JDH IT Solutions" -Copyright "2021 JDH IT Solutions, Inc." -Tags "scripting","console" -toclipboard</dev:code>
+        <dev:remarks>
+          <maml:para>This will create the same metadata as the first example. Except it will be copied to the clipboard and not to the file.</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>

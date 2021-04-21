@@ -38,21 +38,19 @@ class PSFunctionInfo {
 }
 #endregion
 
-#TODO - Need an update or set command?
-#TODO - Add command to set description
-#TODO - Create a VSCode task?
 
-#TODO Test with single line function e.g. function foo { get-date }
+#TODO - Create a VSCode task?
 
 Function New-PSFunctionInfo {
     [cmdletbinding(SupportsShouldProcess)]
+    [alias('npfi')]
     Param(
-        [Parameter(Position = 0, Mandatory, HelpMessage = "Specify name of the function")]
+        [Parameter(Position = 0, Mandatory, HelpMessage = "Specify the name of the function")]
         [ValidateNotNullOrEmpty()]
         [string]$Name,
         [Parameter(Mandatory, HelpMessage = "Specify the path that contains the function")]
         [ValidateNotNullOrEmpty()]
-        [ValidateScript({Test-Path $_ })]
+        [ValidateScript( { Test-Path $_ })]
         [ValidatePattern("\.ps1$")]
         [string]$Path,
         [string]$Author = [System.Environment]::UserName,
@@ -69,7 +67,7 @@ Function New-PSFunctionInfo {
     Begin {
         Write-Verbose "[$((Get-Date).TimeofDay) BEGIN  ] Starting $($myinvocation.mycommand)"
         [guid]$Guid = $(([guid]::NewGuid()).guid)
-        $updated = Get-Date -Format g
+        [string]$updated = Get-Date -Format g
     } #begin
 
     Process {
@@ -109,16 +107,16 @@ Source $(Convert-Path $Path)
 
             #find the function line
             Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] Searching for Function $Name"
-            $find = $file | Select-String -pattern "^(\s+)?Function $name(\s+|\{)"
+            $find = $file | Select-String -Pattern "^(\s+)?(F|f)unction $name(\s+|\{)?"
             if ($find.count -gt 1) {
-                Write-Warning "Found multiple matches for Function $name in $Path. Unable to insert metadata."
+                Write-Warning "Detected multiple matches for Function $name in $Path. Unable to insert metadata."
                 #bail out
                 return
             }
             elseif ($find.count -eq 1) {
                 #$index = $file.findIndex( { $args[0] -match "^(\s+)?Function $name(\s+|\{)" })
                 #the index for the file list will be 1 less than the pattern match
-                $index = $find.Linenumber -1
+                $index = $find.Linenumber - 1
             }
             else {
                 Write-Warning "Failed to find a function called $Name in $path."
@@ -127,12 +125,15 @@ Source $(Convert-Path $Path)
 
             #find the opening { for the function
             Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] Getting the position of the opening {"
+            $i = $index
             do {
-                if ($file[$index] -match "\{") {
-                    $i = $index
+                Write-Verbose "[$((Get-Date).TimeofDay) PROCESS]  Testing index $i"
+                if ($file[$i] -match "\{") {
+                    Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] Found opening { at $i"
                     $found = $True
                 }
                 else {
+                    Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] incrementing index"
                     $i++
                 }
             } until ($found -OR $i -gt $file.count)
@@ -142,12 +143,11 @@ Source $(Convert-Path $Path)
                 return
             }
 
-               #test for an existing PSFunctionInfo entry in the next 5 lines
-            if ($file[$i..($i+5)] | Select-String -pattern "PSFunctionInfo" -Quiet) {
+            #test for an existing PSFunctionInfo entry in the next 5 lines
+            if ($file[$i..($i + 5)] | Select-String -Pattern "PSFunctionInfo" -Quiet) {
                 Write-Warning "An existing PSFunctionInfo entry has been detected."
             }
             else {
-
                 # insert after the opening {
                 Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] Inserting metadata at position $($i+1)"
                 $file.Insert(($i + 1), $info)
@@ -161,7 +161,7 @@ Source $(Convert-Path $Path)
     } #process
 
     End {
-         Write-Verbose "[$((Get-Date).TimeofDay) END    ] Ending $($myinvocation.mycommand)"
+        Write-Verbose "[$((Get-Date).TimeofDay) END    ] Ending $($myinvocation.mycommand)"
     } #end
 
 } #close New-PSFunctionInfo
@@ -170,6 +170,8 @@ Source $(Convert-Path $Path)
 Function Get-PSFunctionInfo {
     [cmdletbinding(DefaultParameterSetName = "name")]
     [outputtype("PSFunctionInfo")]
+    [alias("gpfi")]
+
     Param(
         [Parameter(
             Position = 0,
@@ -194,7 +196,7 @@ Function Get-PSFunctionInfo {
         Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] Getting function $Name"
 
         # filter out functions with a module source and that pass the private filtering test
-        $functions = (Get-ChildItem -Path Function:\$Name).where({-Not $_.source -And (test_functionname $_.name)})
+        $functions = (Get-ChildItem -Path Function:\$Name).where( { -Not $_.source -And (test_functionname $_.name) })
         Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] Found $($functions.count) functions"
         Foreach ($fun in $functions) {
             Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] $($fun.name)"
@@ -233,9 +235,9 @@ Function Get-PSFunctionInfo {
                 if (-Not ($h.ContainsKey("version"))) {
                     $h.add("Version", "")
                 }
-               # $h | Out-String | Write-Verbose
+                # $h | Out-String | Write-Verbose
                 #write the custom object to the pipeline
-                $fi = New-Object -TypeName PSFunctionInfo -ArgumentList $h.name,$h.version
+                $fi = New-Object -TypeName PSFunctionInfo -ArgumentList $h.name, $h.version
 
                 #update the object with hash table properties
                 foreach ($key in $h.keys) {
@@ -243,7 +245,7 @@ Function Get-PSFunctionInfo {
                     $fi.$key = $h.$key
                 }
                 if ($tag) {
-                     Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] Filtering for tag $tag"
+                    Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] Filtering for tag $tag"
                     # write-verbose "$($fi.name) tag: $($fi.tags)"
                     if ($fi.tags -match $tag) {
                         $fi
@@ -253,13 +255,13 @@ Function Get-PSFunctionInfo {
                     $fi
                 }
                 #clear the variable so it doesn't get reused
-                Remove-Variable m,h
+                Remove-Variable m, h
 
             } #if metadata found
             else {
                 #insert the custom type name and write the object to the pipeline
-                Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] Creating a PSFunctionInfo object "
-                $fi = New-Object PSFunctionInfo -ArgumentList $fun.name,$fun.source
+                Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] Creating a new and temporary PSFunctionInfo object."
+                $fi = New-Object PSFunctionInfo -ArgumentList $fun.name, $fun.source
                 $fi.version = $fun.version
                 $fi.module = $fun.Module
                 $fi.Commandtype = $fun.CommandType
@@ -282,32 +284,39 @@ Function Get-PSFunctionInfo {
 
 Function Get-PSFunctionInfoTag {
     [cmdletbinding()]
+    [outputtype("String")]
     Param()
 
+    Write-Verbose "[$((Get-Date).TimeofDay)] Starting $($myinvocation.mycommand)"
     $taglist = [System.Collections.Generic.list[string]]::new()
 
-    $items  = (Get-PSFunctionInfo -ErrorAction stop).tags | Select-Object -Unique
+    Write-Verbose "[$((Get-Date).TimeofDay)] Getting unique tags from Get-PSFunctionInfo"
+    $items = (Get-PSFunctionInfo -ErrorAction stop).tags | Select-Object -Unique
     if ($items.count -eq 0) {
         Write-Warning "Failed to find any matching functions with tags"
     }
     else {
+        Write-Verbose "[$((Get-Date).TimeofDay)] Found at least $($items.count) tags"
         foreach ($item in $items) {
             if ($item -match ",") {
                 #split strings into an array
-                $item.split(",") | Foreach-Object {
+                $item.split(",") | ForEach-Object {
                     if (-Not $taglist.contains($_)) {
                         $taglist.add($_)
                     }
                 }
             } #if an array of tags
             else {
-                 if (-Not $taglist.contains($item)) {
-                        $taglist.add($item)
-                    }
+                if (-Not $taglist.contains($item)) {
+                    $taglist.add($item)
+                }
             }
         } #foreach item
     } #else
+
     #write the list to the pipeline
     $taglist | Sort-Object
+
+    Write-Verbose "[$((Get-Date).TimeofDay)] Ending $($myinvocation.mycommand)"
 
 }

@@ -9,20 +9,12 @@ schema: 2.0.0
 
 ## SYNOPSIS
 
-Get metadata for stand-alone functions
+Get metadata for stand-alone functions.
 
 ## SYNTAX
 
-### name (Default)
-
 ```yaml
-Get-PSFunctionInfo [[-Name] <String>] [<CommonParameters>]
-```
-
-### all
-
-```yaml
-Get-PSFunctionInfo [-All] [<CommonParameters>]
+Get-PSFunctionInfo [[-Name] <String>] [-Tag <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -36,32 +28,25 @@ Display function metadata. The default behavior is to display loaded functions t
 ```powershell
 PS C:\> Get-PSFunctionInfo
 
-Name                           Version    Source                         Module
-----                           -------    ------                         ------
-Get-QOTD                       2.0.0      C:\scripts\Get-QOTD.ps1
-Tee-MyObject                   1.0.0      C:\scripts\Tee-MyObject.ps1
-Publish-Project                2.3.0      C:\scripts\Publish-Project.ps1
-Get-Status                     1.2.0      C:\scripts\getstat.ps1
-Out-Copy                       2.0.0      C:\scripts\Out-Copy.ps1
-Convert-Expression             1.0.0      C:\scripts\Convert-Expression…
-Add-BackupEntry                1.1.0      C:\scripts\PSBackup\Add-Backu…
-Get-UTCString                  2.0.0      C:\scripts\JDH-Functions.ps1
-Set-FunctionDescription        1.0.0      C:\scripts\JDH-Functions.ps1
-Start-GitBash                  1.0.0      C:\scripts\JDH-Functions.ps1
-Get-DiskFree                   1.0.0      C:\scripts\JDH-Functions.ps1
-Test-IsAdministrator           1.0.0      C:\scripts\JDH-Functions.ps1
-dw                             1.1.0      C:\scripts\JDH-Functions.ps1
-Set-Title                      1.0.0      C:\scripts\JDH-Functions.ps1
-Save-Title                     1.0.0      C:\scripts\JDH-Functions.ps1
-Get-LastBoot                   1.0.0      C:\scripts\JDH-Functions.ps1
-Get-ModifiedFile               1.1.0      C:\scripts\JDH-Functions.ps1
-Get-MyFunctions                1.0.0      C:\scripts\JDH-Functions.ps1
+Name                      Version    Alias                Source
+----                      -------    -----                ------
+prompt
+Get-QOTD                  2.0.0      qotd                 C:\scripts\Get-QOTD.ps1
+Get-Status                2.1.0      gst                  C:\scripts\getstat.ps1
+Get-StatusString          1.1.0      gss                  C:\scripts\getstat.ps1
+Convert-Expression        1.0.0      spoof                C:\scripts\Convert-Expression.ps1
+Add-BackupEntry           1.3.0      abe                  C:\scripts\PSBackup\Add-BackupEntry.ps1
+Get-MyBackupFile          1.0.0      gbf                  C:\scripts\PSBackup\Get-MyBackupFile.ps1
+ConvertTo-ASCIIArt                   cart
+Test-IsAdministrator      1.0.0                           C:\Scripts\JDH-Functions.ps1
+Open-VSCode               2.0.0      code                 C:\Scripts\JDH-Functions.ps1
+...
 ```
 
 ### Example 2
 
 ```powershell
-PS C:\> Get-PSFunctionInfo get* | Select Name,Source
+PS C:\> Get-PSFunctionInfo -name get* | Select Name,Source
 
 Name             Source
 ----             ------
@@ -74,23 +59,83 @@ Get-ModifiedFile C:\Scripts\JDH-Functions.ps1
 Get-MyFunctions  C:\Scripts\JDH-Functions.ps1
 ```
 
-## PARAMETERS
+Get function information by the function name.
 
-### -All
+### Example 3
 
-Get all functions regardless of whether or not they belong to a module.
+```powershell
+PS C:\> Get-PSFunctionInfo | Sort Source | Format-Table -View Source
 
-```yaml
-Type: SwitchParameter
-Parameter Sets: all
-Aliases:
 
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
+   Source:
+
+Name                      Version    Description
+----                      -------    -----------
+tm                                   profile-defined
+Hide-Git                             profile-defined
+Get-LogStamp                         profile-defined
+dt                                   profile-defined
+ConvertTo-ASCIIArt                   profile-defined
+prompt
+
+
+   Source: C:\scripts\Convert-Expression.ps1
+
+Name                      Version    Description
+----                      -------    -----------
+Convert-Expression        1.0.0      Spoof command output
+
+
+   Source: C:\Scripts\JDH-Functions.ps1
+
+Name                      Version    Description
+----                      -------    -----------
+Get-DiskFree              1.0.0      My version of the df command
+Get-ModifiedFile          1.1.0      find all files of modified within a given..
+Get-LastFile              2.1.0      Get files sorted by last modified date
+Get-LastBoot              1.0.0      Get the last boot up time
+...
 ```
+
+Use the custom table view called Source.
+
+### Example 4
+
+```powershell
+PS C:\> Get-PSFunctionInfo -Tag cim
+
+Name                      Version    Alias                Source
+----                      -------    -----                ------
+Get-Status                2.1.0      gst                  C:\scripts\getstat.ps1
+Get-StatusString          1.1.0      gss                  C:\scripts\getstat.ps1
+```
+
+Get functions by tag.
+
+### Example 5
+
+```powershell
+PS C:\> get-psfunctioninfo Get-qotd | Select-Object *
+
+Name        : Get-QOTD
+Version     : 2.0.0
+Source      : C:\scripts\Get-QOTD.ps1
+CompanyName : JDH IT Solutions
+Copyright   : 2020
+Description : Get a quote of the day
+LastUpdate  : 5/21/2020 5:56:01 PM
+Module      :
+Path        : C:\scripts\Get-QOTD.ps1
+Alias       : qotd
+Author      : Jeff
+Guid        : 16b5d672-4778-46d9-bbe5-08e7860e4e8a
+Tags        : {Web,profile}
+Commandtype : Function
+```
+
+Get all properties for a single function.
+
+## PARAMETERS
 
 ### -Name
 
@@ -99,13 +144,29 @@ The default is all functions that don't belong to a module.
 
 ```yaml
 Type: String
-Parameter Sets: name
+Parameter Sets: (All)
 Aliases:
 
 Required: False
 Position: 0
 Default value: None
 Accept pipeline input: True (ByPropertyName, ByValue)
+Accept wildcard characters: False
+```
+
+### -Tag
+
+Specify a tag
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
@@ -122,6 +183,8 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ### PSFunctionInfo
 
 ## NOTES
+
+This function has an alias of gpfi.
 
 Learn more about PowerShell: http://jdhitsolutions.com/blog/essential-powershell-resources/
 
