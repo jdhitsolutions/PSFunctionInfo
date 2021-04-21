@@ -206,6 +206,10 @@ Commandtype : Function</dev:code>
     </command:examples>
     <command:relatedLinks>
       <maml:navigationLink>
+        <maml:linkText>Online Version:</maml:linkText>
+        <maml:uri>https://bit.ly/3dFmdRb</maml:uri>
+      </maml:navigationLink>
+      <maml:navigationLink>
         <maml:linkText>New-PSFunctionInfo</maml:linkText>
         <maml:uri></maml:uri>
       </maml:navigationLink>
@@ -274,6 +278,10 @@ Web</dev:code>
     </command:examples>
     <command:relatedLinks>
       <maml:navigationLink>
+        <maml:linkText>Online Version:</maml:linkText>
+        <maml:uri>https://bit.ly/3atA4ba</maml:uri>
+      </maml:navigationLink>
+      <maml:navigationLink>
         <maml:linkText>Get-PSFunctionInfo</maml:linkText>
         <maml:uri></maml:uri>
       </maml:navigationLink>
@@ -289,8 +297,9 @@ Web</dev:code>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>This command will create a function metadata comment block and insert it into the source script file. Or you can copy it to the clipboard and insert it yourself. It is assumed that if you update the function, you can manually update the metadata at the same time.</maml:para>
-      <maml:para>This command will not work properly with one-line function declarations like Function Get-This { Get-Date }.</maml:para>
+      <maml:para>This command will create a function metadata comment block and insert it into the source script file. Or you can copy it to the clipboard and insert it yourself. There are no commands to modify or remove the function metatdata once it has been inserted into the file. It is assumed that if you update the function, you can manually update (or remove) the metadata at the same time.</maml:para>
+      <maml:para>NOTE: This command will not work properly with one-line function declarations like Function Get-This { Get-Date }.</maml:para>
+      <maml:para>Do not modify spacing or formatting of the function metadata.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -661,6 +670,10 @@ Web</dev:code>
       </command:example>
     </command:examples>
     <command:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>Online Version:</maml:linkText>
+        <maml:uri>https://bit.ly/3avf181</maml:uri>
+      </maml:navigationLink>
       <maml:navigationLink>
         <maml:linkText>Get-PSFunctionInfo</maml:linkText>
         <maml:uri></maml:uri>

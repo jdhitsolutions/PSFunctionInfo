@@ -6,13 +6,13 @@ This module contains a set of PowerShell commands to add and manage metadata in 
 
 ## Installation
 
-You can install a *prelease* version of this module from the PowerShell Gallery. You may need to update the PowerShellGet module to allow installing prerelease modules.
+You can install a __prelease__ version of this module from the PowerShell Gallery. You may need to update the PowerShellGet module to allow installing prerelease modules.
 
 ```powershell
 Install-Module PSFunctionInfo -AllowPrerelease
 ```
 
-The module should work on both Windows PowerShell and PowerShell 7.0, even cross-platform.
+The module should work on both Windows PowerShell and PowerShell 7.x, even cross-platform.
 
 ## Description
 
@@ -87,8 +87,16 @@ Source C:\scripts\FooStuff.ps1
 }
 ```
 
+There are no commands to modify or remove function metadata. It is assumed that when you update the function, you can update or remove the metadata.
+
 ## Background
 
 This code is a prototype for a [suggestion](https://github.com/PowerShell/PowerShell/issues/11667) I made for PowerShell 7. Early versions of this code were published as [https://gist.github.com/jdhitsolutions/65070cd51b5cfb572bc6375f67bcbc3d](https://gist.github.com/jdhitsolutions/65070cd51b5cfb572bc6375f67bcbc3d "view the Github gist")
 
-Last Updated 2021-04-21 15:04:00Z
+## Roadmap
+
++ Add VS Code integration
++ Extract function metadata from files directly
++ Add function metadata by file, autodetecting the function name.
+
+Last Updated 2021-04-21 15:57:36Z

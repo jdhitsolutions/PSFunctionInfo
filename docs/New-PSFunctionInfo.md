@@ -1,7 +1,7 @@
 ---
 external help file: PSFunctionInfo-help.xml
 Module Name: PSFunctionInfo
-online version:
+online version: https://bit.ly/3avf181
 schema: 2.0.0
 ---
 
@@ -20,9 +20,11 @@ New-PSFunctionInfo [-Name] <String> -Path <String> [-Author <String>] [-CompanyN
 
 ## DESCRIPTION
 
-This command will create a function metadata comment block and insert it into the source script file. Or you can copy it to the clipboard and insert it yourself. It is assumed that if you update the function, you can manually update the metadata at the same time.
+This command will create a function metadata comment block and insert it into the source script file. Or you can copy it to the clipboard and insert it yourself. There are no commands to modify or remove the function metatdata once it has been inserted into the file. It is assumed that if you update the function, you can manually update (or remove) the metadata at the same time.
 
-This command will not work properly with one-line function declarations like Function Get-This { Get-Date }.
+NOTE: This command will not work properly with one-line function declarations like Function Get-This { Get-Date }.
+
+Do not modify spacing or formatting of the function metadata.
 
 ## EXAMPLES
 

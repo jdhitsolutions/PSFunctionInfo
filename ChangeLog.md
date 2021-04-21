@@ -1,5 +1,11 @@
 # ChangeLog for PSFunctionInfo
 
+## 0.3.0
+
++ Added online help links.
++ Published pre-release module to the PowerShell Gallery.
++ Updated `README.md`.
+
 ## 0.2.0
 
 + Modified `Source` view in `psfunctioninfo.format.ps1xml` to not limit the Description width.
