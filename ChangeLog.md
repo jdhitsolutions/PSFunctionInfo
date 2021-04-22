@@ -1,5 +1,13 @@
 # ChangeLog for PSFunctionInfo
 
+## 0.4.0
+
++ Added `Set-PSFunctionInfoDefaults` and `Get-PSFunctionInfoDefaults` to store default values. The defaults are stored in a JSON file at `$home\psfunctioninfo-defaults.json`. If the file is found when the module is imported, it will be used to set $PSDefaultParameterValues for this module.
++ Added `Update-PSFunctionInfoDefaults` which can be used to update defaults if they are changed after the module has been loaded.
++ Added `about_PSFunctionInfo` help.
++ Minor help updates.
++ Updated `README.md`.
+
 ## 0.3.0
 
 + Added online help links.

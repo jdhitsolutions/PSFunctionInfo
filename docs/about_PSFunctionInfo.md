@@ -1,34 +1,17 @@
 # PSFunctionInfo
+## about_PSFunctionInfo
 
-## Synopsis
+# SHORT DESCRIPTION
 
 This module contains a set of PowerShell commands to add and manage metadata in stand-alone PowerShell functions.
 
-## Installation
-
-You can install a __prelease__ version of this module from the PowerShell Gallery. You may need to update the PowerShellGet module to allow installing prerelease modules.
-
-```powershell
-Install-Module PSFunctionInfo -AllowPrerelease
-```
-
-The module should work on both Windows PowerShell and PowerShell 7.x, even cross-platform.
-
-## Description
+# LONG DESCRIPTION
 
 The purpose of this code is to provide a way to get versioning and other metadata information for functions that may not belong to a module. This is information you want to get after the function has been loaded into your PowerShell session. I have numerous stand-alone functions. These functions don't belong to a module, so there is no version or source information. However, I'd like to use that type of information for non-module files.
 
 The code in this module isn't concerned with loading, running, or finding functions. It queries whatever is in the `Function:` PSDrive. If the PowerShell function belongs to a module, then you'll get the module version and source. Otherwise, you can use the function metadata.
 
-![Get a single function](assets/get-psfunctioninfo-1.png)
-
-The default behavior is to show all functions that __don't__ belong to a module.
-
-![Get stand-alone functions](assets/get-psfunctioninfo-2.png)
-
-You can also get functions by tag. Use `Get-PSFunctionInfoTag` to get a list of tags currently in use.
-
-![Get functions by tag](assets/get-psfunctioninfo-3.png)
+The default behavior is to show all functions that __don't__ belong to a module. You can also get functions by tag. Use `Get-PSFunctionInfoTag` to get a list of tags currently in use.
 
 ## Creating PSFunctionInfo
 
@@ -101,14 +84,11 @@ The defaults will be stored in a JSON file at `$home\psfunctioninfo-defaults.jso
 
 You can use `Get-PSFunctionInfoDefaults` to see the current values.
 
-## Background
+# TROUBLESHOOTING NOTE
 
-This code is a prototype for a [suggestion](https://github.com/PowerShell/PowerShell/issues/11667) I made for PowerShell 7. Early versions of this code were published as [https://gist.github.com/jdhitsolutions/65070cd51b5cfb572bc6375f67bcbc3d](https://gist.github.com/jdhitsolutions/65070cd51b5cfb572bc6375f67bcbc3d "view the Github gist")
+Please report any bugs or feature requests at https://github.com/jdhitsolutions/PSFunctionInfo/issues.
 
-## Roadmap
+# KEYWORDS
 
-+ Add VS Code integration.
-+ Extract function metadata from files directly.
-+ Add function metadata by file, autodetecting the function name.
-
-Last Updated 2021-04-22 13:04:23Z
+- functions
+- metadata

@@ -38,9 +38,6 @@ class PSFunctionInfo {
 }
 #endregion
 
-
-#TODO - Create a VSCode task?
-
 Function New-PSFunctionInfo {
     [cmdletbinding(SupportsShouldProcess)]
     [alias('npfi')]
@@ -50,7 +47,7 @@ Function New-PSFunctionInfo {
         [string]$Name,
         [Parameter(Mandatory, HelpMessage = "Specify the path that contains the function")]
         [ValidateNotNullOrEmpty()]
-        [ValidateScript( { Test-Path $_ })]
+        [ValidateScript({ Test-Path $_ })]
         [ValidatePattern("\.ps1$")]
         [string]$Path,
         [string]$Author = [System.Environment]::UserName,
@@ -320,3 +317,155 @@ Function Get-PSFunctionInfoTag {
     Write-Verbose "[$((Get-Date).TimeofDay)] Ending $($myinvocation.mycommand)"
 
 }
+
+
+<#
+Version $Version
+Author $Author
+CompanyName $CompanyName
+Copyright $Copyright
+Description $Description
+Guid $Guid
+Tags $($Tags -join ",")
+LastUpdate $Updated
+Source $(Convert-Path $Path)
+#>
+
+Function Set-PSFunctionInfoDefaults {
+    [cmdletbinding(SupportsShouldProcess)]
+    Param(
+        [Parameter(ValueFromPipelineByPropertyName,HelpMessage = "Enter the default author name.")]
+        [string]$Author,
+        [Parameter(ValueFromPipelineByPropertyName,HelpMessage = "Enter the default company name.")]
+        [string]$CompanyName,
+        [Parameter(ValueFromPipelineByPropertyName,HelpMessage = "Enter the default copyright string")]
+        [string]$Copyright,
+        [Parameter(ValueFromPipelineByPropertyName,HelpMessage = "Enter the default version")]
+        [string]$Version,
+        [Parameter(ValueFromPipelineByPropertyName,HelpMessage = "Enter the default tag(s).")]
+        [string[]]$Tags
+    )
+    Begin {
+        Write-Verbose "[$((Get-Date).TimeofDay) BEGIN  ] Starting $($myinvocation.mycommand)"
+        $Outfile = Join-Path $home -ChildPath psfunctioninfo-defaults.json
+
+        #remove common and optional parameters if bound
+        $common = [System.Management.Automation.Cmdlet]::CommonParameters
+        $option = [System.Management.Automation.Cmdlet]::OptionalCommonParameters
+
+        $option | foreach-object {
+            #Write-Verbose "Testing for $_"
+            if ($PSBoundParameters.ContainsKey($_)) {
+                Write-Verbose "[$((Get-Date).TimeofDay) BEGIN  ] Removing $_"
+                [void]$PSBoundParameters.remove($_) }
+            }
+        $common | foreach-object {
+            #Write-Verbose "Testing for $_"
+            if ($PSBoundParameters.ContainsKey($_)) {
+                Write-Verbose "[$((Get-Date).TimeofDay) BEGIN  ]Removing $_"
+                [void]$PSBoundParameters.remove($_) }
+            }
+
+        #get existing defaults
+        if (Test-Path -path $outfile) {
+            Write-Verbose "[$((Get-Date).TimeofDay) BEGIN  ] Getting current defaults"
+            $current = Get-PSFunctionInfoDefaults
+        }
+    } #begin
+
+    Process {
+        Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] Using these new defaults"
+        $PSBoundParameters | Out-String | Write-Verbose
+
+        if ($current) {
+            Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] Updating current defaults"
+            $PSBoundParameters.GetEnumerator() | ForEach-Object {
+                if ($current.$($_.key)) {
+                    Write-Verbose "[$((Get-Date).TimeofDay) PROCESS]  ...$($_.key)"
+                    $current.$($_.key) = $_.value
+                }
+                else {
+                    #add new values
+                    Add-member -InputObject $current -MemberType NoteProperty -Name $_.key -Value $_.value -Force
+                }
+            }
+
+            $defaults = $current
+        }
+        else {
+            $defaults = $PSBoundParameters
+        }
+        Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] Saving results to $Outfile"
+        $defaults | Out-String | Write-Verbose
+        $defaults | ConvertTo-Json | Out-File -FilePath $Outfile -force
+    } #process
+
+    End {
+        If (-Not $WhatIfPreference) {
+            Write-Verbose "[$((Get-Date).TimeofDay) END    ] Re-import the module or run Update-PSFunctionInfoDefaults to load the new values."
+        }
+        Write-Verbose "[$((Get-Date).TimeofDay) END    ] Ending $($myinvocation.mycommand)"
+
+    } #end
+
+} #close Set-PSFunctionInfoDefaults
+
+Function Get-PSFunctionInfoDefaults {
+    [cmdletbinding()]
+    [outputtype("PSFunctionInfoDefault")]
+
+    Param( )
+    Begin {
+        Write-Verbose "[$((Get-Date).TimeofDay) BEGIN  ] Starting $($myinvocation.mycommand)"
+        $Outfile = Join-Path $home -ChildPath psfunctioninfo-defaults.json
+    } #begin
+
+    Process {
+        Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] Testing $outfile"
+        If (Test-Path -path $outfile) {
+            Get-Content -Path $outfile | ConvertFrom-JSON |
+            ForEach-Object {
+                $_.psobject.typenames.insert(0,'PSFunctionInfoDefault')
+                $_
+            }
+        }
+        else {
+            Write-Warning "No default file found at $outfile. Use Set-PSFunctionInfoDefaults to create it."
+        }
+
+    } #process
+
+    End {
+        Write-Verbose "[$((Get-Date).TimeofDay) END    ] Ending $($myinvocation.mycommand)"
+
+    } #end
+
+} #close Get-PSFunctionInfoDefaults
+
+
+Function Update-PSFunctionInfoDefaults  {
+    [cmdletbinding(SupportsShouldProcess)]
+    Param( )
+    Begin {
+        Write-Verbose "[$((Get-Date).TimeofDay) BEGIN  ] Starting $($myinvocation.mycommand)"
+        $defaults = Join-Path $home -ChildPath psfunctioninfo-defaults.json
+    } #begin
+
+    Process {
+        Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] Updating PSDefaultParameterValues "
+        if (Test-Path -path $defaults) {
+            $d = Get-Content -Path $defaults | ConvertFrom-JSON
+            $d.psobject.properties | Foreach-Object {
+                if ($pscmdlet.ShouldProcess($_.name)) {
+                    $global:PSDefaultParameterValues["New-PSFunctionInfo:$($_.name)"] = $_.value
+                }
+            }
+        }
+    } #process
+
+    End {
+        Write-Verbose "[$((Get-Date).TimeofDay) END    ] Ending $($myinvocation.mycommand)"
+
+    } #end
+
+} #close Update-PSFunctionInfoDefaults

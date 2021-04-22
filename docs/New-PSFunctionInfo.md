@@ -22,7 +22,7 @@ New-PSFunctionInfo [-Name] <String> -Path <String> [-Author <String>] [-CompanyN
 
 This command will create a function metadata comment block and insert it into the source script file. Or you can copy it to the clipboard and insert it yourself. There are no commands to modify or remove the function metatdata once it has been inserted into the file. It is assumed that if you update the function, you can manually update (or remove) the metadata at the same time.
 
-NOTE: This command will not work properly with one-line function declarations like Function Get-This { Get-Date }.
+NOTE: This command will not work properly with one-line function declarations like Function Get-This { Get-Date }. It is also expected that you don't have multiple versions of the function in the same file.
 
 Do not modify spacing or formatting of the function metadata.
 
@@ -125,7 +125,7 @@ Aliases:
 
 Required: False
 Position: Named
-Default value: None
+Default value: the current year
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -180,7 +180,7 @@ Accept wildcard characters: False
 
 ### -Path
 
-Specify the path to the .ps1 file that contains the function.
+Specify the path to the .ps1 file that contains the function. The path must end in .ps1.
 
 ```yaml
 Type: String
