@@ -17,11 +17,11 @@ class PSFunctionInfo {
     #this class has no methods
 
     #constructors
-    PSFunctionInfo($Name, $Source) {
+    PSFunctionInfo([string]$Name, [string]$Source) {
         $this.Name = $Name
         $this.Source = $Source
     }
-    PSFunctionInfo($Name, $Author, $Version, $Source, $Description, $Module, $CompanyName, $Copyright, $Tags, $Guid, $LastUpdate, $Commandtype) {
+    PSFunctionInfo([string]$Name, [string]$Author, [string]$Version, [string]$Source, [string]$Description, [string]$Module, [string]$CompanyName, [string]$Copyright, [guid]$Guid, [datetime]$LastUpdate, [string]$Commandtype) {
         $this.Name = $Name
         $this.Author = $Author
         $this.Version = $Version
@@ -30,7 +30,7 @@ class PSFunctionInfo {
         $this.Module = $Module
         $this.CompanyName = $CompanyName
         $this.Copyright = $Copyright
-        $this.Tags = $Tags
+        #$this.Tags = $Tags
         $this.guid = $Guid
         $this.LastUpdate = $LastUpdate
         $this.CommandType = $Commandtype
@@ -47,7 +47,7 @@ Function New-PSFunctionInfo {
         [string]$Name,
         [Parameter(Mandatory, HelpMessage = "Specify the path that contains the function")]
         [ValidateNotNullOrEmpty()]
-        [ValidateScript({ Test-Path $_ })]
+        [ValidateScript( { Test-Path $_ })]
         [ValidatePattern("\.ps1$")]
         [string]$Path,
         [string]$Author = [System.Environment]::UserName,
@@ -124,7 +124,7 @@ Source $(Convert-Path $Path)
             Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] Getting the position of the opening {"
             $i = $index
             do {
-                Write-Verbose "[$((Get-Date).TimeofDay) PROCESS]  Testing index $i"
+                Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] Testing index $i"
                 if ($file[$i] -match "\{") {
                     Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] Found opening { at $i"
                     $found = $True
@@ -177,7 +177,16 @@ Function Get-PSFunctionInfo {
             ValueFromPipelineByPropertyName,
             ParameterSetName = "name"
         )]
-        [string]$Name = "*",
+        [string]$FunctionName = "*",
+        [Parameter(
+            HelpMessage = "Specify a .ps1 file to search.",
+            ValueFromPipelineByPropertyName,
+            ParameterSetName = "file"
+        )]
+        [ValidatePattern('\.ps1$')]
+        [ValidateScript( { Test-Path $_ })]
+        [alias("fullname")]
+        [string]$Path,
         [Parameter(HelpMessage = "Specify a tag")]
         [string]$Tag
     )
@@ -190,83 +199,148 @@ Function Get-PSFunctionInfo {
 
     Process {
         Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] Using parameter set $($pscmdlet.ParameterSetName)"
-        Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] Getting function $Name"
 
-        # filter out functions with a module source and that pass the private filtering test
-        $functions = (Get-ChildItem -Path Function:\$Name).where( { -Not $_.source -And (test_functionname $_.name) })
-        Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] Found $($functions.count) functions"
-        Foreach ($fun in $functions) {
-            Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] $($fun.name)"
-            $definition = $fun.definition -split "`n"
-            $m = $definition | Select-String -Pattern "#(\s+)?PSFunctionInfo"
-            if ($m.count -gt 1) {
-                Write-Warning "Multiple matches found for PSFunctionInfo in $($fun.name). Will only process the first one."
+        if ($pscmdlet.ParameterSetName -eq 'file') {
+
+            $file = [System.Collections.Generic.list[string]]::New()
+            Get-Content -Path $path | ForEach-Object {
+                $file.add($_)
             }
-            if ($m) {
-                #get the starting line number
-                $i = $m[0].LineNumber
 
-                $meta = While ($definition[$i] -notmatch "#\>") {
-                    $raw = $definition[$i]
-                    if ($raw -match "\w+") {
-                        $raw
+            #get location of PSFunctionInfo
+            $start = 0
+
+            #[regex]$rxName = "(\s+)?Function\s+\S+"
+            #need to ignore case
+            $rxname =[System.Text.RegularExpressions.Regex]::new("(\s+)?[Ff]unction\s+\S+","IgnoreCase")
+            do {
+
+                Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] Searching $path at $start"
+                $i = $j = $file.FindIndex( $start, { $args[0] -match "#(\s+)?PSFunctionInfo" })
+
+                if ($i -gt 0) {
+
+                    Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] Metadata found at index $i"
+                    do {
+                        $funName = $rxName.Match($file[$i]).value.trim()
+                        $i--
+                    } until ($i -lt 0 -OR $funName)
+
+                    $name = $funName.split()[1]
+                    Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] Found function $Name"
+                    $h = @{Name = $name }
+
+                    do {
+                        $j++
+                        #trim off spaces in case the comment block is indented
+                        $line = $file[$j].trim()
+                        if ($line -match "\w+\s+\w+") {
+                            $meta = $line.split(" ", 2)
+                            $h.add($meta[0], $meta[1])
+                        }
+                    } Until ($j -gt $file.count -OR $line -match "#>")
+
+                    #$h | out-string | write-verbose
+                    Try {
+                        $out = new_psfunctioninfo @h -ErrorAction Stop
+                        $out.CommandType = "function"
+                        Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] Filtering for tag $tag"
+                        if ($PSBoundParameters.ContainsKey("Tag") -AND ($out.Tags -match $Tag)) {
+                            $out
+                        }
+                        elseif (-Not $PSBoundParameters.ContainsKey("Tag")) {
+                            $out
+                        }
                     }
-                    $i++
+                    Catch {
+                        Write-Warning "Failed to process $Path. $($_.Exception.message)."
+                    }
+                    $start = $j
                 }
+            } Until ($i -lt 0)
 
-                #Define a hashtable that will eventually become a custom object
-                $h = @{
-                    Name        = $fun.name
-                    CommandType = $fun.CommandType
-                    Module      = $fun.Module
-                }
-                #parse the metadata using regular expressions
-                for ($i = 0; $i -lt $meta.count; $i++) {
-                    $groups = $rx.Match($meta[$i]).groups
-                    $h.add($groups[1].value, $groups[2].value.trim())
-                }
-                #check for required properties
-                if (-Not ($h.ContainsKey("Source")) ) {
-                    $h.add("Source", "")
-                }
-                if (-Not ($h.ContainsKey("version"))) {
-                    $h.add("Version", "")
-                }
-                # $h | Out-String | Write-Verbose
-                #write the custom object to the pipeline
-                $fi = New-Object -TypeName PSFunctionInfo -ArgumentList $h.name, $h.version
+        }
+        else {
+            Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] Getting function $FunctionName"
 
-                #update the object with hash table properties
-                foreach ($key in $h.keys) {
-                    Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] Updating $key"
-                    $fi.$key = $h.$key
+            # filter out functions with a module source and that pass the private filtering test
+            $functions = (Get-ChildItem -Path Function:\$FunctionName).where( { -Not $_.source -And (test_functionname $_.name) })
+            Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] Found $($functions.count) functions"
+            Foreach ($fun in $functions) {
+                Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] $($fun.name)"
+                $definition = $fun.definition -split "`n"
+                $m = $definition | Select-String -Pattern "#(\s+)?PSFunctionInfo"
+                if ($m.count -gt 1) {
+                    Write-Warning "Multiple matches found for PSFunctionInfo in $($fun.name). Will only process the first one."
                 }
-                if ($tag) {
-                    Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] Filtering for tag $tag"
-                    # write-verbose "$($fi.name) tag: $($fi.tags)"
-                    if ($fi.tags -match $tag) {
+                if ($m) {
+                    #get the starting line number
+                    $i = $m[0].LineNumber
+
+                    $meta = While ($definition[$i] -notmatch "#\>") {
+                        $raw = $definition[$i]
+                        if ($raw -match "\w+") {
+                            $raw
+                        }
+                        $i++
+                    }
+
+                    #Define a hashtable that will eventually become a custom object
+                    $h = @{
+                        Name        = $fun.name
+                        CommandType = $fun.CommandType
+                        Module      = $fun.Module
+                    }
+                    #parse the metadata using regular expressions
+                    Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] Parsing metadata"
+                    for ($i = 0; $i -lt $meta.count; $i++) {
+                        $groups = $rx.Match($meta[$i]).groups
+                        Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] $($groups[1].value) = $($groups[2].value)"
+                        $h.add($groups[1].value, $groups[2].value.trim())
+                    }
+                    #check for required properties
+                    if (-Not ($h.ContainsKey("Source")) ) {
+                        $h.add("Source", "")
+                    }
+                    if (-Not ($h.ContainsKey("version"))) {
+                        $h.add("Version", "")
+                    }
+                    #$h | Out-String | Write-Verbose
+                    #write the custom object to the pipeline
+                    $fi = New-Object -TypeName PSFunctionInfo -ArgumentList $h.name, $h.version
+
+                    #update the object with hash table properties
+                    foreach ($key in $h.keys) {
+                        Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] Updating $key [$($h.$key)]"
+                        $fi.$key = $h.$key
+                    }
+                    if ($tag) {
+                        Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] Filtering for tag $tag"
+                        # write-verbose "$($fi.name) tag: $($fi.tags)"
+                        if ($fi.tags -match $tag) {
+                            $fi
+                        }
+                    }
+                    else {
                         $fi
                     }
-                }
+                    #clear the variable so it doesn't get reused
+                    Remove-Variable m, h
+
+                } #if metadata found
                 else {
-                    $fi
-                }
-                #clear the variable so it doesn't get reused
-                Remove-Variable m, h
+                    #insert the custom type name and write the object to the pipeline
+                    Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] Creating a new and temporary PSFunctionInfo object."
+                    $fi = New-Object PSFunctionInfo -ArgumentList $fun.name, $fun.source
+                    $fi.version = $fun.version
+                    $fi.module = $fun.Module
+                    $fi.Commandtype = $fun.CommandType
+                    $fi.Description = $fun.Description
 
-            } #if metadata found
-            else {
-                #insert the custom type name and write the object to the pipeline
-                Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] Creating a new and temporary PSFunctionInfo object."
-                $fi = New-Object PSFunctionInfo -ArgumentList $fun.name, $fun.source
-                $fi.version = $fun.version
-                $fi.module = $fun.Module
-                $fi.Commandtype = $fun.CommandType
-                $fi.Description = $fun.Description
-
-                #Write the object depending on the parameter set and if it belongs to a module AND has a source
-                if (-Not $tag) {
-                    $fi
+                    #Write the object depending on the parameter set and if it belongs to a module AND has a source
+                    if (-Not $tag) {
+                        $fi
+                    }
                 }
             }
         } #foreach
@@ -299,13 +373,13 @@ Function Get-PSFunctionInfoTag {
                 #split strings into an array
                 $item.split(",") | ForEach-Object {
                     if (-Not $taglist.contains($_)) {
-                        $taglist.add($_)
+                        $taglist.add($_.trim())
                     }
                 }
             } #if an array of tags
             else {
                 if (-Not $taglist.contains($item)) {
-                    $taglist.add($item)
+                    $taglist.add($item.trim())
                 }
             }
         } #foreach item
@@ -334,15 +408,15 @@ Source $(Convert-Path $Path)
 Function Set-PSFunctionInfoDefaults {
     [cmdletbinding(SupportsShouldProcess)]
     Param(
-        [Parameter(ValueFromPipelineByPropertyName,HelpMessage = "Enter the default author name.")]
+        [Parameter(ValueFromPipelineByPropertyName, HelpMessage = "Enter the default author name.")]
         [string]$Author,
-        [Parameter(ValueFromPipelineByPropertyName,HelpMessage = "Enter the default company name.")]
+        [Parameter(ValueFromPipelineByPropertyName, HelpMessage = "Enter the default company name.")]
         [string]$CompanyName,
-        [Parameter(ValueFromPipelineByPropertyName,HelpMessage = "Enter the default copyright string")]
+        [Parameter(ValueFromPipelineByPropertyName, HelpMessage = "Enter the default copyright string")]
         [string]$Copyright,
-        [Parameter(ValueFromPipelineByPropertyName,HelpMessage = "Enter the default version")]
+        [Parameter(ValueFromPipelineByPropertyName, HelpMessage = "Enter the default version")]
         [string]$Version,
-        [Parameter(ValueFromPipelineByPropertyName,HelpMessage = "Enter the default tag(s).")]
+        [Parameter(ValueFromPipelineByPropertyName, HelpMessage = "Enter the default tag(s).")]
         [string[]]$Tags
     )
     Begin {
@@ -353,21 +427,23 @@ Function Set-PSFunctionInfoDefaults {
         $common = [System.Management.Automation.Cmdlet]::CommonParameters
         $option = [System.Management.Automation.Cmdlet]::OptionalCommonParameters
 
-        $option | foreach-object {
+        $option | ForEach-Object {
             #Write-Verbose "Testing for $_"
             if ($PSBoundParameters.ContainsKey($_)) {
                 Write-Verbose "[$((Get-Date).TimeofDay) BEGIN  ] Removing $_"
-                [void]$PSBoundParameters.remove($_) }
+                [void]$PSBoundParameters.remove($_)
             }
-        $common | foreach-object {
+        }
+        $common | ForEach-Object {
             #Write-Verbose "Testing for $_"
             if ($PSBoundParameters.ContainsKey($_)) {
                 Write-Verbose "[$((Get-Date).TimeofDay) BEGIN  ]Removing $_"
-                [void]$PSBoundParameters.remove($_) }
+                [void]$PSBoundParameters.remove($_)
             }
+        }
 
         #get existing defaults
-        if (Test-Path -path $outfile) {
+        if (Test-Path -Path $outfile) {
             Write-Verbose "[$((Get-Date).TimeofDay) BEGIN  ] Getting current defaults"
             $current = Get-PSFunctionInfoDefaults
         }
@@ -386,7 +462,7 @@ Function Set-PSFunctionInfoDefaults {
                 }
                 else {
                     #add new values
-                    Add-member -InputObject $current -MemberType NoteProperty -Name $_.key -Value $_.value -Force
+                    Add-Member -InputObject $current -MemberType NoteProperty -Name $_.key -Value $_.value -Force
                 }
             }
 
@@ -397,7 +473,7 @@ Function Set-PSFunctionInfoDefaults {
         }
         Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] Saving results to $Outfile"
         $defaults | Out-String | Write-Verbose
-        $defaults | ConvertTo-Json | Out-File -FilePath $Outfile -force
+        $defaults | ConvertTo-Json | Out-File -FilePath $Outfile -Force
     } #process
 
     End {
@@ -405,7 +481,6 @@ Function Set-PSFunctionInfoDefaults {
             Write-Verbose "[$((Get-Date).TimeofDay) END    ] Re-import the module or run Update-PSFunctionInfoDefaults to load the new values."
         }
         Write-Verbose "[$((Get-Date).TimeofDay) END    ] Ending $($myinvocation.mycommand)"
-
     } #end
 
 } #close Set-PSFunctionInfoDefaults
@@ -422,10 +497,10 @@ Function Get-PSFunctionInfoDefaults {
 
     Process {
         Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] Testing $outfile"
-        If (Test-Path -path $outfile) {
-            Get-Content -Path $outfile | ConvertFrom-JSON |
+        If (Test-Path -Path $outfile) {
+            Get-Content -Path $outfile | ConvertFrom-Json |
             ForEach-Object {
-                $_.psobject.typenames.insert(0,'PSFunctionInfoDefault')
+                $_.psobject.typenames.insert(0, 'PSFunctionInfoDefault')
                 $_
             }
         }
@@ -437,13 +512,12 @@ Function Get-PSFunctionInfoDefaults {
 
     End {
         Write-Verbose "[$((Get-Date).TimeofDay) END    ] Ending $($myinvocation.mycommand)"
-
     } #end
 
 } #close Get-PSFunctionInfoDefaults
 
 
-Function Update-PSFunctionInfoDefaults  {
+Function Update-PSFunctionInfoDefaults {
     [cmdletbinding(SupportsShouldProcess)]
     Param( )
     Begin {
@@ -453,9 +527,9 @@ Function Update-PSFunctionInfoDefaults  {
 
     Process {
         Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] Updating PSDefaultParameterValues "
-        if (Test-Path -path $defaults) {
-            $d = Get-Content -Path $defaults | ConvertFrom-JSON
-            $d.psobject.properties | Foreach-Object {
+        if (Test-Path -Path $defaults) {
+            $d = Get-Content -Path $defaults | ConvertFrom-Json
+            $d.psobject.properties | ForEach-Object {
                 if ($pscmdlet.ShouldProcess($_.name)) {
                     $global:PSDefaultParameterValues["New-PSFunctionInfo:$($_.name)"] = $_.value
                 }
@@ -465,7 +539,6 @@ Function Update-PSFunctionInfoDefaults  {
 
     End {
         Write-Verbose "[$((Get-Date).TimeofDay) END    ] Ending $($myinvocation.mycommand)"
-
     } #end
 
 } #close Update-PSFunctionInfoDefaults

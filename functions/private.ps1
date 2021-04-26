@@ -26,3 +26,30 @@ Function test_functionname {
         #not used
     }
 }
+
+Function new_psfunctioninfo {
+    [cmdletbinding()]
+    Param (
+        [string]$Name,
+        [string]$Version,
+        [string]$Description,
+        [string]$Author,
+        [string]$Source,
+        [string]$Module,
+        [string]$CompanyName,
+        [string]$Copyright,
+        [guid]$Guid,
+        [string[]]$Tags,
+        [datetime]$LastUpdate,
+        [string]$Commandtype
+    )
+
+   # Write-Verbose "creating new object Using these parameters"
+   # $PSBoundParameters | Out-string | Write-Verbose
+    $obj = [psfunctioninfo]::new([string]$Name, [string]$Author, [string]$Version, [string]$Source, [string]$Description, [string]$Module, [string]$CompanyName, [string]$Copyright, [guid]$Guid, [datetime]$LastUpdate, [string]$Commandtype)
+    if ($tags) {
+        $obj.Tags = $Tags
+    }
+    $obj
+}
+

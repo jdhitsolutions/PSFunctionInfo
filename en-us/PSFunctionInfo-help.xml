@@ -10,23 +10,12 @@
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>Display function metadata. The default behavior is to display loaded functions that don't belong to a module. Items like versioning belong to the module, not the individual function.</maml:para>
+      <maml:para>Get-PSFunctionIfo will display function metadata that was created using New-PSFunctionInfo. The default behavior is to search loaded functions that don't belong to a module and display the custom function metadata.</maml:para>
+      <maml:para>As an alternative to searching items in the Function: PSDrive, you can also search .ps1 files.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
         <maml:name>Get-PSFunctionInfo</maml:name>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="0" aliases="none">
-          <maml:name>Name</maml:name>
-          <maml:description>
-            <maml:para>Specify the name of a loaded function. The default is all functions that don't belong to a module.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>*</dev:defaultValue>
-        </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Tag</maml:name>
           <maml:description>
@@ -39,25 +28,76 @@
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="named" aliases="none">
+          <maml:name>FunctionName</maml:name>
+          <maml:description>
+            <maml:para>Specify the name of a function that doesn't belong to a module.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Get-PSFunctionInfo</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>Tag</maml:name>
+          <maml:description>
+            <maml:para>Specify a tag</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="fullname">
+          <maml:name>Path</maml:name>
+          <maml:description>
+            <maml:para>Specify a .ps1 file to search. The command will not be able to determine if the function definition in the file has been commented out.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="0" aliases="none">
-        <maml:name>Name</maml:name>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>Tag</maml:name>
         <maml:description>
-          <maml:para>Specify the name of a loaded function. The default is all functions that don't belong to a module.</maml:para>
+          <maml:para>Specify a tag</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
           <maml:name>String</maml:name>
           <maml:uri />
         </dev:type>
-        <dev:defaultValue>*</dev:defaultValue>
+        <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-        <maml:name>Tag</maml:name>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="named" aliases="none">
+        <maml:name>FunctionName</maml:name>
         <maml:description>
-          <maml:para>Specify a tag</maml:para>
+          <maml:para>Specify the name of a function that doesn't belong to a module.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="fullname">
+        <maml:name>Path</maml:name>
+        <maml:description>
+          <maml:para>Specify a .ps1 file to search. The command will not be able to determine if the function definition in the file has been commented out.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -89,7 +129,7 @@
     </command:returnValues>
     <maml:alertSet>
       <maml:alert>
-        <maml:para>This function has an alias of gpfi.</maml:para>
+        <maml:para>This function has an alias of gpfi. The PSFunctionInfo object has additional named table views of source and tags.</maml:para>
         <maml:para>Learn more about PowerShell: http://jdhitsolutions.com/blog/essential-powershell-resources/</maml:para>
       </maml:alert>
     </maml:alertSet>
@@ -98,18 +138,18 @@
         <maml:title>-------------------------- Example 1 --------------------------</maml:title>
         <dev:code>PS C:\&gt; Get-PSFunctionInfo
 
-Name                      Version    Alias                Source
-----                      -------    -----                ------
+Name                      Version    Alias           Source
+----                      -------    -----           ------
 prompt
-Get-QOTD                  2.0.0      qotd                 C:\scripts\Get-QOTD.ps1
-Get-Status                2.1.0      gst                  C:\scripts\getstat.ps1
-Get-StatusString          1.1.0      gss                  C:\scripts\getstat.ps1
-Convert-Expression        1.0.0      spoof                C:\scripts\Convert-Expression.ps1
-Add-BackupEntry           1.3.0      abe                  C:\scripts\PSBackup\Add-BackupEntry.ps1
-Get-MyBackupFile          1.0.0      gbf                  C:\scripts\PSBackup\Get-MyBackupFile.ps1
+Get-QOTD                  2.0.0      qotd            C:\scripts\Get-QOTD.ps1
+Get-Status                2.1.0      gst             C:\scripts\getstat.ps1
+Get-StatusString          1.1.0      gss             C:\scripts\getstat.ps1
+Convert-Expression        1.0.0      spoof           C:\scripts\Convert-Expression.ps1
+Add-BackupEntry           1.3.0      abe             C:\scripts\PSBackup\Add-BackupEntry.ps1
+Get-MyBackupFile          1.0.0      gbf             C:\scripts\PSBackup\Get-MyBackupFile.ps1
 ConvertTo-ASCIIArt                   cart
-Test-IsAdministrator      1.0.0                           C:\Scripts\JDH-Functions.ps1
-Open-VSCode               2.0.0      code                 C:\Scripts\JDH-Functions.ps1
+Test-IsAdministrator      1.0.0                      C:\Scripts\JDH-Functions.ps1
+Open-VSCode               2.0.0      code            C:\Scripts\JDH-Functions.ps1
 ...</dev:code>
         <dev:remarks>
           <maml:para></maml:para>
@@ -173,10 +213,10 @@ Get-LastBoot              1.0.0      Get the last boot up time
         <maml:title>-------------------------- Example 4 --------------------------</maml:title>
         <dev:code>PS C:\&gt; Get-PSFunctionInfo -Tag cim
 
-Name                      Version    Alias                Source
-----                      -------    -----                ------
-Get-Status                2.1.0      gst                  C:\scripts\getstat.ps1
-Get-StatusString          1.1.0      gss                  C:\scripts\getstat.ps1</dev:code>
+Name                      Version    Alias           Source
+----                      -------    -----           ------
+Get-Status                2.1.0      gst             C:\scripts\getstat.ps1
+Get-StatusString          1.1.0      gss             C:\scripts\getstat.ps1</dev:code>
         <dev:remarks>
           <maml:para>Get functions by tag.</maml:para>
         </dev:remarks>
@@ -203,6 +243,38 @@ Commandtype : Function</dev:code>
           <maml:para>Get all properties for a single function.</maml:para>
         </dev:remarks>
       </command:example>
+      <command:example>
+        <maml:title>-------------------------- Example 6 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; dir C:\scripts\*.ps1 | Get-PSFunctionInfo
+
+Name                      Version    Alias           Source
+----                      -------    -----           ------
+Add-BackupEntry           1.0.0      abe             C:\scripts\Add-BackupEntry.ps1
+Get-MyFunctions           1.0.0                      C:\Scripts\archived-Functions.ps1
+Convert-Expression        1.0.0      spoof           :\scripts\Convert-Expression.ps1
+Get-LastPassItem          1.0.0      glp             C:\Scripts\Get-LastPassItem.ps1
+Get-QOTD                  2.0.0      qotd            C:\scripts\Get-QOTD.ps1
+...</dev:code>
+        <dev:remarks>
+          <maml:para>Search script files for function metadata.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- Example 7 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; Get-PSFunctionInfo -Tag modules | Select-Object -property AuthorInfo
+
+
+Name        : Test-HelpLink
+Version     : 0.9.0
+Source      : C:\scripts\update-helplinks.ps1
+CompanyName : JDH IT Solutions, Inc.
+Copyright   : (c) JDH IT Solutions, Inc.
+Description : Test if help file is missing the online link
+LastUpdate  : 4/23/2021 9:21:00 AM</dev:code>
+        <dev:remarks>
+          <maml:para>The PSFunctionInfo object includes a PropertySet called AuthorInfo.</maml:para>
+        </dev:remarks>
+      </command:example>
     </command:examples>
     <command:relatedLinks>
       <maml:navigationLink>
@@ -211,6 +283,10 @@ Commandtype : Function</dev:code>
       </maml:navigationLink>
       <maml:navigationLink>
         <maml:linkText>New-PSFunctionInfo</maml:linkText>
+        <maml:uri></maml:uri>
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>Get-PSFunctionInfoTag</maml:linkText>
         <maml:uri></maml:uri>
       </maml:navigationLink>
     </command:relatedLinks>
@@ -275,6 +351,10 @@ Copyright   : (c) JDH IT Solutions, Inc.</dev:code>
       </command:example>
     </command:examples>
     <command:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>Online Version:</maml:linkText>
+        <maml:uri>https://bit.ly/3xiHPuc</maml:uri>
+      </maml:navigationLink>
       <maml:navigationLink>
         <maml:linkText>Set-PSFunctionInfoDefaults</maml:linkText>
         <maml:uri></maml:uri>
@@ -979,6 +1059,10 @@ Web</dev:code>
     </command:examples>
     <command:relatedLinks>
       <maml:navigationLink>
+        <maml:linkText>Online Version:</maml:linkText>
+        <maml:uri>https://bit.ly/2QgCu6g</maml:uri>
+      </maml:navigationLink>
+      <maml:navigationLink>
         <maml:linkText>Get-PSFunctionInfoDefaults</maml:linkText>
         <maml:uri></maml:uri>
       </maml:navigationLink>
@@ -1089,6 +1173,10 @@ PS C:\&gt; Update-PSFunctionInfoDefaults</dev:code>
       </command:example>
     </command:examples>
     <command:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>Online Version:</maml:linkText>
+        <maml:uri>https://bit.ly/3nimLPZ</maml:uri>
+      </maml:navigationLink>
       <maml:navigationLink>
         <maml:linkText>Set-PSFunctionInfoDefaults</maml:linkText>
         <maml:uri></maml:uri>

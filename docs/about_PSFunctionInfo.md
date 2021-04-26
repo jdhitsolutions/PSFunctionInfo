@@ -84,6 +84,22 @@ The defaults will be stored in a JSON file at `$home\psfunctioninfo-defaults.jso
 
 You can use `Get-PSFunctionInfoDefaults` to see the current values.
 
+## Editor Integration
+
+When you import the module into an editor, you will get additional features to make it easier to insert PSFunctionInfo metadata into your file. It is recommended that you explicitly import the module into the editor's integrated console session. You could add an `Import-Module PSFunctionInfo` command into the editor's PowerShell profile script.
+
+### Visual Studio Code
+
+If you have an open file, in the integrated PowerShell console, you can run `New-PSFunctionfo` and press TAB to tab-complete the detected functions in the current file. The file path will automatically be detected. You can enter other values such as version, or simply press ENTER to insert the metadata, which you can then edit.
+
+### PowerShell ISE
+
+When you import the module in the PowerShell ISE, it will add a menu shortcut.
+
+With a loaded file, you could run `New-PSFunctionInfo` in the console specifying the function name. The Path will be auto-detected. Or use the menu shortcut which will give you a graphical "function picker"
+
+Select a function and click OK. The metadata block will be inserted into the file. This will not work with a file that has unsaved changes. When you insert new function metadata, the file in the ISE will be closed, re-opened, and focus should jump to the function.
+
 # TROUBLESHOOTING NOTE
 
 Please report any bugs or feature requests at https://github.com/jdhitsolutions/PSFunctionInfo/issues.

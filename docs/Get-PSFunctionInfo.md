@@ -13,13 +13,23 @@ Get metadata for stand-alone functions.
 
 ## SYNTAX
 
+### name (Default)
+
 ```yaml
-Get-PSFunctionInfo [[-Name] <String>] [-Tag <String>] [<CommonParameters>]
+Get-PSFunctionInfo [-FunctionName <String>] [-Tag <String>] [<CommonParameters>]
+```
+
+### file
+
+```yaml
+Get-PSFunctionInfo [-Path <String>] [-Tag <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
 
-Display function metadata. The default behavior is to display loaded functions that don't belong to a module. Items like versioning belong to the module, not the individual function.
+Get-PSFunctionIfo will display function metadata that was created using New-PSFunctionInfo. The default behavior is to search loaded functions that don't belong to a module and display the custom function metadata.
+
+As an alternative to searching items in the Function: PSDrive, you can also search .ps1 files.
 
 ## EXAMPLES
 
@@ -28,18 +38,18 @@ Display function metadata. The default behavior is to display loaded functions t
 ```powershell
 PS C:\> Get-PSFunctionInfo
 
-Name                      Version    Alias                Source
-----                      -------    -----                ------
+Name                      Version    Alias           Source
+----                      -------    -----           ------
 prompt
-Get-QOTD                  2.0.0      qotd                 C:\scripts\Get-QOTD.ps1
-Get-Status                2.1.0      gst                  C:\scripts\getstat.ps1
-Get-StatusString          1.1.0      gss                  C:\scripts\getstat.ps1
-Convert-Expression        1.0.0      spoof                C:\scripts\Convert-Expression.ps1
-Add-BackupEntry           1.3.0      abe                  C:\scripts\PSBackup\Add-BackupEntry.ps1
-Get-MyBackupFile          1.0.0      gbf                  C:\scripts\PSBackup\Get-MyBackupFile.ps1
+Get-QOTD                  2.0.0      qotd            C:\scripts\Get-QOTD.ps1
+Get-Status                2.1.0      gst             C:\scripts\getstat.ps1
+Get-StatusString          1.1.0      gss             C:\scripts\getstat.ps1
+Convert-Expression        1.0.0      spoof           C:\scripts\Convert-Expression.ps1
+Add-BackupEntry           1.3.0      abe             C:\scripts\PSBackup\Add-BackupEntry.ps1
+Get-MyBackupFile          1.0.0      gbf             C:\scripts\PSBackup\Get-MyBackupFile.ps1
 ConvertTo-ASCIIArt                   cart
-Test-IsAdministrator      1.0.0                           C:\Scripts\JDH-Functions.ps1
-Open-VSCode               2.0.0      code                 C:\Scripts\JDH-Functions.ps1
+Test-IsAdministrator      1.0.0                      C:\Scripts\JDH-Functions.ps1
+Open-VSCode               2.0.0      code            C:\Scripts\JDH-Functions.ps1
 ...
 ```
 
@@ -104,10 +114,10 @@ Use the custom table view called Source.
 ```powershell
 PS C:\> Get-PSFunctionInfo -Tag cim
 
-Name                      Version    Alias                Source
-----                      -------    -----                ------
-Get-Status                2.1.0      gst                  C:\scripts\getstat.ps1
-Get-StatusString          1.1.0      gss                  C:\scripts\getstat.ps1
+Name                      Version    Alias           Source
+----                      -------    -----           ------
+Get-Status                2.1.0      gst             C:\scripts\getstat.ps1
+Get-StatusString          1.1.0      gss             C:\scripts\getstat.ps1
 ```
 
 Get functions by tag.
@@ -135,24 +145,41 @@ Commandtype : Function
 
 Get all properties for a single function.
 
-## PARAMETERS
+### Example 6
 
-### -Name
+```powershell
+PS C:\> dir C:\scripts\*.ps1 | Get-PSFunctionInfo
 
-Specify the name of a loaded function.
-The default is all functions that don't belong to a module.
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 0
-Default value: *
-Accept pipeline input: True (ByPropertyName, ByValue)
-Accept wildcard characters: False
+Name                      Version    Alias           Source
+----                      -------    -----           ------
+Add-BackupEntry           1.0.0      abe             C:\scripts\Add-BackupEntry.ps1
+Get-MyFunctions           1.0.0                      C:\Scripts\archived-Functions.ps1
+Convert-Expression        1.0.0      spoof           :\scripts\Convert-Expression.ps1
+Get-LastPassItem          1.0.0      glp             C:\Scripts\Get-LastPassItem.ps1
+Get-QOTD                  2.0.0      qotd            C:\scripts\Get-QOTD.ps1
+...
 ```
+
+Search script files for function metadata.
+
+### Example 7
+
+```powershell
+PS C:\> Get-PSFunctionInfo -Tag modules | Select-Object -property AuthorInfo
+
+
+Name        : Test-HelpLink
+Version     : 0.9.0
+Source      : C:\scripts\update-helplinks.ps1
+CompanyName : JDH IT Solutions, Inc.
+Copyright   : (c) JDH IT Solutions, Inc.
+Description : Test if help file is missing the online link
+LastUpdate  : 4/23/2021 9:21:00 AM
+```
+
+The PSFunctionInfo object includes a PropertySet called AuthorInfo.
+
+## PARAMETERS
 
 ### -Tag
 
@@ -170,6 +197,38 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -FunctionName
+
+Specify the name of a function that doesn't belong to a module.
+
+```yaml
+Type: String
+Parameter Sets: name
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName, ByValue)
+Accept wildcard characters: False
+```
+
+### -Path
+
+Specify a .ps1 file to search. The command will not be able to determine if the function definition in the file has been commented out.
+
+```yaml
+Type: String
+Parameter Sets: file
+Aliases: fullname
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
 ### CommonParameters
 
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
@@ -184,10 +243,12 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## NOTES
 
-This function has an alias of gpfi.
+This function has an alias of gpfi. The PSFunctionInfo object has additional named table views of source and tags.
 
 Learn more about PowerShell: http://jdhitsolutions.com/blog/essential-powershell-resources/
 
 ## RELATED LINKS
 
 [New-PSFunctionInfo](New-PSFunctionInfo.md)
+
+[Get-PSFunctionInfoTag](Get-PSFunctionInfoTag.md)

@@ -1,6 +1,21 @@
 # ChangeLog for PSFunctionInfo
 
-## 0.4.0
+## 0.5.0-preview
+
++ Added an autocompleter for the `-Tag` parameter in `Get-PSFunctionInfo`. ([Issue #4](https://github.com/jdhitsolutions/PSFunctionInfo/issues/4))
++ Added a private function, `new_psfunctioninfo`, to create a new PSFunctionInfo object from the metadata block.
++ Changed `Name` parameter in `Get-PSFunctionInfo` to `FunctionName`. The parameter is positional, so it shouldn't make much difference. **This is a breaking change.**
++ Modified `Get-PSFunctionInfo` to get metadata from files. ([Issue #3](https://github.com/jdhitsolutions/PSFunctionInfo/issues/3))
++ Modified `PSFunctionInfo` class to not require Tags in the constructor.
++ Added missing online help links.
++ Added a table view called `tags` to `psfunctioninfor.format.ps1xml`.
++ Modified `psfunctioninfor.format.ps1xml` to reduce the `Alias` column to 15.
++ Added integration into the PowerShell ISE.
++ Added integration into VS Code. ([Issue #2](https://github.com/jdhitsolutions/PSFunctionInfo/issues/2))
++ Updated help documentation.
++ Updated `README.md`.
+
+## 0.4.0-preview
 
 + Added `Set-PSFunctionInfoDefaults` and `Get-PSFunctionInfoDefaults` to store default values. The defaults are stored in a JSON file at `$home\psfunctioninfo-defaults.json`. If the file is found when the module is imported, it will be used to set $PSDefaultParameterValues for this module.
 + Added `Update-PSFunctionInfoDefaults` which can be used to update defaults if they are changed after the module has been loaded.
@@ -8,7 +23,7 @@
 + Minor help updates.
 + Updated `README.md`.
 
-## 0.3.0
+## 0.3.0-preview
 
 + Added online help links.
 + Published pre-release module to the PowerShell Gallery.
