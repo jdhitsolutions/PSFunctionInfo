@@ -156,7 +156,6 @@ This module was first described at <https://jdhitsolutions.com/blog/powershell/8
 
 ## Roadmap
 
-+ Add VS Code integration.
 + Add function metadata by file, autodetecting the function name.
 
 Last Updated 2021-04-26 14:06:13Z
