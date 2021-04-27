@@ -59,7 +59,9 @@ Function New-PSFunctionInfo {
         [string[]]$Tags,
         [Parameter(HelpMessage = "Copy the metadata to the clipboard. The file is left untouched.")]
         [alias("clip")]
-        [switch]$ToClipboard
+        [switch]$ToClipboard,
+        [Parameter(HelpMessage = "Create a backup copy of the source file before inserting the metadata comment block.")]
+        [switch]$Backup
     )
     Begin {
         Write-Verbose "[$((Get-Date).TimeofDay) BEGIN  ] Starting $($myinvocation.mycommand)"
@@ -94,6 +96,16 @@ Source $(Convert-Path $Path)
             }
         }
         else {
+            #backup file if requested
+            if ($Backup) {
+                Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] Backing up the source file $Path."
+                Try {
+                    backup_file -path $path
+                }
+                Catch {
+                    Throw $_
+                }
+            }
             #get the contents of the script file
             Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] Getting the file contents from $Path"
 

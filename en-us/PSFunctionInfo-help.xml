@@ -525,18 +525,6 @@ Web</dev:code>
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-          <maml:name>Guid</maml:name>
-          <maml:description>
-            <maml:para>The metadata requires a GUID. This is set automatically.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
-          <dev:type>
-            <maml:name>Guid</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>a newly created Guid</dev:defaultValue>
-        </command:parameter>
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Path</maml:name>
           <maml:description>
@@ -573,18 +561,6 @@ Web</dev:code>
           <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-          <maml:name>Updated</maml:name>
-          <maml:description>
-            <maml:para>Specify a datetime. The default is the current date and time. When manually updating, you should use a command like Get-Date -format g. Whatever date format you use, the string must be able to be treated as a [datetime] object.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">DateTime</command:parameterValue>
-          <dev:type>
-            <maml:name>DateTime</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>Current date and time.</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Version</maml:name>
           <maml:description>
             <maml:para>Specify a version number. It is recommended to use a standard version numbering system.</maml:para>
@@ -600,6 +576,18 @@ Web</dev:code>
           <maml:name>WhatIf</maml:name>
           <maml:description>
             <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>Backup</maml:name>
+          <maml:description>
+            <maml:para>Create a backup copy of the source file before inserting the metadata comment block. The file will be created in the same directory, appending an extension of .bak1. If there are previous backups, the number will increment, i.e. .bak2. You can manually delete the backup files.</maml:para>
+            <maml:para>This parameter has no effect if you use -Clipboard.</maml:para>
           </maml:description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -670,18 +658,6 @@ Web</dev:code>
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-        <maml:name>Guid</maml:name>
-        <maml:description>
-          <maml:para>The metadata requires a GUID. This is set automatically.</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">Guid</command:parameterValue>
-        <dev:type>
-          <maml:name>Guid</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>a newly created Guid</dev:defaultValue>
-      </command:parameter>
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
         <maml:name>Name</maml:name>
         <maml:description>
@@ -731,18 +707,6 @@ Web</dev:code>
         <dev:defaultValue>False</dev:defaultValue>
       </command:parameter>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-        <maml:name>Updated</maml:name>
-        <maml:description>
-          <maml:para>Specify a datetime. The default is the current date and time. When manually updating, you should use a command like Get-Date -format g. Whatever date format you use, the string must be able to be treated as a [datetime] object.</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">DateTime</command:parameterValue>
-        <dev:type>
-          <maml:name>DateTime</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>Current date and time.</dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>Version</maml:name>
         <maml:description>
           <maml:para>Specify a version number. It is recommended to use a standard version numbering system.</maml:para>
@@ -758,6 +722,19 @@ Web</dev:code>
         <maml:name>WhatIf</maml:name>
         <maml:description>
           <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>Backup</maml:name>
+        <maml:description>
+          <maml:para>Create a backup copy of the source file before inserting the metadata comment block. The file will be created in the same directory, appending an extension of .bak1. If there are previous backups, the number will increment, i.e. .bak2. You can manually delete the backup files.</maml:para>
+          <maml:para>This parameter has no effect if you use -Clipboard.</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -796,7 +773,7 @@ Web</dev:code>
     <command:examples>
       <command:example>
         <maml:title>-------------------------- Example 1 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; New-PSFunctionInfo -Path c:\scripts\Test-ConsoleColors.ps1 -Description "show console color combinations" -Name Test-ConsoleColor -Author "Jeff Hicks" -CompanyName "JDH IT Solutions" -Copyright "2021 JDH IT Solutions, Inc." -Tags "scripting","console"</dev:code>
+        <dev:code>PS C:\&gt; New-PSFunctionInfo -Path c:\scripts\Test-ConsoleColors.ps1 -Description "show console color combinations" -Name Test-ConsoleColor -Author "Jeff Hicks" -CompanyName "JDH IT Solutions" -Copyright "2021 JDH IT Solutions, Inc." -Tags "scripting","console" -backp</dev:code>
         <dev:remarks>
           <maml:para>Insert function metadata into the script file before the [cmdletbinding()] tag. This example will produce this comment block:</maml:para>
           <maml:para>PSFunctionInfo</maml:para>
@@ -809,6 +786,7 @@ Web</dev:code>
           <maml:para>Tags scripting,console</maml:para>
           <maml:para>LastUpdate 10/02/2020 10:34:18</maml:para>
           <maml:para>Source C:\Scripts\Test-ConsoleColors.ps1</maml:para>
+          <maml:para>This example will also create a backup copy of the source file at c:\scripts\Test-ConsoleColors.ps1.bak1.</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>

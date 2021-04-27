@@ -162,10 +162,10 @@ elseif ($host.name -eq 'Windows PowerShell ISE Host') {
 }
 
 #create an argument completer
-Register-ArgumentCompleter -CommandName Get-PSFunctionInfo -ParameterName Name -ScriptBlock {
+Register-ArgumentCompleter -CommandName Get-PSFunctionInfo -ParameterName FunctionName -ScriptBlock {
     param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameter)
 
-    Get-Childitem -path Function:\$wordToComplete* |
+    Get-Childitem -path "Function:\$wordToComplete*" |
         ForEach-Object {
             # completion text,listitem text,result type,Tooltip
             [System.Management.Automation.CompletionResult]::new($_.name, $_.name, 'ParameterValue', $_.name)

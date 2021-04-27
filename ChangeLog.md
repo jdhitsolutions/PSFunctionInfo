@@ -1,5 +1,13 @@
 # ChangeLog for PSFunctionInfo
 
+## 0.6.0-preview
+
++ Fixed the `-Name` parameter argument completer in `Get-PSFunctionInfo`. The function parameter changed from `Name` to `FunctionName` which is why it broke. ([Issue #6](https://github.com/jdhitsolutions/PSFunctionInfo/issues/6))
++ Created private function `backup_file`.
++ Added a `-Backup` parameter to `New-PSFunctionInfo`. ([Issue #1](https://github.com/jdhitsolutions/PSFunctionInfo/issues/1))
++ Help updates
++ Updated `README.md`.
+
 ## 0.5.0-preview
 
 + Added an autocompleter for the `-Tag` parameter in `Get-PSFunctionInfo`. ([Issue #4](https://github.com/jdhitsolutions/PSFunctionInfo/issues/4))

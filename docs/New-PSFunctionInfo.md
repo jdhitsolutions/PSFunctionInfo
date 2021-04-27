@@ -14,8 +14,10 @@ Create function metadata
 ## SYNTAX
 
 ```yaml
-New-PSFunctionInfo [-Name] <String> -Path <String> [-Author <String>] [-CompanyName <String>] [-Copyright <String>] [-Description <String>]
-[-Version <String>] [-Guid <Guid>] [-Tags <String[]>] [-Updated <DateTime>] [-ToClipboard] [-WhatIf] [-Confirm] [<CommonParameters>]
+New-PSFunctionInfo [-Name] <String> -Path <String> [-Author <String>]
+[-CompanyName <String>] [-Copyright <String>] [-Description <String>]
+[-Version <String>] [-Tags <String[]>] [-ToClipboard] [-Backup]
+[-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -31,7 +33,7 @@ Do not modify spacing or formatting of the function metadata.
 ### Example 1
 
 ```powershell
-PS C:\> New-PSFunctionInfo -Path c:\scripts\Test-ConsoleColors.ps1 -Description "show console color combinations" -Name Test-ConsoleColor -Author "Jeff Hicks" -CompanyName "JDH IT Solutions" -Copyright "2021 JDH IT Solutions, Inc." -Tags "scripting","console"
+PS C:\> New-PSFunctionInfo -Path c:\scripts\Test-ConsoleColors.ps1 -Description "show console color combinations" -Name Test-ConsoleColor -Author "Jeff Hicks" -CompanyName "JDH IT Solutions" -Copyright "2021 JDH IT Solutions, Inc." -Tags "scripting","console" -backp
 ```
 
 Insert function metadata into the script file before the [cmdletbinding()] tag. This example will produce this comment block:
@@ -55,6 +57,8 @@ Tags scripting,console
 LastUpdate 10/02/2020 10:34:18
 
 Source C:\Scripts\Test-ConsoleColors.ps1
+
+This example will also create a backup copy of the source file at c:\scripts\Test-ConsoleColors.ps1.bak1.
 
 ### Example 2
 
@@ -146,22 +150,6 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Guid
-
-The metadata requires a GUID. This is set automatically.
-
-```yaml
-Type: Guid
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: a newly created Guid
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### -Name
 
 Specify name of the function.
@@ -227,22 +215,6 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Updated
-
-Specify a datetime. The default is the current date and time. When manually updating, you should use a command like Get-Date -format g. Whatever date format you use, the string must be able to be treated as a [datetime] object.
-
-```yaml
-Type: DateTime
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: Current date and time.
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### -Version
 
 Specify a version number. It is recommended to use a standard version numbering system.
@@ -268,6 +240,24 @@ The cmdlet is not run.
 Type: SwitchParameter
 Parameter Sets: (All)
 Aliases: wi
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Backup
+
+Create a backup copy of the source file before inserting the metadata comment block. The file will be created in the same directory, appending an extension of .bak1. If there are previous backups, the number will increment, i.e. .bak2. You can manually delete the backup files.
+
+This parameter has no effect if you use -Clipboard.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
 
 Required: False
 Position: Named

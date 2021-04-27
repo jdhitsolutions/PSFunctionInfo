@@ -110,6 +110,12 @@ Source C:\scripts\FooStuff.ps1
 
 There are no commands to modify or remove function metadata. It is assumed that when you update the function, you can update or remove the metadata.
 
+### Backup
+
+Because creating a PSFunctionInfo metadata comment block modifies the file, you might feel safer with a backup. `New-PSFuntionInfo` has a `-BackupParameter` which will create a backup copy of the source file before inserting the metadata comment block. The file will be created in the same directory, appending an extension of .bak1. If there are previous backups, the number will increment, i.e. .bak2. You can manually delete the backup files.
+
+The `-Backup` parameter has no effect if you use `-Clipboard`.
+
 ## PSFunctionInfo Defaults
 
 Because you might define function metadata often, and want to maintain consistency, you can define a set of default values for `New-PSFunctionInfo`. Use the command, [Set-PSFunctionInfoDefaults](docs/Set-PSFunctionInfoDefaults):
@@ -158,4 +164,4 @@ This module was first described at <https://jdhitsolutions.com/blog/powershell/8
 
 + Add function metadata by file, autodetecting the function name.
 
-Last Updated 2021-04-26 14:06:13Z
+Last Updated 2021-04-27 17:11:18Z
