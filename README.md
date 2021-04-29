@@ -8,10 +8,10 @@ This module contains a set of PowerShell commands to add and manage metadata in 
 
 ## Installation
 
-You can install a __prelease__ version of this module from the PowerShell Gallery. You may need to update the PowerShellGet module to allow installing prerelease modules.
+You can install this module from the PowerShell Gallery.
 
 ```powershell
-Install-Module PSFunctionInfo -AllowPrerelease
+Install-Module PSFunctionInfo -Force [-scope currentuser]
 ```
 
 The module should work on both Windows PowerShell and PowerShell 7.x, even cross-platform.
@@ -32,7 +32,7 @@ You can also get functions by tag. Use `Get-PSFunctionInfoTag` to get a list of 
 
 ![Get functions by tag](assets/get-psfunctioninfo-3.png)
 
-The PSFunctionInfo object includes a PropertySet called AuthorInfo.
+The PSFunctionInfo object includes a PropertySet called `AuthorInfo`.
 
 ```dos
 PS C:\> Get-PSFunctionInfo -Tag modules | Select-Object -property AuthorInfo
@@ -45,6 +45,12 @@ CompanyName : JDH IT Solutions, Inc.
 Copyright   : (c) JDH IT Solutions, Inc.
 Description : Test if help file is missing the online link
 LastUpdate  : 4/23/2021 9:21:00 AM
+```
+
+Or you can use the `TagInfo` property set. This gives you the same result as using the `tag` named view with `Format-Table`.,
+
+```powershell
+Get-psfunctioninfo | Select-object taginfo
 ```
 
 Finally, you can also search .ps1 files for PSFunctionInfo metadata.
@@ -112,7 +118,7 @@ There are no commands to modify or remove function metadata. It is assumed that 
 
 ### Backup
 
-Because creating a PSFunctionInfo metadata comment block modifies the file, you might feel safer with a backup. `New-PSFuntionInfo` has a `-BackupParameter` which will create a backup copy of the source file before inserting the metadata comment block. The file will be created in the same directory, appending an extension of .bak1. If there are previous backups, the number will increment, i.e. .bak2. You can manually delete the backup files.
+Because creating a PSFunctionInfo metadata comment block modifies the file, you might feel safer with a backup. `New-PSFunctionInfo` has a `-BackupParameter` which will create a backup copy of the source file before inserting the metadata comment block. The file will be created in the same directory, appending an extension of .bak1. If there are previous backups, the number will increment, i.e. .bak2. You have to manually delete the backup files.
 
 The `-Backup` parameter has no effect if you use `-Clipboard`.
 
@@ -150,9 +156,27 @@ With a loaded file, you could run `New-PSFunctionInfo` in the console specifying
 
 ![function picker](assets/ise-function-picker.png)
 
-Select a function and click OK. The metadata block will be inserted into the file. This will not work with a file that has unsaved changes. When you insert new function metadata, the file in the ISE will be closed, re-opened, and focus should jump to the function.
+Select a function and click <kbd>OK</kbd>. The metadata block will be inserted into the file. This will not work with a file that has unsaved changes. When you insert new function metadata, the file in the ISE will be closed, re-opened, and focus should jump to the function.
 
 ![ISE metadata](assets/ise-psfunctioninfo.png)
+
+### Editing Source Files
+
+The module has a command called [Edit-PSFunctionInfo](docs/Edit-PSFunctionInfo.md) which will open a source file in your preferred editor. The command has an alias of `epfi`. The default editor selection is VS Code, but you can specify the PowerShell ISE, or Notepad.
+
+You can either specify a loaded function by name:
+
+```powershell
+Edit-PSFunctionInfo Get-QOTD
+```
+
+Or pipe to it.
+
+```powershell
+Get-PSFunctionInfo Get-QOTD | Edit-PSFunctionInfo -editor ise
+```
+
+Once opened, you will need to navigate to the function and metadata section.
 
 ## Background
 
@@ -164,4 +188,4 @@ This module was first described at <https://jdhitsolutions.com/blog/powershell/8
 
 + Add function metadata by file, autodetecting the function name.
 
-Last Updated 2021-04-27 17:11:18Z
+Last Updated 2021-04-29 17:39:48Z

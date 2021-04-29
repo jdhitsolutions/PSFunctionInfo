@@ -15,6 +15,15 @@
           <Name>LastUpdate</Name>
         </ReferencedProperties>
       </PropertySet>
+            <PropertySet>
+        <Name>TagInfo</Name>
+        <ReferencedProperties>
+          <Name>Name</Name>
+          <Name>Version</Name>
+          <Name>Tags</Name>
+          <Name>Source</Name>
+        </ReferencedProperties>
+      </PropertySet>
       <PropertySet>
         <!-- This matches the defaults for Get-Command-->
         <Name>DefaultDisplayPropertySet</Name>

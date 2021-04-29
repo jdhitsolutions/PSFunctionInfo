@@ -33,7 +33,7 @@ Do not modify spacing or formatting of the function metadata.
 ### Example 1
 
 ```powershell
-PS C:\> New-PSFunctionInfo -Path c:\scripts\Test-ConsoleColors.ps1 -Description "show console color combinations" -Name Test-ConsoleColor -Author "Jeff Hicks" -CompanyName "JDH IT Solutions" -Copyright "2021 JDH IT Solutions, Inc." -Tags "scripting","console" -backp
+PS C:\> New-PSFunctionInfo -Path c:\scripts\Test-ConsoleColors.ps1 -Description "show console color combinations" -Name Test-ConsoleColor -Author "Jeff Hicks" -CompanyName "JDH IT Solutions" -Copyright "2021 JDH IT Solutions, Inc." -Tags "scripting","console" -backup
 ```
 
 Insert function metadata into the script file before the [cmdletbinding()] tag. This example will produce this comment block:
@@ -287,3 +287,5 @@ Learn more about PowerShell: http://jdhitsolutions.com/blog/essential-powershell
 ## RELATED LINKS
 
 [Get-PSFunctionInfo](Get-PSFunctionInfo.md)
+
+[Edit-PSFunctionInfo](Edit-PSFunctionInfo.md)

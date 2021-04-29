@@ -252,3 +252,5 @@ Learn more about PowerShell: http://jdhitsolutions.com/blog/essential-powershell
 [New-PSFunctionInfo](New-PSFunctionInfo.md)
 
 [Get-PSFunctionInfoTag](Get-PSFunctionInfoTag.md)
+
+[Edit-PSFunctionInfo](Edit-PSFunctionInfo.md)
