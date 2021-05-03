@@ -1,5 +1,15 @@
 # ChangeLog for PSFunctionInfo
 
+## 1.0.0
+
++ Restructured module layout.
++ Added a property set called `TagInfo`.
++ Added command `Edit-PSFunctionInfo` with an alias of `efpi`. ([Issue #7](https://github.com/jdhitsolutions/PSFunctionInfo/issues/7))
++ Added better error handling to `Get-PSFunctionInfo` where function can't be found.
++ Help updates.
++ First official release to the PowerShell Gallery.
++ Updated `README.md`.
+
 ## 0.6.0-preview
 
 + Fixed the `-Name` parameter argument completer in `Get-PSFunctionInfo`. The function parameter changed from `Name` to `FunctionName` which is why it broke. ([Issue #6](https://github.com/jdhitsolutions/PSFunctionInfo/issues/6))

@@ -1,5 +1,5 @@
 ﻿TOPIC
-    about_psfunctioninfo
+    about_PSFunctionInfo
 
 SHORT DESCRIPTION
     This module contains a set of PowerShell commands to add and manage metadata

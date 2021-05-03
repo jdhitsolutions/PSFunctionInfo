@@ -4,6 +4,8 @@
 
 ## Synopsis
 
+![documents](images/psfunctioninfo-icon.png)
+
 This module contains a set of PowerShell commands to add and manage metadata in stand-alone PowerShell functions.
 
 ## Installation
@@ -18,19 +20,19 @@ The module should work on both Windows PowerShell and PowerShell 7.x, even cross
 
 ## Description
 
-The purpose of this code is to provide a way to get versioning and other metadata information for functions that may not belong to a module. This is information you want to get after the function has been loaded into your PowerShell session. I have numerous stand-alone functions. These functions don't belong to a module, so there is no version or source information. However, I'd like to use that type of information for non-module files.
+The purpose of this code is to provide a way to get versioning and other metadata information for functions that do not belong to a module. This is information you want to get after the function has been loaded into your PowerShell session. I have numerous stand-alone functions. These functions don't belong to a module, so there is no version or source information. However, I'd like to have that type of information for non-module functions.
 
-The code in this module isn't concerned with loading, running, or finding functions. By default, [Get-PSFunctionInfo](docs/Get-PSFunctionInfo.md) queries whatever is in the `Function:` PSDrive. If the PowerShell function belongs to a module, then you'll get the module version and source. Otherwise, you can use the function metadata.
+The code in this module isn't concerned with loading, running, or finding functions. By default, [Get-PSFunctionInfo](docs/Get-PSFunctionInfo.md) queries whatever is in the `Function:` PSDrive. If the PowerShell function belongs to a module, then you'll get the module version and source. Otherwise, the command will use the function metadata.
 
-![Get a single function](assets/get-psfunctioninfo-1.png)
+![Get a single function](images/get-psfunctioninfo-1.png)
 
 The default behavior is to show all functions that __don't__ belong to a module.
 
-![Get stand-alone functions](assets/get-psfunctioninfo-2.png)
+![Get stand-alone functions](images/get-psfunctioninfo-2.png)
 
-You can also get functions by tag. Use `Get-PSFunctionInfoTag` to get a list of tags currently in use.
+You can also get currently loaded functions by tag. Use `Get-PSFunctionInfoTag` to get a list of tags currently in use.
 
-![Get functions by tag](assets/get-psfunctioninfo-3.png)
+![Get functions by tag](images/get-psfunctioninfo-3.png)
 
 The PSFunctionInfo object includes a PropertySet called `AuthorInfo`.
 
@@ -50,12 +52,12 @@ LastUpdate  : 4/23/2021 9:21:00 AM
 Or you can use the `TagInfo` property set. This gives you the same result as using the `tag` named view with `Format-Table`.,
 
 ```powershell
-Get-psfunctioninfo | Select-object taginfo
+Get-PSFunctionInfo | Select-Object taginfo
 ```
 
 Finally, you can also search .ps1 files for PSFunctionInfo metadata.
 
-![Get function info from file](assets/get-psfunctioninfo-file.png)
+![Get function info from file](images/get-psfunctioninfo-file.png)
 
 ## Creating PSFunctionInfo
 
@@ -65,7 +67,7 @@ Use the [New-PSFunctionInfo](docs/New-PSFunctionInfo.md) command to insert the m
 New-PSFunctionInfo -Path c:\scripts\Test-ConsoleColors.ps1 -Description "show console color combinations" -Name Test-ConsoleColor -Author "Jeff Hicks" -CompanyName "JDH IT Solutions" -Copyright "2021 JDH IT Solutions, Inc." -Tags "scripting","console"
 ```
 
-The default behavior is to insert the metadata tag immediately after the opening brace ({) into the file. **This command will update the file**. Or you can use the `ToClipBoard` parameter which will copy the metatadata to the clipboard and you can manually insert it into your script file that defines the function.
+The default behavior is to insert the metadata tag immediately after the opening brace (`{`) into the file. **This command will update the file**. Or you can use the `ToClipBoard` parameter which will copy the metatadata to the clipboard. You can then manually insert it into your script file that defines the function. You should avoid changing the formatting of the comment block.
 
 You should get something like this:
 
@@ -86,13 +88,13 @@ Source C:\scripts\Test-ConsoleColors.ps1
 #>
 ```
 
-This command not work with functions defined in a single line like this:
+This command **not work** with functions defined in a single line like:
 
 ```powershell
 Function Get-Foo { Get-Date }
 ```
 
-You can still run `New-PSFunctionInfo` with the `ToClipboard` parameter and manually edit your function to insert the metadata.
+However, you could run `New-PSFunctionInfo` with the `ToClipboard` parameter and manually edit your function to insert the metadata.
 
 ```powershell
 Function Get-Foo {
@@ -114,11 +116,11 @@ Source C:\scripts\FooStuff.ps1
 }
 ```
 
-There are no commands to modify or remove function metadata. It is assumed that when you update the function, you can update or remove the metadata.
+Currently, there are no commands to modify or remove function metadata. It is assumed that when you update the function, you can update or remove the metadata.
 
 ### Backup
 
-Because creating a PSFunctionInfo metadata comment block modifies the file, you might feel safer with a backup. `New-PSFunctionInfo` has a `-BackupParameter` which will create a backup copy of the source file before inserting the metadata comment block. The file will be created in the same directory, appending an extension of .bak1. If there are previous backups, the number will increment, i.e. .bak2. You have to manually delete the backup files.
+Because creating a PSFunctionInfo metadata comment block modifies the file, you might feel safer with a file backup. `New-PSFunctionInfo` has a `-BackupParameter` which will create a backup copy of the source file before inserting the metadata comment block. The file will be created in the same directory, appending an extension of .bak1. If there are previous backups, the number will increment, i.e. .bak2. You have to manually delete the backup files.
 
 The `-Backup` parameter has no effect if you use `-Clipboard`.
 
@@ -142,7 +144,7 @@ When you import the module into an editor, you will get additional features to m
 
 If you have an open file, in the integrated PowerShell console, you can run `New-PSFunctionfo` and press <kbd>TAB</kbd> to tab-complete the detected functions in the current file. The file path will automatically be detected. You can enter other values such as version, or simply press <kbd>ENTER</kbd> to insert the metadata, which you can then edit.
 
-![vscode integration](assets/psfunctioninfo-vscode.png)
+![vscode integration](images/psfunctioninfo-vscode.png)
 
 This example is taking advantage of saved defaults.
 
@@ -150,15 +152,15 @@ This example is taking advantage of saved defaults.
 
 When you import the module in the PowerShell ISE, it will add a menu shortcut.
 
-![ISE Menu](assets/ise-psfunction-menu.png)
+![ISE Menu](images/ise-psfunction-menu.png)
 
 With a loaded file, you could run `New-PSFunctionInfo` in the console specifying the function name. The Path will be auto-detected. Or use the menu shortcut which will give you a graphical "function picker"
 
-![function picker](assets/ise-function-picker.png)
+![function picker](images/ise-function-picker.png)
 
 Select a function and click <kbd>OK</kbd>. The metadata block will be inserted into the file. This will not work with a file that has unsaved changes. When you insert new function metadata, the file in the ISE will be closed, re-opened, and focus should jump to the function.
 
-![ISE metadata](assets/ise-psfunctioninfo.png)
+![ISE metadata](images/ise-psfunctioninfo.png)
 
 ### Editing Source Files
 
@@ -176,7 +178,7 @@ Or pipe to it.
 Get-PSFunctionInfo Get-QOTD | Edit-PSFunctionInfo -editor ise
 ```
 
-Once opened, you will need to navigate to the function and metadata section.
+Once opened, you will need to navigate to the appropriate function and metadata section.
 
 ## Background
 
@@ -187,5 +189,7 @@ This module was first described at <https://jdhitsolutions.com/blog/powershell/8
 ## Roadmap
 
 + Add function metadata by file, autodetecting the function name.
++ Consider a bulk editing command.
++ Consider a bulk removal command to clean PSFunctionInfo metadata from files.
 
-Last Updated 2021-04-29 17:39:48Z
+Last Updated 2021-05-03 10:10:39Z

@@ -1,6 +1,6 @@
 Function Update-PSFunctionInfoDefaults {
     [cmdletbinding(SupportsShouldProcess)]
-    Param( )
+    Param()
     Begin {
         Write-Verbose "[$((Get-Date).TimeofDay) BEGIN  ] Starting $($myinvocation.mycommand)"
         $defaults = Join-Path $home -ChildPath psfunctioninfo-defaults.json

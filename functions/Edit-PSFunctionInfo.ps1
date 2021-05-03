@@ -3,11 +3,20 @@ Function Edit-PSFunctionInfo {
     [Outputtype("None")]
     [Alias("epfi")]
     Param(
-        [Parameter(ValueFromPipeline,ValueFromPipelineByPropertyName,HelpMessage = "Specify the path to the source file.",ParameterSetName="source")]
+        [Parameter(
+            ValueFromPipeline,
+            ValueFromPipelineByPropertyName,
+            HelpMessage = "Specify the path to the source file.",
+            ParameterSetName="source"
+            )]
         [ValidateNotNullOrEmpty()]
         [string]$Source,
         [parameter(HelpMessage = "Specify the name of a loaded function.")]
-        [Parameter(Mandatory,Position=0,ParameterSetName="name")]
+        [Parameter(
+            Mandatory,
+            Position=0,
+            ParameterSetName="name"
+            )]
         [string]$Name,
         [Parameter(HelpMessage = "Specify the editor you want to use. On non-Windows systems enter the value in lower case.")]
         [ValidateSet("code","ise","notepad")]
@@ -96,7 +105,6 @@ Function Edit-PSFunctionInfo {
         else {
             Write-Warning "Failed to load function source."
         }
-
     } #process
 
     End {

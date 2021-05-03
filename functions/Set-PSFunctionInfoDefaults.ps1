@@ -13,15 +13,30 @@ Source $(Convert-Path $Path)
 Function Set-PSFunctionInfoDefaults {
     [cmdletbinding(SupportsShouldProcess)]
     Param(
-        [Parameter(ValueFromPipelineByPropertyName, HelpMessage = "Enter the default author name.")]
+        [Parameter(
+            ValueFromPipelineByPropertyName,
+            HelpMessage = "Enter the default author name."
+            )]
         [string]$Author,
-        [Parameter(ValueFromPipelineByPropertyName, HelpMessage = "Enter the default company name.")]
+        [Parameter(
+            ValueFromPipelineByPropertyName,
+            HelpMessage = "Enter the default company name."
+            )]
         [string]$CompanyName,
-        [Parameter(ValueFromPipelineByPropertyName, HelpMessage = "Enter the default copyright string")]
+        [Parameter(
+            ValueFromPipelineByPropertyName,
+            HelpMessage = "Enter the default copyright string"
+            )]
         [string]$Copyright,
-        [Parameter(ValueFromPipelineByPropertyName, HelpMessage = "Enter the default version")]
+        [Parameter(
+            ValueFromPipelineByPropertyName,
+            HelpMessage = "Enter the default version"
+            )]
         [string]$Version,
-        [Parameter(ValueFromPipelineByPropertyName, HelpMessage = "Enter the default tag(s).")]
+        [Parameter(
+            ValueFromPipelineByPropertyName,
+            HelpMessage = "Enter the default tag(s)."
+            )]
         [string[]]$Tags
     )
     Begin {

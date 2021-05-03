@@ -2,7 +2,11 @@ Function New-PSFunctionInfo {
     [cmdletbinding(SupportsShouldProcess)]
     [alias('npfi')]
     Param(
-        [Parameter(Position = 0, Mandatory, HelpMessage = "Specify the name of the function")]
+        [Parameter(
+            Position = 0,
+            Mandatory,
+            HelpMessage = "Specify the name of the function"
+            )]
         [ValidateNotNullOrEmpty()]
         [string]$Name,
         [Parameter(Mandatory, HelpMessage = "Specify the path that contains the function")]

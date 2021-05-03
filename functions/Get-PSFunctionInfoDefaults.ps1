@@ -2,7 +2,7 @@ Function Get-PSFunctionInfoDefaults {
     [cmdletbinding()]
     [outputtype("PSFunctionInfoDefault")]
 
-    Param( )
+    Param()
     Begin {
         Write-Verbose "[$((Get-Date).TimeofDay) BEGIN  ] Starting $($myinvocation.mycommand)"
         $Outfile = Join-Path $home -ChildPath psfunctioninfo-defaults.json

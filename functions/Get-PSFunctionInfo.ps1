@@ -45,9 +45,8 @@ Function Get-PSFunctionInfo {
             #get location of PSFunctionInfo
             $start = 0
 
-            #[regex]$rxName = "(\s+)?Function\s+\S+"
             #need to ignore case
-            $rxname =[System.Text.RegularExpressions.Regex]::new("(\s+)?[Ff]unction\s+\S+","IgnoreCase")
+            $rxname = [System.Text.RegularExpressions.Regex]::new("(\s+)?Function\s+\S+", "IgnoreCase")
             do {
 
                 Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] Searching $path at $start"
@@ -96,87 +95,91 @@ Function Get-PSFunctionInfo {
 
         }
         else {
-            Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] Getting function $FunctionName"
+            if (Test-Path Function:\$FunctionName) {
+                Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] Getting function $FunctionName"
+                # filter out functions with a module source and that pass the private filtering test
+                $functions = (Get-ChildItem -Path Function:\$FunctionName).where( { -Not $_.source -And (test_functionname $_.name) })
+                Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] Found $($functions.count) functions"
+                Foreach ($fun in $functions) {
+                    Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] $($fun.name)"
+                    $definition = $fun.definition -split "`n"
+                    $m = $definition | Select-String -Pattern "#(\s+)?PSFunctionInfo"
+                    if ($m.count -gt 1) {
+                        Write-Warning "Multiple matches found for PSFunctionInfo in $($fun.name). Will only process the first one."
+                    }
+                    if ($m) {
+                        #get the starting line number
+                        $i = $m[0].LineNumber
 
-            # filter out functions with a module source and that pass the private filtering test
-            $functions = (Get-ChildItem -Path Function:\$FunctionName).where( { -Not $_.source -And (test_functionname $_.name) })
-            Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] Found $($functions.count) functions"
-            Foreach ($fun in $functions) {
-                Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] $($fun.name)"
-                $definition = $fun.definition -split "`n"
-                $m = $definition | Select-String -Pattern "#(\s+)?PSFunctionInfo"
-                if ($m.count -gt 1) {
-                    Write-Warning "Multiple matches found for PSFunctionInfo in $($fun.name). Will only process the first one."
-                }
-                if ($m) {
-                    #get the starting line number
-                    $i = $m[0].LineNumber
-
-                    $meta = While ($definition[$i] -notmatch "#\>") {
-                        $raw = $definition[$i]
-                        if ($raw -match "\w+") {
-                            $raw
+                        $meta = While ($definition[$i] -notmatch "#\>") {
+                            $raw = $definition[$i]
+                            if ($raw -match "\w+") {
+                                $raw
+                            }
+                            $i++
                         }
-                        $i++
-                    }
 
-                    #Define a hashtable that will eventually become a custom object
-                    $h = @{
-                        Name        = $fun.name
-                        CommandType = $fun.CommandType
-                        Module      = $fun.Module
-                    }
-                    #parse the metadata using regular expressions
-                    Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] Parsing metadata"
-                    for ($i = 0; $i -lt $meta.count; $i++) {
-                        $groups = $rx.Match($meta[$i]).groups
-                        Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] $($groups[1].value) = $($groups[2].value)"
-                        $h.add($groups[1].value, $groups[2].value.trim())
-                    }
-                    #check for required properties
-                    if (-Not ($h.ContainsKey("Source")) ) {
-                        $h.add("Source", "")
-                    }
-                    if (-Not ($h.ContainsKey("version"))) {
-                        $h.add("Version", "")
-                    }
-                    #$h | Out-String | Write-Verbose
-                    #write the custom object to the pipeline
-                    $fi = New-Object -TypeName PSFunctionInfo -ArgumentList $h.name, $h.version
+                        #Define a hashtable that will eventually become a custom object
+                        $h = @{
+                            Name        = $fun.name
+                            CommandType = $fun.CommandType
+                            Module      = $fun.Module
+                        }
+                        #parse the metadata using regular expressions
+                        Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] Parsing metadata"
+                        for ($i = 0; $i -lt $meta.count; $i++) {
+                            $groups = $rx.Match($meta[$i]).groups
+                            Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] $($groups[1].value) = $($groups[2].value)"
+                            $h.add($groups[1].value, $groups[2].value.trim())
+                        }
+                        #check for required properties
+                        if (-Not ($h.ContainsKey("Source")) ) {
+                            $h.add("Source", "")
+                        }
+                        if (-Not ($h.ContainsKey("version"))) {
+                            $h.add("Version", "")
+                        }
+                        #$h | Out-String | Write-Verbose
+                        #write the custom object to the pipeline
+                        $fi = New-Object -TypeName PSFunctionInfo -ArgumentList $h.name, $h.version
 
-                    #update the object with hash table properties
-                    foreach ($key in $h.keys) {
-                        Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] Updating $key [$($h.$key)]"
-                        $fi.$key = $h.$key
-                    }
-                    if ($tag) {
-                        Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] Filtering for tag $tag"
-                        # write-verbose "$($fi.name) tag: $($fi.tags)"
-                        if ($fi.tags -match $tag) {
+                        #update the object with hash table properties
+                        foreach ($key in $h.keys) {
+                            Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] Updating $key [$($h.$key)]"
+                            $fi.$key = $h.$key
+                        }
+                        if ($tag) {
+                            Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] Filtering for tag $tag"
+                            # write-verbose "$($fi.name) tag: $($fi.tags)"
+                            if ($fi.tags -match $tag) {
+                                $fi
+                            }
+                        }
+                        else {
+                            $fi
+                        }
+                        #clear the variable so it doesn't get reused
+                        Remove-Variable m, h
+
+                    } #if metadata found
+                    else {
+                        #insert the custom type name and write the object to the pipeline
+                        Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] Creating a new and temporary PSFunctionInfo object."
+                        $fi = New-Object PSFunctionInfo -ArgumentList $fun.name, $fun.source
+                        $fi.version = $fun.version
+                        $fi.module = $fun.Module
+                        $fi.Commandtype = $fun.CommandType
+                        $fi.Description = $fun.Description
+
+                        #Write the object depending on the parameter set and if it belongs to a module AND has a source
+                        if (-Not $tag) {
                             $fi
                         }
                     }
-                    else {
-                        $fi
-                    }
-                    #clear the variable so it doesn't get reused
-                    Remove-Variable m, h
-
-                } #if metadata found
-                else {
-                    #insert the custom type name and write the object to the pipeline
-                    Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] Creating a new and temporary PSFunctionInfo object."
-                    $fi = New-Object PSFunctionInfo -ArgumentList $fun.name, $fun.source
-                    $fi.version = $fun.version
-                    $fi.module = $fun.Module
-                    $fi.Commandtype = $fun.CommandType
-                    $fi.Description = $fun.Description
-
-                    #Write the object depending on the parameter set and if it belongs to a module AND has a source
-                    if (-Not $tag) {
-                        $fi
-                    }
                 }
+            } #if Test-Path
+            Else {
+                Write-Warning "Can't find $Functionname as a loaded function."
             }
         } #foreach
 
