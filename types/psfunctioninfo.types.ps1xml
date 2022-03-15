@@ -15,7 +15,7 @@
           <Name>LastUpdate</Name>
         </ReferencedProperties>
       </PropertySet>
-            <PropertySet>
+      <PropertySet>
         <Name>TagInfo</Name>
         <ReferencedProperties>
           <Name>Name</Name>
@@ -24,6 +24,9 @@
           <Name>Source</Name>
         </ReferencedProperties>
       </PropertySet>
+      <MemberSet>
+      <Name>PSStandardMembers</Name>
+      <Members>
       <PropertySet>
         <!-- This matches the defaults for Get-Command-->
         <Name>DefaultDisplayPropertySet</Name>
@@ -34,6 +37,8 @@
           <Name>Module</Name>
         </ReferencedProperties>
       </PropertySet>
+      </Members>
+      </MemberSet>
       <AliasProperty>
         <Name>Path</Name>
         <ReferencedMemberName>Source</ReferencedMemberName>

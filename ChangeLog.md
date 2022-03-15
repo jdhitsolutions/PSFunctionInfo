@@ -1,5 +1,11 @@
 # ChangeLog for PSFunctionInfo
 
+## 1.1.0
+
++ Fixed DefaultDisplayPropertySet in types.ps1xml file.
++ Added online help links.
++ Updated `README`.
+
 ## 1.0.0
 
 + Restructured module layout.

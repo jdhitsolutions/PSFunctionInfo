@@ -173,6 +173,10 @@
     </command:examples>
     <command:relatedLinks>
       <maml:navigationLink>
+        <maml:linkText>Online Version:</maml:linkText>
+        <maml:uri>https://bit.ly/3w8SBFj</maml:uri>
+      </maml:navigationLink>
+      <maml:navigationLink>
         <maml:linkText>Get-PSFunctionInfo</maml:linkText>
         <maml:uri></maml:uri>
       </maml:navigationLink>
