@@ -9,31 +9,26 @@ schema: 2.0.0
 
 ## SYNOPSIS
 
-Create function metadata
+Create PowerShell function metadata.
 
 ## SYNTAX
 
 ```yaml
-New-PSFunctionInfo [-Name] <String> -Path <String> [-Author <String>]
-[-CompanyName <String>] [-Copyright <String>] [-Description <String>]
-[-Version <String>] [-Tags <String[]>] [-ToClipboard] [-Backup]
-[-WhatIf] [-Confirm] [<CommonParameters>]
+New-PSFunctionInfo [-Name] <String> -Path <String> [-Author <String>] [-CompanyName <String>]  [-Copyright <String>] [-Description <String>] [-Version <String>] [-Tags <String[]>] [-ToClipboard] [-Backup] [-NoSource] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
 
 This command will create a function metadata comment block and insert it into the source script file. Or you can copy it to the clipboard and insert it yourself. There are no commands to modify or remove the function metatdata once it has been inserted into the file. It is assumed that if you update the function, you can manually update (or remove) the metadata at the same time.
 
-NOTE: This command will not work properly with one-line function declarations like Function Get-This { Get-Date }. It is also expected that you don't have multiple versions of the function in the same file.
-
-Do not modify spacing or formatting of the function metadata.
+NOTE: This command will not work properly with one-line function declarations like Function Get-This { Get-Date }. It is also expected that you don't have multiple versions of the function in the same file. DO NOT modify spacing or formatting of the function metadata.
 
 ## EXAMPLES
 
 ### Example 1
 
 ```powershell
-PS C:\> New-PSFunctionInfo -Path c:\scripts\Test-ConsoleColors.ps1 -Description "show console color combinations" -Name Test-ConsoleColor -Author "Jeff Hicks" -CompanyName "JDH IT Solutions" -Copyright "2021 JDH IT Solutions, Inc." -Tags "scripting","console" -backup
+PS C:\> New-PSFunctionInfo -Path c:\scripts\Test-ConsoleColors.ps1 -Description "show console color combinations" -Name Test-ConsoleColor -Author "Jeff Hicks" -CompanyName "JDH IT Solutions" -Copyright "2022 JDH IT Solutions, Inc." -Tags "scripting","console" -backup
 ```
 
 Insert function metadata into the script file before the [cmdletbinding()] tag. This example will produce this comment block:
@@ -46,7 +41,7 @@ Author Jeff Hicks
 
 CompanyName JDH IT Solutions
 
-Copyright 2021 JDH IT Solutions, Inc.
+Copyright 2022 JDH IT Solutions, Inc.
 
 Description show console color combinations
 
@@ -54,7 +49,7 @@ Guid e07e256e-a2d6-4acc-a1cf-5d8d1be7db27
 
 Tags scripting,console
 
-LastUpdate 10/02/2020 10:34:18
+LastUpdate 10/02/2022 10:34:18
 
 Source C:\Scripts\Test-ConsoleColors.ps1
 
@@ -63,7 +58,7 @@ This example will also create a backup copy of the source file at c:\scripts\Tes
 ### Example 2
 
 ```powershell
-PS C:\> New-PSFunctionInfo -Path c:\scripts\Test-ConsoleColors.ps1 -Description "show console color combinations" -Name Test-ConsoleColor -Author "Jeff Hicks" -CompanyName "JDH IT Solutions" -Copyright "2021 JDH IT Solutions, Inc." -Tags "scripting","console" -toclipboard
+PS C:\> New-PSFunctionInfo -Path c:\scripts\Test-ConsoleColors.ps1 -Description "show console color combinations" -Name Test-ConsoleColor -Author "Jeff Hicks" -CompanyName "JDH IT Solutions" -Copyright "2022 JDH IT Solutions, Inc." -Tags "scripting","console" -toclipboard
 ```
 
 This will create the same metadata as the first example. Except it will be copied to the clipboard and not to the file.
@@ -113,7 +108,7 @@ Aliases: cf
 
 Required: False
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -129,7 +124,7 @@ Aliases:
 
 Required: False
 Position: Named
-Default value: the current year
+Default value: The current year
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -152,7 +147,7 @@ Accept wildcard characters: False
 
 ### -Name
 
-Specify name of the function.
+Specify the name of the function.
 
 ```yaml
 Type: String
@@ -200,8 +195,7 @@ Accept wildcard characters: False
 
 ### -ToClipboard
 
-Copy the metadata to the clipboard.
-The file is left untouched.
+Copy the metadata to the clipboard. The file is left untouched.
 
 ```yaml
 Type: SwitchParameter
@@ -210,14 +204,14 @@ Aliases: clip
 
 Required: False
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
 ### -Version
 
-Specify a version number. It is recommended to use a standard version numbering system.
+Specify a version number. It is recommended to use a semantic version numbering.
 
 ```yaml
 Type: String
@@ -233,8 +227,7 @@ Accept wildcard characters: False
 
 ### -WhatIf
 
-Shows what would happen if the cmdlet runs.
-The cmdlet is not run.
+Shows what would happen if the cmdlet runs. The cmdlet is not run.
 
 ```yaml
 Type: SwitchParameter
@@ -243,7 +236,7 @@ Aliases: wi
 
 Required: False
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -253,6 +246,22 @@ Accept wildcard characters: False
 Create a backup copy of the source file before inserting the metadata comment block. The file will be created in the same directory, appending an extension of .bak1. If there are previous backups, the number will increment, i.e. .bak2. You can manually delete the backup files.
 
 This parameter has no effect if you use -Clipboard.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -NoSource
+
+Do not insert the source file path into the metadata comment block.
 
 ```yaml
 Type: SwitchParameter

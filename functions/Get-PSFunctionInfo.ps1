@@ -19,7 +19,7 @@ Function Get-PSFunctionInfo {
             ParameterSetName = "file"
         )]
         [ValidatePattern('\.ps1$')]
-        [ValidateScript( { Test-Path $_ })]
+        [ValidateScript( { Test-Path $_ },ErrorMessage = "Cannot find the specified file." )]
         [alias("fullname")]
         [string]$Path,
         [Parameter(HelpMessage = "Specify a tag")]

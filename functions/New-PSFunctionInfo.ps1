@@ -6,12 +6,12 @@ Function New-PSFunctionInfo {
             Position = 0,
             Mandatory,
             HelpMessage = "Specify the name of the function"
-            )]
+        )]
         [ValidateNotNullOrEmpty()]
         [string]$Name,
         [Parameter(Mandatory, HelpMessage = "Specify the path that contains the function")]
         [ValidateNotNullOrEmpty()]
-        [ValidateScript( { Test-Path $_ })]
+        [ValidateScript( { Test-Path $_ }, ErrorMessage = "Cannot find the specified file.")]
         [ValidatePattern("\.ps1$")]
         [string]$Path,
         [string]$Author = [System.Environment]::UserName,
@@ -25,7 +25,9 @@ Function New-PSFunctionInfo {
         [alias("clip")]
         [switch]$ToClipboard,
         [Parameter(HelpMessage = "Create a backup copy of the source file before inserting the metadata comment block.")]
-        [switch]$Backup
+        [switch]$Backup,
+        [Parameter(HelpMessage = "Do not insert the source file path into the metadata comment block.")]
+        [switch]$NoSource
     )
     Begin {
         Write-Verbose "[$((Get-Date).TimeofDay) BEGIN  ] Starting $($myinvocation.mycommand)"
@@ -35,6 +37,13 @@ Function New-PSFunctionInfo {
 
     Process {
         Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] Creating this metadata"
+
+        if ($NoSource) {
+            $src = $null
+        }
+        else {
+            $src = $(Convert-Path $Path)
+        }
         $info = @"
 
 <# PSFunctionInfo
@@ -47,7 +56,7 @@ Description $Description
 Guid $Guid
 Tags $($Tags -join ",")
 LastUpdate $Updated
-Source $(Convert-Path $Path)
+Source $src
 
 #>
 "@
