@@ -11,7 +11,15 @@ Function New-PSFunctionInfo {
         [string]$Name,
         [Parameter(Mandatory, HelpMessage = "Specify the path that contains the function")]
         [ValidateNotNullOrEmpty()]
-        [ValidateScript( { Test-Path $_ }, ErrorMessage = "Cannot find the specified file.")]
+        [ValidateScript( {
+            if (Test-Path $_) {
+                return $True
+            }
+            else {
+                Throw "Cannot find the specified file $_."
+                return $False
+            }
+        })]
         [ValidatePattern("\.ps1$")]
         [string]$Path,
         [string]$Author = [System.Environment]::UserName,

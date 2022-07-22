@@ -29,7 +29,7 @@ Get-PSFunctionInfo [-Path <String>] [-Tag <String>] [<CommonParameters>]
 
 Get-PSFunctionIfo will display function metadata that was created using New-PSFunctionInfo. The default behavior is to search loaded functions that don't belong to a module and display the custom function metadata.
 
-As an alternative to searching items in the Function: PSDrive, you can also search .ps1 files.
+As an alternative to searching items in the Function: PSDrive, you can also search .ps1 files. If you specify the path to a script file, you will get function metadata for every defined function in the file.
 
 ## EXAMPLES
 
@@ -179,6 +179,20 @@ LastUpdate  : 4/23/2021 9:21:00 AM
 
 The PSFunctionInfo object includes a PropertySet called AuthorInfo.
 
+### Example 8
+
+```powershell
+
+PS C:\> Get-PSFunctionInfo -Path C:\work\sample.ps1
+
+Name                      Version    Alias           Source
+----                      -------    -----           ------
+Get-EventlogInfo          1.0.0
+Test-EventLog             1.0.0                      C:\work\sample.ps1
+```
+
+Get function metadate for every function in the specified file.
+
 ## PARAMETERS
 
 ### -Tag
@@ -254,3 +268,5 @@ Learn more about PowerShell: http://jdhitsolutions.com/blog/essential-powershell
 [Get-PSFunctionInfoTag](Get-PSFunctionInfoTag.md)
 
 [Edit-PSFunctionInfo](Edit-PSFunctionInfo.md)
+
+[Set-PSFunctionInfo](Set-PSFunctionInfo.md)

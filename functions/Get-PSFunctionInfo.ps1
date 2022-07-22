@@ -12,6 +12,7 @@ Function Get-PSFunctionInfo {
             ValueFromPipelineByPropertyName,
             ParameterSetName = "name"
         )]
+        [alias("Name")]
         [string]$FunctionName = "*",
         [Parameter(
             HelpMessage = "Specify a .ps1 file to search.",
@@ -19,7 +20,15 @@ Function Get-PSFunctionInfo {
             ParameterSetName = "file"
         )]
         [ValidatePattern('\.ps1$')]
-        [ValidateScript( { Test-Path $_ },ErrorMessage = "Cannot find the specified file." )]
+        [ValidateScript( {
+            if (Test-Path $_) {
+                return $True
+            }
+            else {
+                Throw "Cannot find the specified file $_."
+                return $False
+            }
+        })]
         [alias("fullname")]
         [string]$Path,
         [Parameter(HelpMessage = "Specify a tag")]
@@ -48,7 +57,6 @@ Function Get-PSFunctionInfo {
             #need to ignore case
             $rxname = [System.Text.RegularExpressions.Regex]::new("(\s+)?Function\s+\S+", "IgnoreCase")
             do {
-
                 Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] Searching $path at $start"
                 $i = $j = $file.FindIndex( $start, { $args[0] -match "#(\s+)?PSFunctionInfo" })
 

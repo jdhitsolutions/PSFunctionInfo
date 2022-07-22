@@ -39,7 +39,7 @@ The editor choices are VS Code, PowerShell ISE, or Notepad. Of course they are a
 PS C:\> Edit-PSFunctionInfo -name Set-Title -editor ise
 ```
 
-Open the source file for the Set-Title function and open in the PowerShell ISE.
+Open the source file for the Set-Title function and open in the PowerShell ISE. This assumes the Set-Title function is currently loaded into your PowerShell session.
 
 ### Example 2
 

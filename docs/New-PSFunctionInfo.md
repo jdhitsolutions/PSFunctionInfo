@@ -298,3 +298,7 @@ Learn more about PowerShell: http://jdhitsolutions.com/blog/essential-powershell
 [Get-PSFunctionInfo](Get-PSFunctionInfo.md)
 
 [Edit-PSFunctionInfo](Edit-PSFunctionInfo.md)
+
+[Remove-PSFunctionInfo](Remove-PSFunctionInfo.md)
+
+[Set-PSFunctionInfo](Set-PSFunctionInfo.md)

@@ -78,6 +78,47 @@ function backup_file {
     }
     Catch {
         #this shouldn't happen.
-       Throw "Failed to create backup copy $new. $($_.exception.message)"
+        Throw "Failed to create backup copy $new. $($_.exception.message)"
+    }
+}
+
+function _getInfoIndex {
+    [cmdletbinding()]
+    Param([System.Collections.Generic.list[string]]$File, [string]$Name)
+
+    #find index of function name
+    $idx = $file.FindIndex({ $args[0] -match "function $Name" })
+    if ($Idx -eq -1) {
+        Throw "Could not find function $name"
+    }
+    #find index of PSFunction Info
+    $OpenIdx = $file.FindIndex($idx, { $args[0] -match "PSFunctionInfo" })
+    if ($OpenIdx -eq -1) {
+        Throw "Could not find PSFunctionInfo for $name"
+    }
+    $CloseIdx = $file.FindIndex($OpenIdx, { $args[0] -eq "#>" })
+
+    #Find index of Version|Description|Lastupdate starting from the function index
+    $versionIdx = $file.findindex($openidx, { $args[0] -match '^Version\s.*$' })
+    $descriptionIdx = $file.findindex($openidx, { $args[0] -match '^Description(\s.*)?$' })
+    $lastupdateIdx = $file.findindex($openidx, { $args[0] -match '^LastUpdate\s.*$' })
+    $authorIdx = $file.findindex($openidx, { $args[0] -match '^Author(\s.*)?$' })
+    $tagsIdx = $file.findindex($openidx, { $args[0] -match '^Tags(\s.*)?$' })
+    $companyIdx = $file.findindex($openidx, { $args[0] -match '^Companyname(\s.*)?$' })
+    $copyIdx = $file.findindex($openidx, { $args[0] -match '^Copyright(\s.*)?$' })
+    $sourceIdx = $file.findindex($openidx, { $args[0] -match '^Source(\s.*)?$' })
+
+    [ordered]@{
+        Name        = $Name
+        Version     = $versionIdx
+        Author      = $authorIdx
+        CompanyName = $companyIdx
+        Copyright   = $copyIdx
+        Description = $descriptionIdx
+        Tags        = $tagsIdx
+        LastUpdate  = $lastupdateIdx
+        Source      = $sourceIdx
+        OpenIndex   = $OpenIdx
+        CloseIndex  = $CloseIdx
     }
 }

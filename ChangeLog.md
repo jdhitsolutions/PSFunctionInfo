@@ -1,10 +1,19 @@
 # ChangeLog for PSFunctionInfo
 
+## 1.2.0
+
++ Added custom error messages to `ValidateScript()` parameter attributes.
++ Added a `NoSource` parameter to `New-PSFunctionInfo` to not include the source path.
++ Added `Set-PSFunctionInfo` and its alias `spfi`.
++ Added `Remove-PSFunctionInfo` and its alias `rpfi`.
++ Help updates.
++ Updated `README.md`.
+
 ## 1.1.0
 
 + Fixed DefaultDisplayPropertySet in types.ps1xml file.
 + Added online help links.
-+ Updated `README`.
++ Updated `README.md`.
 
 ## 1.0.0
 

@@ -189,5 +189,4 @@ This module was first described at <https://jdhitsolutions.com/blog/powershell/8
 ## Roadmap
 
 + Add function metadata by file, autodetecting the function name.
-+ Consider a bulk editing command.
 + Consider a bulk removal command to clean PSFunctionInfo metadata from files.
