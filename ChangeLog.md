@@ -1,5 +1,11 @@
 # ChangeLog for PSFunctionInfo
 
+## 1.3.0
+
++ Updated missing online help links.
++ Help documentation updates.
++ Updated `README.md`.
+
 ## 1.2.0
 
 + Added custom error messages to `ValidateScript()` parameter attributes.

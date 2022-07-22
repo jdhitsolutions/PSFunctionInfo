@@ -1,7 +1,7 @@
 ---
 external help file: PSFunctionInfo-help.xml
 Module Name: PSFunctionInfo
-online version:
+online version: https://bit.ly/3Bffk55
 schema: 2.0.0
 ---
 

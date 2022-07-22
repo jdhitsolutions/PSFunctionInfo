@@ -1204,6 +1204,10 @@ Web</dev:code>
     </command:examples>
     <command:relatedLinks>
       <maml:navigationLink>
+        <maml:linkText>Online Version:</maml:linkText>
+        <maml:uri>https://bit.ly/3Bffk55</maml:uri>
+      </maml:navigationLink>
+      <maml:navigationLink>
         <maml:linkText>Set-PSFunctionInfo</maml:linkText>
         <maml:uri></maml:uri>
       </maml:navigationLink>
@@ -1536,6 +1540,10 @@ Web</dev:code>
       </command:example>
     </command:examples>
     <command:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>Online Version:</maml:linkText>
+        <maml:uri>https://bit.ly/3OBoaxi</maml:uri>
+      </maml:navigationLink>
       <maml:navigationLink>
         <maml:linkText>Get-PSFunctionInfo</maml:linkText>
         <maml:uri></maml:uri>

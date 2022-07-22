@@ -116,8 +116,6 @@ Source C:\scripts\FooStuff.ps1
 }
 ```
 
-Currently, there are no commands to modify or remove function metadata. It is assumed that when you update the function, you can update or remove the metadata.
-
 ### Backup
 
 Because creating a PSFunctionInfo metadata comment block modifies the file, you might feel safer with a file backup. `New-PSFunctionInfo` has a `-BackupParameter` which will create a backup copy of the source file before inserting the metadata comment block. The file will be created in the same directory, appending an extension of .bak1. If there are previous backups, the number will increment, i.e. .bak2. You have to manually delete the backup files.
@@ -146,7 +144,7 @@ If you have an open file, in the integrated PowerShell console, you can run `New
 
 ![vscode integration](images/psfunctioninfo-vscode.png)
 
-This example is taking advantage of saved defaults.
+This example is taking advantage of saved defaults. See [`Set-PSFunctionInfoDefaults`](docs/Set-PSFunctionInfoDefaults.md)
 
 ### PowerShell ISE
 
@@ -179,6 +177,18 @@ Get-PSFunctionInfo Get-QOTD | Edit-PSFunctionInfo -editor ise
 ```
 
 Once opened, you will need to navigate to the appropriate function and metadata section.
+
+It is assumed you will normally edit function metadata when editing the script file. But you can use [`Set-PSFunctionInfo](docs/Set-PSFunctionInfo.md) to make changes from the console.
+
+```powershell
+PS C:\> Set-PSFunctionInfo -Name Get-Eventloginfo -Path c:\work\LogTools.ps1 -Tags "profile,eventlog" -Version "1.2.1"
+```
+
+If you want to clear an existing value, set the parameter value to `$null`.
+
+```powershell
+PS C:\> Set-PSFunctionInfo -Name Get-Eventloginfo -Path c:\work\LogTools.ps1 -Source $null
+```
 
 ## Background
 
