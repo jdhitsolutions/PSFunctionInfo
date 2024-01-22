@@ -19,14 +19,18 @@ Set-PSFunctionInfo [-FunctionName] <String> -Path <String> [-Version <String>] [
 
 ## DESCRIPTION
 
-Normally, if you want to update an existing PSFunctionInfo metadata entry, you would do this while editing the file. However, you could use this command to make changes from the command prompt. If you want to remove a setting, use $Null as the parameter value. The LastUpdate value will be automaticaly updated to reflect the current date and time.
+Normally, if you want to update an existing PSFunctionInfo metadata entry, you would do this while editing the file. However, you could use this command to make changes from the command prompt. If you want to remove a setting, use $Null as the parameter value. The LastUpdate value will be automatically updated to reflect the current date and time.
+
+If you update the metadata, you won't see any changes until you manually reload the function into your PowerShell session.
+
+. (Get-PSFunctionInfo Get-EventlogInfo).Source
 
 ## EXAMPLES
 
 ### Example 1
 
 ```powershell
-PS C:\> Set-PSFunctionInfo -Name Get-Eventloginfo -Path c:\work\LogTools.ps1 -Tags "profile,eventlog" -Version "1.2.1"
+PS C:\> Set-PSFunctionInfo -Name Get-EventlogInfo -Path c:\work\LogTools.ps1 -Tags "profile,eventlog" -Version "1.2.1"
 ```
 
 Update PSFunctionInfo for the Get-EventlogInfo function in the specified file.

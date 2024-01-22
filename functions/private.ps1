@@ -1,16 +1,16 @@
 Function test_functionname {
-    [cmdletbinding()]
+    [CmdletBinding()]
     param(
         [Parameter(Position = 0, Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName)]
-        [string]$Name,
-        [switch]$Quiet
+        [String]$Name,
+        [Switch]$Quiet
     )
     begin {
         #exclude built-in Microsoft functions
         $exclude = "more", "cd..", "cd\", "ImportSystemModules", "Pause", "help", "TabExpansion2", "mkdir", "Get-Verb", "oss", "clear-host"
     }
     Process {
-        if ($exclude -notcontains $name -AND ($name -notmatch "^[A-Za-z]:")) {
+        if ($exclude -NotContains $name -AND ($name -notmatch "^[A-Za-z]:")) {
             if ($Quiet) {
                 $true
             }
@@ -27,26 +27,26 @@ Function test_functionname {
     }
 }
 
-Function new_psfunctioninfo {
-    [cmdletbinding()]
+Function new_PSFunctionInfo {
+    [CmdletBinding()]
     Param (
-        [string]$Name,
-        [string]$Version,
-        [string]$Description,
-        [string]$Author,
-        [string]$Source,
-        [string]$Module,
-        [string]$CompanyName,
-        [string]$Copyright,
+        [String]$Name,
+        [String]$Version,
+        [String]$Description,
+        [String]$Author,
+        [String]$Source,
+        [String]$Module,
+        [String]$CompanyName,
+        [String]$Copyright,
         [guid]$Guid,
         [string[]]$Tags,
-        [datetime]$LastUpdate,
-        [string]$Commandtype
+        [DateTime]$LastUpdate,
+        [String]$CommandType
     )
 
     # Write-Verbose "creating new object Using these parameters"
-    # $PSBoundParameters | Out-string | Write-Verbose
-    $obj = [psfunctioninfo]::new([string]$Name, [string]$Author, [string]$Version, [string]$Source, [string]$Description, [string]$Module, [string]$CompanyName, [string]$Copyright, [guid]$Guid, [datetime]$LastUpdate, [string]$Commandtype)
+    # $PSBoundParameters | Out-String | Write-Verbose
+    $obj = [PSFunctionInfo]::new([String]$Name, [String]$Author, [String]$Version, [String]$Source, [String]$Description, [String]$Module, [String]$CompanyName, [String]$Copyright, [guid]$Guid, [DateTime]$LastUpdate, [String]$Commandtype)
     if ($tags) {
         $obj.Tags = $Tags
     }
@@ -54,11 +54,11 @@ Function new_psfunctioninfo {
 }
 
 function backup_file {
-    [cmdletbinding(SupportsShouldProcess)]
+    [CmdletBinding(SupportsShouldProcess)]
     Param(
         [Parameter(Mandatory)]
-        [alias("fullname")]
-        [string]$Path
+        [alias("FullName")]
+        [String]$Path
     )
 
     #The path is the full file system name to the ps1 file.
@@ -72,7 +72,7 @@ function backup_file {
         $new = Join-Path -Path $Folder -child "$filename.bak$i"
     } Until (-Not (Test-Path -Path $New))
 
-    Write-Verbose "[$((Get-Date).TimeofDay) PRIVATE] Backing up $path to $new"
+    Write-Verbose "[$((Get-Date).TimeOfDay) PRIVATE] Backing up $path to $new"
     Try {
         Copy-Item -Path $path -Destination $new -ErrorAction stop
     }
@@ -83,8 +83,8 @@ function backup_file {
 }
 
 function _getInfoIndex {
-    [cmdletbinding()]
-    Param([System.Collections.Generic.list[string]]$File, [string]$Name)
+    [CmdletBinding()]
+    Param([System.Collections.Generic.list[String]]$File, [String]$Name)
 
     #find index of function name
     $idx = $file.FindIndex({ $args[0] -match "function $Name" })

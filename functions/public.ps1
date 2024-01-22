@@ -1,27 +1,27 @@
-# define an object class for the Get-PSFunctionInfo commmand
+# define an object class for the Get-PSFunctionInfo command
 
 class PSFunctionInfo {
-    [string]$Name
+    [String]$Name
     [version]$Version
-    [string]$Description
-    [string]$Author
-    [string]$Source
-    [string]$Module
-    [string]$CompanyName
-    [string]$Copyright
+    [String]$Description
+    [String]$Author
+    [String]$Source
+    [String]$Module
+    [String]$CompanyName
+    [String]$Copyright
     [guid]$Guid
     [string[]]$Tags
-    [datetime]$LastUpdate
-    [string]$Commandtype
+    [DateTime]$LastUpdate
+    [String]$CommandType
 
     #this class has no methods
 
     #constructors
-    PSFunctionInfo([string]$Name, [string]$Source) {
+    PSFunctionInfo([String]$Name, [String]$Source) {
         $this.Name = $Name
         $this.Source = $Source
     }
-    PSFunctionInfo([string]$Name, [string]$Author, [string]$Version, [string]$Source, [string]$Description, [string]$Module, [string]$CompanyName, [string]$Copyright, [guid]$Guid, [datetime]$LastUpdate, [string]$Commandtype) {
+    PSFunctionInfo([String]$Name, [String]$Author, [String]$Version, [String]$Source, [String]$Description, [String]$Module, [String]$CompanyName, [String]$Copyright, [guid]$Guid, [DateTime]$LastUpdate, [String]$Commandtype) {
         $this.Name = $Name
         $this.Author = $Author
         $this.Version = $Version
@@ -33,9 +33,7 @@ class PSFunctionInfo {
         #$this.Tags = $Tags
         $this.guid = $Guid
         $this.LastUpdate = $LastUpdate
-        $this.CommandType = $Commandtype
+        $this.CommandType = $CommandType
     }
 }
 #endregion
-
-

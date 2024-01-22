@@ -1,30 +1,30 @@
 Function Get-PSFunctionInfoDefaults {
-    [cmdletbinding()]
-    [outputtype("PSFunctionInfoDefault")]
+    [CmdletBinding()]
+    [OutputType("PSFunctionInfoDefault")]
 
     Param()
     Begin {
-        Write-Verbose "[$((Get-Date).TimeofDay) BEGIN  ] Starting $($myinvocation.mycommand)"
-        $Outfile = Join-Path $home -ChildPath psfunctioninfo-defaults.json
+        Write-Verbose "[$((Get-Date).TimeOfDay) BEGIN  ] Starting $($MyInvocation.MyCommand)"
+        $OutFile = Join-Path $home -ChildPath psfunctioninfo-defaults.json
     } #begin
 
     Process {
-        Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] Testing $outfile"
-        If (Test-Path -Path $outfile) {
-            Get-Content -Path $outfile | ConvertFrom-Json |
+        Write-Verbose "[$((Get-Date).TimeOfDay) PROCESS] Testing $OutFile"
+        If (Test-Path -Path $OutFile) {
+            Get-Content -Path $OutFile | ConvertFrom-Json |
             ForEach-Object {
-                $_.psobject.typenames.insert(0, 'PSFunctionInfoDefault')
+                $_.PSObject.TypeNames.insert(0, 'PSFunctionInfoDefault')
                 $_
             }
         }
         else {
-            Write-Warning "No default file found at $outfile. Use Set-PSFunctionInfoDefaults to create it."
+            Write-Warning "No default file found at $OutFile. Use Set-PSFunctionInfoDefaults to create it."
         }
 
     } #process
 
     End {
-        Write-Verbose "[$((Get-Date).TimeofDay) END    ] Ending $($myinvocation.mycommand)"
+        Write-Verbose "[$((Get-Date).TimeOfDay) END    ] Ending $($MyInvocation.MyCommand)"
     } #end
 
 } #close Get-PSFunctionInfoDefaults

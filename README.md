@@ -13,10 +13,16 @@ This module contains a set of PowerShell commands to add and manage metadata in 
 You can install this module from the PowerShell Gallery.
 
 ```powershell
-Install-Module PSFunctionInfo -Force [-scope currentuser]
+Install-Module PSFunctionInfo -Force [-scope CurrentUser]
 ```
 
-The module should work on both Windows PowerShell and PowerShell 7.x, even cross-platform.
+Or using `PSResourceGet`:
+
+```powershell
+Install-PSResource PSFunctionInfo  [-scope CurrentUser]
+```
+
+The module should work on both Windows PowerShell and PowerShell 7, even cross-platform, except for a few PowerShell-ISE-related commands.
 
 ## Description
 
@@ -64,10 +70,10 @@ Finally, you can also search .ps1 files for PSFunctionInfo metadata.
 Use the [New-PSFunctionInfo](docs/New-PSFunctionInfo.md) command to insert the metadata tag into your script file.
 
 ```powershell
-New-PSFunctionInfo -Path c:\scripts\Test-ConsoleColors.ps1 -Description "show console color combinations" -Name Test-ConsoleColor -Author "Jeff Hicks" -CompanyName "JDH IT Solutions" -Copyright "2022 JDH IT Solutions, Inc." -Tags "scripting","console"
+New-PSFunctionInfo -Path c:\scripts\Test-ConsoleColors.ps1 -Description "show console color combinations" -Name Test-ConsoleColor -Author "Jeff Hicks" -CompanyName "JDH IT Solutions" -Copyright "2023 JDH IT Solutions, Inc." -Tags "scripting","console"
 ```
 
-The default behavior is to insert the metadata tag immediately after the opening brace (`{`) into the file. __This command will update the file__. Or you can use the `ToClipBoard` parameter which will copy the metatadata to the clipboard. You can then manually insert it into your script file that defines the function. You should avoid changing the formatting of the comment block.
+The default behavior is to insert the metadata tag immediately after the opening brace (`{`) into the file. __This command will update the file__. Or you can use the `ToClipBoard` parameter which will copy the metadata to the clipboard. You can then manually insert it into your script file that defines the function. You should avoid changing the formatting of the comment block.
 
 You should get something like this:
 
@@ -78,17 +84,17 @@ You should get something like this:
 Version 1.0.0
 Author Jeff Hicks
 CompanyName JDH IT Solutions
-Copyright 2022 JDH IT Solutions, Inc.
+Copyright 2023 JDH IT Solutions, Inc.
 Description show console color combinations
 Guid 8e43a9d9-1df6-48c7-8595-7363087aba43
 Tags scripting,console
-LastUpdate 2/22/2022 10:43 AM
+LastUpdate 2/22/2023 10:43 AM
 Source C:\scripts\Test-ConsoleColors.ps1
 
 #>
 ```
 
-This command __not work__ with functions defined in a single line like:
+This command will __not work__ with functions defined in a single line like:
 
 ```powershell
 Function Get-Foo { Get-Date }
@@ -104,11 +110,11 @@ Function Get-Foo {
 Version 1.0.0
 Author Jeff Hicks
 CompanyName JDH IT Solutions
-Copyright 2022 JDH IT Solutions, Inc.
+Copyright 2023 JDH IT Solutions, Inc.
 Description Get Foo Stuff
 Guid 490595c6-6a0c-4572-baf4-f808c010de70
 Tags scripting,console
-LastUpdate 2/21/2022 10:41 AM
+LastUpdate 2/21/2023 10:41 AM
 Source C:\scripts\FooStuff.ps1
 
 #>
@@ -124,15 +130,25 @@ The `-Backup` parameter has no effect if you use `-Clipboard`.
 
 ## PSFunctionInfo Defaults
 
-Because you might define function metadata often, and want to maintain consistency, you can define a set of default values for `New-PSFunctionInfo`. Use the command, [Set-PSFunctionInfoDefaults](docs/Set-PSFunctionInfoDefaults):
+Because you might define function metadata often and want to maintain consistency, you can define a set of default values for `New-PSFunctionInfo`. Use the command, [Set-PSFunctionInfoDefaults](docs/Set-PSFunctionInfoDefaults):
 
 ```powershell
 Set-PSFunctionInfoDefaults -Tags "stand-alone" -Copyright "(c) JDH IT Solutions, Inc." -author "Jeff Hicks" -company "JDH IT Solutions, Inc."
 ```
 
-The defaults will be stored in a JSON file at `$home\psfunctioninfo-defaults.json`. When you import this module, these values will be used to define entries in `$PSDefaultParameterValues`. Or, run [Update-PSFunctionInfoDefaults](docs/Update-PSFunctionInfoDefaults) to update parameter defaults.
+The defaults will be stored in a JSON file (`$HOME\psfunctioninfo-defaults.json`). When you import this module, the values from this file will be used to define entries in `$PSDefaultParameterValues`. Or, run [Update-PSFunctionInfoDefaults](docs/Update-PSFunctionInfoDefaults) to update parameter defaults.
 
 You can use [Get-PSFunctionInfoDefaults](docs/Get-PSFunctionInfoDefaults.md) to see the current values.
+
+```powershell
+PS C:\> Get-PSFunctionInfoDefaults
+
+Version     : 0.9.0
+CompanyName : JDH IT Solutions, Inc.
+Author      : Jeffery Hicks
+Tags        : {stand-alone}
+Copyright   : (c) JDH IT Solutions, Inc.
+```
 
 ## Editor Integration
 
@@ -140,9 +156,9 @@ When you import the module into an editor, you will get additional features to m
 
 ### Visual Studio Code
 
-If you have an open file, in the integrated PowerShell console, you can run `New-PSFunctionfo` and press <kbd>TAB</kbd> to tab-complete the detected functions in the current file. The file path will automatically be detected. You can enter other values such as version, or simply press <kbd>ENTER</kbd> to insert the metadata, which you can then edit.
+If you have an open file, in the integrated PowerShell console, you can run `New-PSFunctionInfo` and press <kbd>TAB</kbd> to tab-complete the detected functions in the current file. The file path will automatically be detected. You can enter other values such as version, or simply press <kbd>ENTER</kbd> to insert the metadata, which you can then edit.
 
-![vscode integration](images/psfunctioninfo-vscode.png)
+![VSCode integration](images/psfunctioninfo-vscode.png)
 
 This example is taking advantage of saved defaults. See [`Set-PSFunctionInfoDefaults`](docs/Set-PSFunctionInfoDefaults.md)
 
@@ -156,13 +172,13 @@ With a loaded file, you could run `New-PSFunctionInfo` in the console specifying
 
 ![function picker](images/ise-function-picker.png)
 
-Select a function and click <kbd>OK</kbd>. The metadata block will be inserted into the file. This will not work with a file that has unsaved changes. When you insert new function metadata, the file in the ISE will be closed, re-opened, and focus should jump to the function.
+Select a function and click <kbd>OK</kbd>. The metadata block will be inserted into the file. This will not work with a file that has unsaved changes. When you insert new function metadata, the file in the ISE will be closed, re-opened and focus should jump to the function.
 
 ![ISE metadata](images/ise-psfunctioninfo.png)
 
 ### Editing Source Files
 
-The module has a command called [Edit-PSFunctionInfo](docs/Edit-PSFunctionInfo.md) which will open a source file in your preferred editor. The command has an alias of `epfi`. The default editor selection is VS Code, but you can specify the PowerShell ISE, or Notepad.
+The module has a command called [Edit-PSFunctionInfo](docs/Edit-PSFunctionInfo.md) which will open a source file in your preferred editor. The command has an alias of `epfi`. The default editor selection is VS Code, but you can specify the PowerShell ISE or Notepad.
 
 You can either specify a loaded function by name:
 
@@ -181,13 +197,13 @@ Once opened, you will need to navigate to the appropriate function and metadata 
 It is assumed you will normally edit function metadata when editing the script file. But you can use [`Set-PSFunctionInfo](docs/Set-PSFunctionInfo.md) to make changes from the console.
 
 ```powershell
-PS C:\> Set-PSFunctionInfo -Name Get-Eventloginfo -Path c:\work\LogTools.ps1 -Tags "profile,eventlog" -Version "1.2.1"
+PS C:\> Set-PSFunctionInfo -Name Get-EventlogInfo -Path c:\work\LogTools.ps1 -Tags "profile,eventlog" -Version "1.2.1"
 ```
 
 If you want to clear an existing value, set the parameter value to `$null`.
 
 ```powershell
-PS C:\> Set-PSFunctionInfo -Name Get-Eventloginfo -Path c:\work\LogTools.ps1 -Source $null
+PS C:\> Set-PSFunctionInfo -Name Get-EventlogInfo -Path c:\work\LogTools.ps1 -Source $null
 ```
 
 ## Background
@@ -198,5 +214,5 @@ This module was first described at <https://jdhitsolutions.com/blog/powershell/8
 
 ## Roadmap
 
-+ Add function metadata by file, autodetecting the function name.
++ Add function metadata by file, auto-detecting the function name.
 + Consider a bulk removal command to clean PSFunctionInfo metadata from files.

@@ -1,7 +1,7 @@
 #get function info from non-module functions
 Function Get-PSFunctionInfo {
-    [cmdletbinding(DefaultParameterSetName = "name")]
-    [outputtype("PSFunctionInfo")]
+    [CmdletBinding(DefaultParameterSetName = "name")]
+    [OutputType("PSFunctionInfo")]
     [alias("gpfi")]
 
     Param(
@@ -13,7 +13,7 @@ Function Get-PSFunctionInfo {
             ParameterSetName = "name"
         )]
         [alias("Name")]
-        [string]$FunctionName = "*",
+        [String]$FunctionName = "*",
         [Parameter(
             HelpMessage = "Specify a .ps1 file to search.",
             ValueFromPipelineByPropertyName,
@@ -29,24 +29,24 @@ Function Get-PSFunctionInfo {
                 return $False
             }
         })]
-        [alias("fullname")]
-        [string]$Path,
+        [alias("FullName")]
+        [String]$Path,
         [Parameter(HelpMessage = "Specify a tag")]
-        [string]$Tag
+        [String]$Tag
     )
     Begin {
-        Write-Verbose "[$((Get-Date).TimeofDay) BEGIN  ] Starting $($myinvocation.mycommand)"
+        Write-Verbose "[$((Get-Date).TimeOfDay) BEGIN  ] Starting $($MyInvocation.MyCommand)"
 
         #a regex pattern that will be used to parse the metadata from the function definition
         [regex]$rx = "(?<property>\w+)\s+(?<value>.*)"
     } #begin
 
     Process {
-        Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] Using parameter set $($pscmdlet.ParameterSetName)"
+        Write-Verbose "[$((Get-Date).TimeOfDay) PROCESS] Using parameter set $($PSCmdlet.ParameterSetName)"
 
-        if ($pscmdlet.ParameterSetName -eq 'file') {
+        if ($PSCmdlet.ParameterSetName -eq 'file') {
 
-            $file = [System.Collections.Generic.list[string]]::New()
+            $file = [System.Collections.Generic.list[String]]::New()
             Get-Content -Path $path | ForEach-Object {
                 $file.add($_)
             }
@@ -55,21 +55,21 @@ Function Get-PSFunctionInfo {
             $start = 0
 
             #need to ignore case
-            $rxname = [System.Text.RegularExpressions.Regex]::new("(\s+)?Function\s+\S+", "IgnoreCase")
+            $rxName = [System.Text.RegularExpressions.Regex]::new("(\s+)?Function\s+\S+", "IgnoreCase")
             do {
-                Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] Searching $path at $start"
+                Write-Verbose "[$((Get-Date).TimeOfDay) PROCESS] Searching $path at $start"
                 $i = $j = $file.FindIndex( $start, { $args[0] -match "#(\s+)?PSFunctionInfo" })
 
                 if ($i -gt 0) {
 
-                    Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] Metadata found at index $i"
+                    Write-Verbose "[$((Get-Date).TimeOfDay) PROCESS] Metadata found at index $i"
                     do {
                         $funName = $rxName.Match($file[$i]).value.trim()
                         $i--
                     } until ($i -lt 0 -OR $funName)
 
                     $name = $funName.split()[1]
-                    Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] Found function $Name"
+                    Write-Verbose "[$((Get-Date).TimeOfDay) PROCESS] Found function $Name"
                     $h = @{Name = $name }
 
                     do {
@@ -82,11 +82,12 @@ Function Get-PSFunctionInfo {
                         }
                     } Until ($j -gt $file.count -OR $line -match "#>")
 
-                    #$h | out-string | write-verbose
+                    #$h | Out-String | Write-Verbose
                     Try {
+                        #calling an internal function
                         $out = new_psfunctioninfo @h -ErrorAction Stop
                         $out.CommandType = "function"
-                        Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] Filtering for tag $tag"
+                        Write-Verbose "[$((Get-Date).TimeOfDay) PROCESS] Filtering for tag $tag"
                         if ($PSBoundParameters.ContainsKey("Tag") -AND ($out.Tags -match $Tag)) {
                             $out
                         }
@@ -104,12 +105,12 @@ Function Get-PSFunctionInfo {
         }
         else {
             if (Test-Path Function:\$FunctionName) {
-                Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] Getting function $FunctionName"
+                Write-Verbose "[$((Get-Date).TimeOfDay) PROCESS] Getting function $FunctionName"
                 # filter out functions with a module source and that pass the private filtering test
-                $functions = (Get-ChildItem -Path Function:\$FunctionName).where( { -Not $_.source -And (test_functionname $_.name) })
-                Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] Found $($functions.count) functions"
+                $functions = (Get-ChildItem -Path Function:\$FunctionName).where( { -Not $_.source -And (test_functionname $_.name) }) | Sort-Object -property Name
+                Write-Verbose "[$((Get-Date).TimeOfDay) PROCESS] Found $($functions.count) functions"
                 Foreach ($fun in $functions) {
-                    Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] $($fun.name)"
+                    Write-Verbose "[$((Get-Date).TimeOfDay) PROCESS] $($fun.name)"
                     $definition = $fun.definition -split "`n"
                     $m = $definition | Select-String -Pattern "#(\s+)?PSFunctionInfo"
                     if ($m.count -gt 1) {
@@ -134,10 +135,10 @@ Function Get-PSFunctionInfo {
                             Module      = $fun.Module
                         }
                         #parse the metadata using regular expressions
-                        Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] Parsing metadata"
+                        Write-Verbose "[$((Get-Date).TimeOfDay) PROCESS] Parsing metadata"
                         for ($i = 0; $i -lt $meta.count; $i++) {
                             $groups = $rx.Match($meta[$i]).groups
-                            Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] $($groups[1].value) = $($groups[2].value)"
+                            Write-Verbose "[$((Get-Date).TimeOfDay) PROCESS] $($groups[1].value) = $($groups[2].value)"
                             $h.add($groups[1].value, $groups[2].value.trim())
                         }
                         #check for required properties
@@ -153,12 +154,12 @@ Function Get-PSFunctionInfo {
 
                         #update the object with hash table properties
                         foreach ($key in $h.keys) {
-                            Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] Updating $key [$($h.$key)]"
+                            Write-Verbose "[$((Get-Date).TimeOfDay) PROCESS] Updating $key [$($h.$key)]"
                             $fi.$key = $h.$key
                         }
                         if ($tag) {
-                            Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] Filtering for tag $tag"
-                            # write-verbose "$($fi.name) tag: $($fi.tags)"
+                            Write-Verbose "[$((Get-Date).TimeOfDay) PROCESS] Filtering for tag $tag"
+                            # Write-Verbose "$($fi.name) tag: $($fi.tags)"
                             if ($fi.tags -match $tag) {
                                 $fi
                             }
@@ -172,11 +173,11 @@ Function Get-PSFunctionInfo {
                     } #if metadata found
                     else {
                         #insert the custom type name and write the object to the pipeline
-                        Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] Creating a new and temporary PSFunctionInfo object."
+                        Write-Verbose "[$((Get-Date).TimeOfDay) PROCESS] Creating a new and temporary PSFunctionInfo object."
                         $fi = New-Object PSFunctionInfo -ArgumentList $fun.name, $fun.source
                         $fi.version = $fun.version
                         $fi.module = $fun.Module
-                        $fi.Commandtype = $fun.CommandType
+                        $fi.CommandType = $fun.CommandType
                         $fi.Description = $fun.Description
 
                         #Write the object depending on the parameter set and if it belongs to a module AND has a source
@@ -187,14 +188,14 @@ Function Get-PSFunctionInfo {
                 }
             } #if Test-Path
             Else {
-                Write-Warning "Can't find $Functionname as a loaded function."
+                Write-Warning "Can't find $FunctionName as a loaded function."
             }
         } #foreach
 
     } #process
 
     End {
-        Write-Verbose "[$((Get-Date).TimeofDay) END    ] Ending $($myinvocation.mycommand)"
+        Write-Verbose "[$((Get-Date).TimeOfDay) END    ] Ending $($MyInvocation.MyCommand)"
     } #end
 
 } #close Get-PSFunctionInfo

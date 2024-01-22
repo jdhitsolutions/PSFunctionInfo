@@ -1,7 +1,5 @@
-
-
 Function Set-PSFunctionInfo {
-    [cmdletbinding(SupportsShouldProcess)]
+    [CmdletBinding(SupportsShouldProcess)]
     [alias("spfi")]
 
     Param(
@@ -14,7 +12,8 @@ Function Set-PSFunctionInfo {
         )]
         [Alias("Name")]
         [ValidateNotNullOrEmpty()]
-        [string]$FunctionName,
+        [String]$FunctionName,
+
         [Parameter(
             Mandatory,
             HelpMessage = "Specify  the .ps1 file that contains the function.",
@@ -30,36 +29,37 @@ Function Set-PSFunctionInfo {
                     return $False
                 }
             })]
-        [alias("fullname")]
-        [string]$Path,
+        [alias("FullName")]
+        [String]$Path,
+
         [Parameter(HelpMessage = "Specify the new version.")]
-        [string]$Version,
+        [String]$Version,
         [Parameter(HelpMessage = "Specify the new author.")]
-        [string]$Author,
+        [String]$Author,
         [Parameter(HelpMessage = "Specify the new company information.")]
-        [string]$CompanyName,
+        [String]$CompanyName,
         [Parameter(HelpMessage = "Specify the new copyright information.")]
-        [string]$Copyright,
+        [String]$Copyright,
         [Parameter(HelpMessage = "Specify the new description.")]
-        [string]$Description,
+        [String]$Description,
         [Parameter(HelpMessage = "Specify the new tags as a comma-separated string. This will replace existing tags.")]
-        [string]$Tags,
+        [String]$Tags,
         [Parameter(HelpMessage = "Specify the new Source.")]
-        [string]$Source
-    )
+        [String]$Source
+        )
     Begin {
-        Write-Verbose "[$((Get-Date).TimeofDay) BEGIN  ] Starting $($myinvocation.mycommand)"
+        Write-Verbose "[$((Get-Date).TimeOfDay) BEGIN  ] Starting $($MyInvocation.MyCommand)"
         $Changes = "Version", "Author", "CompanyName", "Copyright", "Description", "Tags", "Source"
     } #begin
 
     Process {
-        Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] Loading function $FunctionName from $Path "
+        Write-Verbose "[$((Get-Date).TimeOfDay) PROCESS] Loading function $FunctionName from $Path "
 
-        $file = [System.Collections.Generic.list[string]]::New()
-        Get-Content -Path $path | ForEach-Object {
+        $file = [System.Collections.Generic.list[String]]::New()
+        Get-Content -Path $Path | ForEach-Object {
             $file.add($_)
         }
-        Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] Getting PSFunctionInfo indices"
+        Write-Verbose "[$((Get-Date).TimeOfDay) PROCESS] Getting PSFunctionInfo indices"
 
         Try {
             $index = _getInfoIndex -File $file -Name $FunctionName -ErrorAction Stop
@@ -88,20 +88,21 @@ Function Set-PSFunctionInfo {
             #process changes
             foreach ($item in $changes) {
                 if ($PSBoundParameters.ContainsKey($item)) {
-                    Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] Setting $item to $($PSBoundParameters[$item])"
+                    Write-Verbose "[$((Get-Date).TimeOfDay) PROCESS] Setting $item to $($PSBoundParameters[$item])"
                     $file[$index.$item] = "$item $($PSBoundParameters[$item])"
                 }
             } #write the new data to the file
 
-            #update Lastupdate
+            #update LastUpdate
             $file[$index.LastUpdate] = "LastUpdate $(Get-Date -Format g)"
-            Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] Updating $path"
+            Write-Verbose "[$((Get-Date).TimeOfDay) PROCESS] Updating $Path"
             $file | Set-Content -Path $Path
         }
+
     } #process
 
     End {
-        Write-Verbose "[$((Get-Date).TimeofDay) END    ] Ending $($myinvocation.mycommand)"
+        Write-Verbose "[$((Get-Date).TimeOfDay) END    ] Ending $($MyInvocation.MyCommand)"
     } #end
 
 } #close Set-PSFunctionInfo

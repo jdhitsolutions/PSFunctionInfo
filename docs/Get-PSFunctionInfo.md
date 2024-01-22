@@ -38,18 +38,18 @@ As an alternative to searching items in the Function: PSDrive, you can also sear
 ```powershell
 PS C:\> Get-PSFunctionInfo
 
-Name                      Version    Alias           Source
-----                      -------    -----           ------
+Name                      Version    Alias      Source
+----                      -------    -----      ------
 prompt
-Get-QOTD                  2.0.0      qotd            C:\scripts\Get-QOTD.ps1
-Get-Status                2.1.0      gst             C:\scripts\getstat.ps1
-Get-StatusString          1.1.0      gss             C:\scripts\getstat.ps1
-Convert-Expression        1.0.0      spoof           C:\scripts\Convert-Expression.ps1
-Add-BackupEntry           1.3.0      abe             C:\scripts\PSBackup\Add-BackupEntry.ps1
-Get-MyBackupFile          1.0.0      gbf             C:\scripts\PSBackup\Get-MyBackupFile.ps1
+Get-QOTD                  2.0.0      qotd       C:\scripts\Get-QOTD.ps1
+Get-Status                2.1.0      gst        C:\scripts\getstat.ps1
+Get-StatusString          1.1.0      gss        C:\scripts\getstat.ps1
+Convert-Expression        1.0.0      spoof      C:\scripts\Convert-Expression...
+Add-BackupEntry           1.3.0      abe        C:\scripts\PSBackup\Add-Backu...
+Get-MyBackupFile          1.0.0      gbf        C:\scripts\PSBackup\Get-MyBac...
 ConvertTo-ASCIIArt                   cart
-Test-IsAdministrator      1.0.0                      C:\Scripts\JDH-Functions.ps1
-Open-VSCode               2.0.0      code            C:\Scripts\JDH-Functions.ps1
+Test-IsAdministrator      1.0.0                 C:\Scripts\JDH-Functions.ps1
+Open-VSCode               2.0.0      code       C:\Scripts\JDH-Functions.ps1
 ...
 ```
 
@@ -114,10 +114,10 @@ Use the custom table view called Source.
 ```powershell
 PS C:\> Get-PSFunctionInfo -Tag cim
 
-Name                      Version    Alias           Source
-----                      -------    -----           ------
-Get-Status                2.1.0      gst             C:\scripts\getstat.ps1
-Get-StatusString          1.1.0      gss             C:\scripts\getstat.ps1
+Name                      Version    Alias      Source
+----                      -------    -----      ------
+Get-Status                2.1.0      gst        C:\scripts\getstat.ps1
+Get-StatusString          1.1.0      gss        C:\scripts\getstat.ps1
 ```
 
 Get functions by tag.
@@ -150,13 +150,13 @@ Get all properties for a single function.
 ```powershell
 PS C:\> dir C:\scripts\*.ps1 | Get-PSFunctionInfo
 
-Name                      Version    Alias           Source
-----                      -------    -----           ------
-Add-BackupEntry           1.0.0      abe             C:\scripts\Add-BackupEntry.ps1
-Get-MyFunctions           1.0.0                      C:\Scripts\archived-Functions.ps1
-Convert-Expression        1.0.0      spoof           :\scripts\Convert-Expression.ps1
-Get-LastPassItem          1.0.0      glp             C:\Scripts\Get-LastPassItem.ps1
-Get-QOTD                  2.0.0      qotd            C:\scripts\Get-QOTD.ps1
+Name                      Version    Alias      Source
+----                      -------    -----      ------
+Add-BackupEntry           1.0.0      abe        C:\scripts\Add-BackupEntry.ps1
+Get-MyFunctions           1.0.0                 C:\Scripts\archived-Functions...
+Convert-Expression        1.0.0      spoof      C:\scripts\Convert-Expression...
+Get-LastPassItem          1.0.0      glp        C:\Scripts\Get-LastPassItem.ps1
+Get-QOTD                  2.0.0      qotd       C:\scripts\Get-QOTD.ps1
 ...
 ```
 
@@ -185,13 +185,13 @@ The PSFunctionInfo object includes a PropertySet called AuthorInfo.
 
 PS C:\> Get-PSFunctionInfo -Path C:\work\sample.ps1
 
-Name                      Version    Alias           Source
-----                      -------    -----           ------
+Name                      Version    Alias      Source
+----                      -------    -----      ------
 Get-EventlogInfo          1.0.0
-Test-EventLog             1.0.0                      C:\work\sample.ps1
+Test-EventLog             1.0.0                 C:\work\sample.ps1
 ```
 
-Get function metadate for every function in the specified file.
+Get function metadata for every function in the specified file.
 
 ## PARAMETERS
 
@@ -234,7 +234,7 @@ Specify a .ps1 file to search. The command will not be able to determine if the 
 ```yaml
 Type: String
 Parameter Sets: file
-Aliases: fullname
+Aliases: FullName
 
 Required: False
 Position: Named

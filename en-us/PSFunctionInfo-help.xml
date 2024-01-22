@@ -241,7 +241,7 @@
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="fullname">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="FullName">
           <maml:name>Path</maml:name>
           <maml:description>
             <maml:para>Specify a .ps1 file to search. The command will not be able to determine if the function definition in the file has been commented out.</maml:para>
@@ -280,7 +280,7 @@
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="fullname">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="FullName">
         <maml:name>Path</maml:name>
         <maml:description>
           <maml:para>Specify a .ps1 file to search. The command will not be able to determine if the function definition in the file has been commented out.</maml:para>
@@ -324,18 +324,18 @@
         <maml:title>-------------------------- Example 1 --------------------------</maml:title>
         <dev:code>PS C:\&gt; Get-PSFunctionInfo
 
-Name                      Version    Alias           Source
-----                      -------    -----           ------
+Name                      Version    Alias      Source
+----                      -------    -----      ------
 prompt
-Get-QOTD                  2.0.0      qotd            C:\scripts\Get-QOTD.ps1
-Get-Status                2.1.0      gst             C:\scripts\getstat.ps1
-Get-StatusString          1.1.0      gss             C:\scripts\getstat.ps1
-Convert-Expression        1.0.0      spoof           C:\scripts\Convert-Expression.ps1
-Add-BackupEntry           1.3.0      abe             C:\scripts\PSBackup\Add-BackupEntry.ps1
-Get-MyBackupFile          1.0.0      gbf             C:\scripts\PSBackup\Get-MyBackupFile.ps1
+Get-QOTD                  2.0.0      qotd       C:\scripts\Get-QOTD.ps1
+Get-Status                2.1.0      gst        C:\scripts\getstat.ps1
+Get-StatusString          1.1.0      gss        C:\scripts\getstat.ps1
+Convert-Expression        1.0.0      spoof      C:\scripts\Convert-Expression...
+Add-BackupEntry           1.3.0      abe        C:\scripts\PSBackup\Add-Backu...
+Get-MyBackupFile          1.0.0      gbf        C:\scripts\PSBackup\Get-MyBac...
 ConvertTo-ASCIIArt                   cart
-Test-IsAdministrator      1.0.0                      C:\Scripts\JDH-Functions.ps1
-Open-VSCode               2.0.0      code            C:\Scripts\JDH-Functions.ps1
+Test-IsAdministrator      1.0.0                 C:\Scripts\JDH-Functions.ps1
+Open-VSCode               2.0.0      code       C:\Scripts\JDH-Functions.ps1
 ...</dev:code>
         <dev:remarks>
           <maml:para></maml:para>
@@ -399,10 +399,10 @@ Get-LastBoot              1.0.0      Get the last boot up time
         <maml:title>-------------------------- Example 4 --------------------------</maml:title>
         <dev:code>PS C:\&gt; Get-PSFunctionInfo -Tag cim
 
-Name                      Version    Alias           Source
-----                      -------    -----           ------
-Get-Status                2.1.0      gst             C:\scripts\getstat.ps1
-Get-StatusString          1.1.0      gss             C:\scripts\getstat.ps1</dev:code>
+Name                      Version    Alias      Source
+----                      -------    -----      ------
+Get-Status                2.1.0      gst        C:\scripts\getstat.ps1
+Get-StatusString          1.1.0      gss        C:\scripts\getstat.ps1</dev:code>
         <dev:remarks>
           <maml:para>Get functions by tag.</maml:para>
         </dev:remarks>
@@ -433,13 +433,13 @@ Commandtype : Function</dev:code>
         <maml:title>-------------------------- Example 6 --------------------------</maml:title>
         <dev:code>PS C:\&gt; dir C:\scripts\*.ps1 | Get-PSFunctionInfo
 
-Name                      Version    Alias           Source
-----                      -------    -----           ------
-Add-BackupEntry           1.0.0      abe             C:\scripts\Add-BackupEntry.ps1
-Get-MyFunctions           1.0.0                      C:\Scripts\archived-Functions.ps1
-Convert-Expression        1.0.0      spoof           :\scripts\Convert-Expression.ps1
-Get-LastPassItem          1.0.0      glp             C:\Scripts\Get-LastPassItem.ps1
-Get-QOTD                  2.0.0      qotd            C:\scripts\Get-QOTD.ps1
+Name                      Version    Alias      Source
+----                      -------    -----      ------
+Add-BackupEntry           1.0.0      abe        C:\scripts\Add-BackupEntry.ps1
+Get-MyFunctions           1.0.0                 C:\Scripts\archived-Functions...
+Convert-Expression        1.0.0      spoof      C:\scripts\Convert-Expression...
+Get-LastPassItem          1.0.0      glp        C:\Scripts\Get-LastPassItem.ps1
+Get-QOTD                  2.0.0      qotd       C:\scripts\Get-QOTD.ps1
 ...</dev:code>
         <dev:remarks>
           <maml:para>Search script files for function metadata.</maml:para>
@@ -465,12 +465,12 @@ LastUpdate  : 4/23/2021 9:21:00 AM</dev:code>
         <maml:title>-------------------------- Example 8 --------------------------</maml:title>
         <dev:code>PS C:\&gt; Get-PSFunctionInfo -Path C:\work\sample.ps1
 
-Name                      Version    Alias           Source
-----                      -------    -----           ------
+Name                      Version    Alias      Source
+----                      -------    -----      ------
 Get-EventlogInfo          1.0.0
-Test-EventLog             1.0.0                      C:\work\sample.ps1</dev:code>
+Test-EventLog             1.0.0                 C:\work\sample.ps1</dev:code>
         <dev:remarks>
-          <maml:para>Get function metadate for every function in the specified file.</maml:para>
+          <maml:para>Get function metadata for every function in the specified file.</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -1019,7 +1019,7 @@ Web</dev:code>
       </command:example>
       <command:example>
         <maml:title>-------------------------- Example 2 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; New-PSFunctionInfo -Path c:\scripts\Test-ConsoleColors.ps1 -Description "show console color combinations" -Name Test-ConsoleColor -Author "Jeff Hicks" -CompanyName "JDH IT Solutions" -Copyright "2022 JDH IT Solutions, Inc." -Tags "scripting","console" -toclipboard</dev:code>
+        <dev:code>PS C:\&gt; New-PSFunctionInfo -Path c:\scripts\Test-ConsoleColors.ps1 -Description "show console color combinations" -Name Test-ConsoleColor -Author "Jeff Hicks" -CompanyName "JDH IT Solutions" -Copyright "2024 JDH IT Solutions, Inc." -Tags "scripting","console" -ToClipboard</dev:code>
         <dev:remarks>
           <maml:para>This will create the same metadata as the first example. Except it will be copied to the clipboard and not to the file.</maml:para>
         </dev:remarks>
@@ -1054,7 +1054,7 @@ Web</dev:code>
       <command:verb>Remove</command:verb>
       <command:noun>PSFunctionInfo</command:noun>
       <maml:description>
-        <maml:para>Remove PSFunctoinInfo metatdata.</maml:para>
+        <maml:para>Remove PSFunctionInfo metadata.</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
@@ -1086,7 +1086,7 @@ Web</dev:code>
           </dev:type>
           <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="fullname, source">
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="FullName, Source">
           <maml:name>Path</maml:name>
           <maml:description>
             <maml:para>Specify the source .ps1 file for the function.</maml:para>
@@ -1136,7 +1136,7 @@ Web</dev:code>
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="fullname, source">
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="FullName, Source">
         <maml:name>Path</maml:name>
         <maml:description>
           <maml:para>Specify the source .ps1 file for the function.</maml:para>
@@ -1227,7 +1227,9 @@ Web</dev:code>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>Normally, if you want to update an existing PSFunctionInfo metadata entry, you would do this while editing the file. However, you could use this command to make changes from the command prompt. If you want to remove a setting, use $Null as the parameter value. The LastUpdate value will be automaticaly updated to reflect the current date and time.</maml:para>
+      <maml:para>Normally, if you want to update an existing PSFunctionInfo metadata entry, you would do this while editing the file. However, you could use this command to make changes from the command prompt. If you want to remove a setting, use $Null as the parameter value. The LastUpdate value will be automatically updated to reflect the current date and time.</maml:para>
+      <maml:para>If you update the metadata, you won't see any changes until you manually reload the function into your PowerShell session.</maml:para>
+      <maml:para>. (Get-PSFunctionInfo Get-EventlogInfo).Source</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -1526,7 +1528,7 @@ Web</dev:code>
     <command:examples>
       <command:example>
         <maml:title>-------------------------- Example 1 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; Set-PSFunctionInfo -Name Get-Eventloginfo -Path c:\work\LogTools.ps1 -Tags "profile,eventlog" -Version "1.2.1"</dev:code>
+        <dev:code>PS C:\&gt; Set-PSFunctionInfo -Name Get-EventlogInfo -Path c:\work\LogTools.ps1 -Tags "profile,eventlog" -Version "1.2.1"</dev:code>
         <dev:remarks>
           <maml:para>Update PSFunctionInfo for the Get-EventlogInfo function in the specified file.</maml:para>
         </dev:remarks>
@@ -1569,6 +1571,7 @@ Web</dev:code>
     </command:details>
     <maml:description>
       <maml:para>Because you might define function metadata often, and want to maintain consistency, you can define a set of default values for New-PSFunctionInfo.  Set-PSFunctionInfoDefaults will create a JSON file at $home\psfunctioninfo-defaults.json. When you import this module, these values will be used to define entries in $PSDefaultParameterValues. Or, run Update-PSFunctionInfoDefaults to update parameter defaults.</maml:para>
+      <maml:para>If you run the command without specifying any parameters, you will get a warning and no file will be created.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>

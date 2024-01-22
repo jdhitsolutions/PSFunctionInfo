@@ -1,8 +1,8 @@
 
 
 Function Remove-PSFunctionInfo {
-    [cmdletbinding(SupportsShouldProcess)]
-    [outputtype("None")]
+    [CmdletBinding(SupportsShouldProcess)]
+    [OutputType("None")]
     [alias("rpfi")]
     Param(
         [Parameter(
@@ -12,7 +12,7 @@ Function Remove-PSFunctionInfo {
             ValueFromPipelineByPropertyName
         )]
         [alias("Name")]
-        [string]$FunctionName,
+        [String]$FunctionName,
         [Parameter(
             Mandatory,
             HelpMessage = "Specify the source .ps1 file for the function.",
@@ -28,20 +28,20 @@ Function Remove-PSFunctionInfo {
                 return $False
             }
         })]
-        [alias("fullname","source")]
-        [string]$Path
+        [alias("FullName","source")]
+        [String]$Path
     )
     Begin {
-        Write-Verbose "[$((Get-Date).TimeofDay) BEGIN  ] Starting $($myinvocation.mycommand)"
+        Write-Verbose "[$((Get-Date).TimeOfDay) BEGIN  ] Starting $($MyInvocation.MyCommand)"
     } #begin
 
     Process {
-        Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] Loading file $path"
-        $file = [System.Collections.Generic.list[string]]::New()
+        Write-Verbose "[$((Get-Date).TimeOfDay) PROCESS] Loading file $path"
+        $file = [System.Collections.Generic.list[String]]::New()
         Get-Content -Path $path | ForEach-Object {
             $file.add($_)
         }
-        Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] Getting PSFunctionInfo indices for $FunctionName"
+        Write-Verbose "[$((Get-Date).TimeOfDay) PROCESS] Getting PSFunctionInfo indices for $FunctionName"
 
         Try {
             $index = _getInfoIndex -File $file -Name $FunctionName -ErrorAction Stop
@@ -67,15 +67,15 @@ Function Remove-PSFunctionInfo {
 
         if ($index) {
             $index | Out-String | Write-Verbose
-            Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] Removing lines $($index.OpenIndex) to $($index.CloseIndex)"
+            Write-Verbose "[$((Get-Date).TimeOfDay) PROCESS] Removing lines $($index.OpenIndex) to $($index.CloseIndex)"
             $file.RemoveRange($index.OpenIndex,($index.CloseIndex-$index.OpenIndex+1))
-            Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] Updating $path"
+            Write-Verbose "[$((Get-Date).TimeOfDay) PROCESS] Updating $path"
             $file | Set-Content -Path $Path
         }
     } #process
 
     End {
-        Write-Verbose "[$((Get-Date).TimeofDay) END    ] Ending $($myinvocation.mycommand)"
+        Write-Verbose "[$((Get-Date).TimeOfDay) END    ] Ending $($MyInvocation.MyCommand)"
 
     } #end
 

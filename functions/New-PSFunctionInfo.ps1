@@ -1,5 +1,5 @@
 Function New-PSFunctionInfo {
-    [cmdletbinding(SupportsShouldProcess)]
+    [CmdletBinding(SupportsShouldProcess)]
     [alias('npfi')]
     Param(
         [Parameter(
@@ -8,7 +8,7 @@ Function New-PSFunctionInfo {
             HelpMessage = "Specify the name of the function"
         )]
         [ValidateNotNullOrEmpty()]
-        [string]$Name,
+        [String]$Name,
         [Parameter(Mandatory, HelpMessage = "Specify the path that contains the function")]
         [ValidateNotNullOrEmpty()]
         [ValidateScript( {
@@ -21,30 +21,30 @@ Function New-PSFunctionInfo {
             }
         })]
         [ValidatePattern("\.ps1$")]
-        [string]$Path,
-        [string]$Author = [System.Environment]::UserName,
-        [string]$CompanyName,
-        [string]$Copyright = (Get-Date).Year,
-        [string]$Description,
+        [String]$Path,
+        [String]$Author = [System.Environment]::UserName,
+        [String]$CompanyName,
+        [String]$Copyright = (Get-Date).Year,
+        [String]$Description,
         [ValidateNotNullOrEmpty()]
-        [string]$Version = "1.0.0",
+        [String]$Version = "1.0.0",
         [string[]]$Tags,
         [Parameter(HelpMessage = "Copy the metadata to the clipboard. The file is left untouched.")]
         [alias("clip")]
-        [switch]$ToClipboard,
+        [Switch]$ToClipboard,
         [Parameter(HelpMessage = "Create a backup copy of the source file before inserting the metadata comment block.")]
-        [switch]$Backup,
+        [Switch]$Backup,
         [Parameter(HelpMessage = "Do not insert the source file path into the metadata comment block.")]
-        [switch]$NoSource
+        [Switch]$NoSource
     )
     Begin {
-        Write-Verbose "[$((Get-Date).TimeofDay) BEGIN  ] Starting $($myinvocation.mycommand)"
+        Write-Verbose "[$((Get-Date).TimeOfDay) BEGIN  ] Starting $($MyInvocation.MyCommand)"
         [guid]$Guid = $(([guid]::NewGuid()).guid)
-        [string]$updated = Get-Date -Format g
+        [String]$updated = Get-Date -Format g
     } #begin
 
     Process {
-        Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] Creating this metadata"
+        Write-Verbose "[$((Get-Date).TimeOfDay) PROCESS] Creating this metadata"
 
         if ($NoSource) {
             $src = $null
@@ -71,15 +71,15 @@ Source $src
 
         Write-Verbose $info
         if ($ToClipboard) {
-            Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] Copying the metadata to clipboard"
-            if ($pscmdlet.shouldprocess("function metadata", "Copy to clipboard")) {
+            Write-Verbose "[$((Get-Date).TimeOfDay) PROCESS] Copying the metadata to clipboard"
+            if ($PSCmdlet.ShouldProcess("function metadata", "Copy to clipboard")) {
                 Set-Clipboard -Value $info
             }
         }
         else {
             #backup file if requested
             if ($Backup) {
-                Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] Backing up the source file $Path."
+                Write-Verbose "[$((Get-Date).TimeOfDay) PROCESS] Backing up the source file $Path."
                 Try {
                     backup_file -path $path
                 }
@@ -88,15 +88,15 @@ Source $src
                 }
             }
             #get the contents of the script file
-            Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] Getting the file contents from $Path"
+            Write-Verbose "[$((Get-Date).TimeOfDay) PROCESS] Getting the file contents from $Path"
 
-            $file = [System.Collections.Generic.list[string]]::New()
+            $file = [System.Collections.Generic.list[String]]::New()
             Get-Content -Path $path | ForEach-Object {
                 $file.add($_)
             }
 
             #find the function line
-            Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] Searching for Function $Name"
+            Write-Verbose "[$((Get-Date).TimeOfDay) PROCESS] Searching for Function $Name"
             $find = $file | Select-String -Pattern "^(\s+)?(F|f)unction $name(\s+|\{)?"
             if ($find.count -gt 1) {
                 Write-Warning "Detected multiple matches for Function $name in $Path. Unable to insert metadata."
@@ -106,7 +106,7 @@ Source $src
             elseif ($find.count -eq 1) {
                 #$index = $file.findIndex( { $args[0] -match "^(\s+)?Function $name(\s+|\{)" })
                 #the index for the file list will be 1 less than the pattern match
-                $index = $find.Linenumber - 1
+                $index = $find.LineNumber - 1
             }
             else {
                 Write-Warning "Failed to find a function called $Name in $path."
@@ -114,16 +114,16 @@ Source $src
             }
 
             #find the opening { for the function
-            Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] Getting the position of the opening {"
+            Write-Verbose "[$((Get-Date).TimeOfDay) PROCESS] Getting the position of the opening {"
             $i = $index
             do {
-                Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] Testing index $i"
+                Write-Verbose "[$((Get-Date).TimeOfDay) PROCESS] Testing index $i"
                 if ($file[$i] -match "\{") {
-                    Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] Found opening { at $i"
+                    Write-Verbose "[$((Get-Date).TimeOfDay) PROCESS] Found opening { at $i"
                     $found = $True
                 }
                 else {
-                    Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] incrementing index"
+                    Write-Verbose "[$((Get-Date).TimeOfDay) PROCESS] incrementing index"
                     $i++
                 }
             } until ($found -OR $i -gt $file.count)
@@ -139,11 +139,11 @@ Source $src
             }
             else {
                 # insert after the opening {
-                Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] Inserting metadata at position $($i+1)"
+                Write-Verbose "[$((Get-Date).TimeOfDay) PROCESS] Inserting metadata at position $($i+1)"
                 $file.Insert(($i + 1), $info)
 
                 #write the new data to the file
-                Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] Updating $path"
+                Write-Verbose "[$((Get-Date).TimeOfDay) PROCESS] Updating $path"
                 $file | Set-Content -Path $Path
             }
 
@@ -151,7 +151,7 @@ Source $src
     } #process
 
     End {
-        Write-Verbose "[$((Get-Date).TimeofDay) END    ] Ending $($myinvocation.mycommand)"
+        Write-Verbose "[$((Get-Date).TimeOfDay) END    ] Ending $($MyInvocation.MyCommand)"
     } #end
 
 } #close New-PSFunctionInfo

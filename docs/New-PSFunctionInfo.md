@@ -58,7 +58,7 @@ This example will also create a backup copy of the source file at c:\scripts\Tes
 ### Example 2
 
 ```powershell
-PS C:\> New-PSFunctionInfo -Path c:\scripts\Test-ConsoleColors.ps1 -Description "show console color combinations" -Name Test-ConsoleColor -Author "Jeff Hicks" -CompanyName "JDH IT Solutions" -Copyright "2022 JDH IT Solutions, Inc." -Tags "scripting","console" -toclipboard
+PS C:\> New-PSFunctionInfo -Path c:\scripts\Test-ConsoleColors.ps1 -Description "show console color combinations" -Name Test-ConsoleColor -Author "Jeff Hicks" -CompanyName "JDH IT Solutions" -Copyright "2024 JDH IT Solutions, Inc." -Tags "scripting","console" -ToClipboard
 ```
 
 This will create the same metadata as the first example. Except it will be copied to the clipboard and not to the file.

@@ -19,10 +19,19 @@ The default behavior is to show all functions that __don't__ belong to a module.
 Use the `New-PSFunctionInfo` command to insert the metadata tag into your script file.
 
 ```powershell
-New-PSFunctionInfo -Path c:\scripts\Test-ConsoleColors.ps1 -Description "show console color combinations" -Name Test-ConsoleColor -Author "Jeff Hicks" -CompanyName "JDH IT Solutions" -Copyright "2021 JDH IT Solutions, Inc." -Tags "scripting","console"
+    $params = @{
+        Name = 'Test-ConsoleColor'
+        Path = 'c:\scripts\Test-ConsoleColors.ps1'
+        Description = 'show console color combinations'
+        Author = 'Jeff Hicks'
+        CompanyName = 'JDH IT Solutions'
+        Copyright = '2023 JDH IT Solutions, Inc.'
+        Tags  = @('scripting','console')
+    }
+    New-PSFunctionInfo @params
 ```
 
-The default behavior is to insert the metadata tag immediately after the opening brace ({) into the file. **This command will update the file**. Or you can use the `ToClipBoard` parameter which will copy the metatadata to the clipboard and you can manually insert it into your script file that defines the function.
+The default behavior is to insert the metadata tag immediately after the opening brace ({) into the file. **This command will update the file**. Or you can use the `ToClipBoard` parameter which will copy the metadata to the clipboard and you can manually insert it into your script file that defines the function.
 
 You should get something like this:
 
@@ -33,17 +42,17 @@ You should get something like this:
 Version 1.0.0
 Author Jeff Hicks
 CompanyName JDH IT Solutions
-Copyright 2021 JDH IT Solutions, Inc.
+Copyright 2023 JDH IT Solutions, Inc.
 Description show console color combinations
 Guid 8e43a9d9-1df6-48c7-8595-7363087aba43
 Tags scripting,console
-LastUpdate 4/21/2021 10:43 AM
+LastUpdate 4/21/2023 10:43 AM
 Source C:\scripts\Test-ConsoleColors.ps1
 
 #>
 ```
 
-This command not work with functions defined in a single line like this:
+This command will not work with functions defined in a single line like this:
 
 ```powershell
 Function Get-Foo { Get-Date }
@@ -59,11 +68,11 @@ Function Get-Foo {
 Version 1.0.0
 Author Jeff Hicks
 CompanyName JDH IT Solutions
-Copyright 2021 JDH IT Solutions, Inc.
+Copyright 2023 JDH IT Solutions, Inc.
 Description Get Foo Stuff
 Guid 490595c6-6a0c-4572-baf4-f808c010de70
 Tags scripting,console
-LastUpdate 4/21/2021 10:4f AM
+LastUpdate 4/21/2023 10:4f AM
 Source C:\scripts\FooStuff.ps1
 
 #>
@@ -75,10 +84,16 @@ There are no commands to modify or remove function metadata. It is assumed that 
 
 ## PSFunctionInfo Defaults
 
-Because you might define function metadata often, and want to maintain consistency, you can define a set of default values for `New-PSFunctionInfo`. Use the command, `Set-PSFunctionInfoDefaults`:
+Because you might define function metadata often and want to maintain consistency, you can define a set of default values for `New-PSFunctionInfo`. Use the command, `Set-PSFunctionInfoDefaults`:
 
 ```powershell
-Set-PSFunctionInfoDefaults -Tags "stand-alone" -Copyright "(c) JDH IT Solutions, Inc." -author "Jeff Hicks" -company "JDH IT Solutions, Inc."
+    $params = @{
+        Tags = @('stand-alone')
+        Author = 'Jeff Hicks'
+        CompanyName = 'JDH IT Solutions, Inc.'
+        Copyright = '(c) JDH IT Solutions, Inc.'
+    }
+    Set-PSFunctionInfoDefaults @params
 ```
 
 The defaults will be stored in a JSON file at `$home\psfunctioninfo-defaults.json`. When you import this module, these values will be used to define entries in `$PSDefaultParameterValues`. Or, run `Update-PSFunctionInfoDefaults` to update parameter defaults.
@@ -91,7 +106,7 @@ When you import the module into an editor, you will get additional features to m
 
 ### Visual Studio Code
 
-If you have an open file, in the integrated PowerShell console, you can run `New-PSFunctionfo` and press TAB to tab-complete the detected functions in the current file. The file path will automatically be detected. You can enter other values such as version, or simply press ENTER to insert the metadata, which you can then edit.
+If you have an open file, in the integrated PowerShell console, you can run `New-PSFunctionInfo` and press TAB to tab-complete the detected functions in the current file. The file path will automatically be detected. You can enter other values such as version, or simply press ENTER to insert the metadata, which you can then edit.
 
 ### PowerShell ISE
 
@@ -99,7 +114,7 @@ When you import the module in the PowerShell ISE, it will add a menu shortcut.
 
 With a loaded file, you could run `New-PSFunctionInfo` in the console specifying the function name. The Path will be auto-detected. Or use the menu shortcut which will give you a graphical "function picker"
 
-Select a function and click OK. The metadata block will be inserted into the file. This will not work with a file that has unsaved changes. When you insert new function metadata, the file in the ISE will be closed, re-opened, and focus should jump to the function.
+Select a function and click OK. The metadata block will be inserted into the file. This will not work with a file that has unsaved changes. When you insert new function metadata, the file in the ISE will be closed, re-opened and focus should jump to the function.
 
 # TROUBLESHOOTING NOTE
 

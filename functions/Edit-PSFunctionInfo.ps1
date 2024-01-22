@@ -1,6 +1,6 @@
 Function Edit-PSFunctionInfo {
-    [cmdletbinding(DefaultParameterSetName="name")]
-    [Outputtype("None")]
+    [CmdletBinding(DefaultParameterSetName="name")]
+    [OutputType("None")]
     [Alias("epfi")]
     Param(
         [Parameter(
@@ -10,20 +10,20 @@ Function Edit-PSFunctionInfo {
             ParameterSetName="source"
             )]
         [ValidateNotNullOrEmpty()]
-        [string]$Source,
+        [String]$Source,
         [parameter(HelpMessage = "Specify the name of a loaded function.")]
         [Parameter(
             Mandatory,
             Position=0,
             ParameterSetName="name"
             )]
-        [string]$Name,
+        [String]$Name,
         [Parameter(HelpMessage = "Specify the editor you want to use. On non-Windows systems enter the value in lower case.")]
         [ValidateSet("code","ise","notepad")]
-        [string]$Editor = "code"
+        [String]$Editor = "code"
     )
     Begin {
-        Write-Verbose "[$((Get-Date).TimeofDay) BEGIN  ] Starting $($myinvocation.mycommand)"
+        Write-Verbose "[$((Get-Date).TimeOfDay) BEGIN  ] Starting $($MyInvocation.MyCommand)"
 
         Switch ($Editor) {
             "code" {
@@ -31,11 +31,11 @@ Function Edit-PSFunctionInfo {
                 Try {
                     #need to allow for VSCode cross-platform
                     if ($IsCoreCLR -AND (-Not $IsWindows)) {
-                        Write-Verbose "[$((Get-Date).TimeofDay) BEGIN  ] Testing for VS Code on non-Windows platforms"
+                        Write-Verbose "[$((Get-Date).TimeOfDay) BEGIN  ] Testing for VS Code on non-Windows platforms"
                         $cmd = (Get-Command -Name code -ErrorAction stop).name
                     }
                     else {
-                        Write-Verbose "[$((Get-Date).TimeofDay) BEGIN  ] Testing for VS Code on Windows platforms"
+                        Write-Verbose "[$((Get-Date).TimeOfDay) BEGIN  ] Testing for VS Code on Windows platforms"
                         $cmd =(Get-Command -Name code.cmd -ErrorAction stop).name
                     }
                     $editorOK = $True
@@ -54,15 +54,15 @@ Function Edit-PSFunctionInfo {
             "ise" {
                 $EditorName = "PowerShell ISE"
                 Try {
-                    Write-Verbose "[$((Get-Date).TimeofDay) BEGIN  ] Testing for the PowerShell ISE"
-                    [void](Get-Command -Name powershell_ise.exe -ErrorAction stop)
+                    Write-Verbose "[$((Get-Date).TimeOfDay) BEGIN  ] Testing for the PowerShell ISE"
+                    [void](Get-Command -Name PowerShell_ise.exe -ErrorAction stop)
                     $editorOK = $True
                     if ($host.name -eq "Windows PowerShell ISE Host") {
                         #use the internal psedit command
                         $sb = [scriptblock]::Create('Param($path) psedit $path')
                     }
                     else {
-                        $sb = [scriptblock]::Create('Param($path) powershell_ise.exe $path')
+                        $sb = [scriptblock]::Create('Param($path) PowerShell_ise.exe $path')
                     }
                 }
                 Catch {
@@ -72,7 +72,7 @@ Function Edit-PSFunctionInfo {
             "notepad" {
                 $EditorName = "Notepad"
                 Try {
-                    Write-Verbose "[$((Get-Date).TimeofDay) BEGIN  ] Testing for Notepad."
+                    Write-Verbose "[$((Get-Date).TimeOfDay) BEGIN  ] Testing for Notepad."
                     [void](Get-Command -Name "notepad.exe" -ErrorAction stop)
                     $editorOK = $True
                     $sb = [scriptblock]::Create('Param($path) notepad.exe $path')
@@ -90,7 +90,7 @@ Function Edit-PSFunctionInfo {
     Process {
         if ($Name) {
             Try {
-                $f = Get-PSFunctionInfo -functionname $Name -ErrorAction Stop
+                $f = Get-PSFunctionInfo -FunctionName $Name -ErrorAction Stop
                 $source = $f.source
             }
             Catch {
@@ -99,7 +99,7 @@ Function Edit-PSFunctionInfo {
         }
 
         If ((Test-Path -path $source) -AND $editorOK) {
-            Write-Verbose "[$((Get-Date).TimeofDay) PROCESS] Opening $Source in $EditorName"
+            Write-Verbose "[$((Get-Date).TimeOfDay) PROCESS] Opening $Source in $EditorName"
             Invoke-Command -ScriptBlock $sb  -ArgumentList $source
         }
         else {
@@ -108,7 +108,7 @@ Function Edit-PSFunctionInfo {
     } #process
 
     End {
-        Write-Verbose "[$((Get-Date).TimeofDay) END    ] Ending $($myinvocation.mycommand)"
+        Write-Verbose "[$((Get-Date).TimeOfDay) END    ] Ending $($MyInvocation.MyCommand)"
     } #end
 
 } #close Edit-PSFunctionInfo

@@ -22,6 +22,8 @@ Set-PSFunctionInfoDefaults [[-Author] <String>] [[-CompanyName] <String>]
 
 Because you might define function metadata often, and want to maintain consistency, you can define a set of default values for New-PSFunctionInfo.  Set-PSFunctionInfoDefaults will create a JSON file at $home\psfunctioninfo-defaults.json. When you import this module, these values will be used to define entries in $PSDefaultParameterValues. Or, run Update-PSFunctionInfoDefaults to update parameter defaults.
 
+If you run the command without specifying any parameters, you will get a warning and no file will be created.
+
 ## EXAMPLES
 
 ### Example 1

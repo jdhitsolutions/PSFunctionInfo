@@ -9,7 +9,7 @@ schema: 2.0.0
 
 ## SYNOPSIS
 
-Remove PSFunctoinInfo metatdata.
+Remove PSFunctionInfo metadata.
 
 ## SYNTAX
 
@@ -80,7 +80,7 @@ Specify the source .ps1 file for the function.
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases: fullname, source
+Aliases: FullName, Source
 
 Required: True
 Position: Named
