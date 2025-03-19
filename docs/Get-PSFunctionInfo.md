@@ -1,7 +1,7 @@
 ---
 external help file: PSFunctionInfo-help.xml
 Module Name: PSFunctionInfo
-online version: https://bit.ly/3dFmdRb
+online version: https://jdhitsolutions.com/yourls/1f9f84
 schema: 2.0.0
 ---
 
@@ -125,7 +125,7 @@ Get functions by tag.
 ### Example 5
 
 ```powershell
-PS C:\> get-psfunctioninfo Get-qotd | Select-Object *
+PS C:\> Get-PSFunctionInfo Get-qotd | Select-Object *
 
 Name        : Get-QOTD
 Version     : 2.0.0
@@ -174,7 +174,7 @@ Source      : C:\scripts\update-helplinks.ps1
 CompanyName : JDH IT Solutions, Inc.
 Copyright   : (c) JDH IT Solutions, Inc.
 Description : Test if help file is missing the online link
-LastUpdate  : 4/23/2021 9:21:00 AM
+LastUpdate  : 4/23/2023 9:21:00 AM
 ```
 
 The PSFunctionInfo object includes a PropertySet called AuthorInfo.
@@ -259,7 +259,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 This function has an alias of gpfi. The PSFunctionInfo object has additional named table views of source and tags.
 
-Learn more about PowerShell: http://jdhitsolutions.com/blog/essential-powershell-resources/
+Learn more about PowerShell: https://jdhitsolutions.com/yourls/newsletter
 
 ## RELATED LINKS
 

@@ -11,7 +11,7 @@ if (Test-Path -path $defaults) {
     }
 }
 
-#Add VSCode Shortcuts
+#region Add VSCode Shortcuts
 if ($host.name -eq 'Visual Studio Code Host') {
     $global:PSDefaultParameterValues["New-PSFunctionInfo:Path"] = {$PSEditor.GetEditorContext().CurrentFile.Path}
 
@@ -40,7 +40,6 @@ elseif ($host.name -eq 'Windows PowerShell ISE Host') {
 
     #add a menu item
     $sb = {
-
         Function PickList {
             # A WPF function picker for the PowerShell ISE
             Param([string[]]$Name)
@@ -159,8 +158,9 @@ elseif ($host.name -eq 'Windows PowerShell ISE Host') {
 
     $PSIse.CurrentPowerShellTab.AddOnsMenu.Submenus.add("New-PSFunctionInfo", $sb, $Null)
 }
+#endregion
 
-#create an argument completer
+#region create argument completers
 Register-ArgumentCompleter -CommandName Get-PSFunctionInfo -ParameterName FunctionName -ScriptBlock {
     param($commandName, $parameterName, $WordToComplete, $commandAst, $fakeBoundParameter)
 
@@ -180,3 +180,12 @@ Register-ArgumentCompleter -CommandName Get-PSFunctionInfo -ParameterName Tag -S
             [System.Management.Automation.CompletionResult]::new($_, $_, 'ParameterValue', $_)
         }
 }
+#endregion
+
+#region type extensions
+
+Update-TypeData -TypeName PSFunctionInfo -MemberType ScriptProperty -MemberName Age -Value {
+    New-TimeSpan -Start $this.LastUpdate -end (Get-Date)
+} -Force
+
+#endregion

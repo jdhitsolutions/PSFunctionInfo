@@ -1,7 +1,7 @@
 ---
 external help file: PSFunctionInfo-help.xml
 Module Name: PSFunctionInfo
-online version: https://bit.ly/3Bffk55
+online version: https://jdhitsolutions.com/yourls/b91632
 schema: 2.0.0
 ---
 
@@ -120,7 +120,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## NOTES
 
-Learn more about PowerShell: http://jdhitsolutions.com/blog/essential-powershell-resources/
+Learn more about PowerShell: https://jdhitsolutions.com/yourls/newsletter
 
 ## RELATED LINKS
 

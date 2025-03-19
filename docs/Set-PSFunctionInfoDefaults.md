@@ -1,7 +1,7 @@
 ---
 external help file: PSFunctionInfo-help.xml
 Module Name: PSFunctionInfo
-online version: https://bit.ly/2QgCu6g
+online version: https://jdhitsolutions.com/yourls/82077e
 schema: 2.0.0
 ---
 
@@ -20,7 +20,7 @@ Set-PSFunctionInfoDefaults [[-Author] <String>] [[-CompanyName] <String>]
 
 ## DESCRIPTION
 
-Because you might define function metadata often, and want to maintain consistency, you can define a set of default values for New-PSFunctionInfo.  Set-PSFunctionInfoDefaults will create a JSON file at $home\psfunctioninfo-defaults.json. When you import this module, these values will be used to define entries in $PSDefaultParameterValues. Or, run Update-PSFunctionInfoDefaults to update parameter defaults.
+Because you might define function metadata often, and want to maintain consistency, you can define a set of default values for New-PSFunctionInfo. Set-PSFunctionInfoDefaults will create a JSON file at $home\psfunctioninfo-defaults.json. When you import this module, these values will be used to define entries in $PSDefaultParameterValues. Or, run Update-PSFunctionInfoDefaults to update parameter defaults.
 
 If you run the command without specifying any parameters, you will get a warning and no file will be created.
 
@@ -163,7 +163,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## NOTES
 
-Learn more about PowerShell: http://jdhitsolutions.com/blog/essential-powershell-resources/
+Learn more about PowerShell: https://jdhitsolutions.com/yourls/newsletter
 
 ## RELATED LINKS
 

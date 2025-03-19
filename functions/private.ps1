@@ -1,4 +1,4 @@
-Function test_functionname {
+Function test_functionName {
     [CmdletBinding()]
     param(
         [Parameter(Position = 0, Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName)]
@@ -7,10 +7,12 @@ Function test_functionname {
     )
     begin {
         #exclude built-in Microsoft functions
-        $exclude = "more", "cd..", "cd\", "ImportSystemModules", "Pause", "help", "TabExpansion2", "mkdir", "Get-Verb", "oss", "clear-host"
+        $exclude = "more", "cd..", "cd\", "cd~","ImportSystemModules", "Pause", "help", "TabExpansion2", "mkdir", "Get-Verb", "oss", "Clear-Host"
     }
     Process {
-        if ($exclude -NotContains $name -AND ($name -notmatch "^[A-Za-z]:")) {
+        #"^[A-Za-z]:"
+        #19 March 2025 filter out any functions that end in a colon
+        if ($exclude -NotContains $name -AND ($name -notmatch "^.*:$")) {
             if ($Quiet) {
                 $true
             }
@@ -92,21 +94,21 @@ function _getInfoIndex {
         Throw "Could not find function $name"
     }
     #find index of PSFunction Info
-    $OpenIdx = $file.FindIndex($idx, { $args[0] -match "PSFunctionInfo" })
-    if ($OpenIdx -eq -1) {
+    $openIdx = $file.FindIndex($idx, { $args[0] -match "PSFunctionInfo" })
+    if ($openIdx -eq -1) {
         Throw "Could not find PSFunctionInfo for $name"
     }
-    $CloseIdx = $file.FindIndex($OpenIdx, { $args[0] -eq "#>" })
+    $CloseIdx = $file.FindIndex($openIdx, { $args[0] -eq "#>" })
 
-    #Find index of Version|Description|Lastupdate starting from the function index
-    $versionIdx = $file.findindex($openidx, { $args[0] -match '^Version\s.*$' })
-    $descriptionIdx = $file.findindex($openidx, { $args[0] -match '^Description(\s.*)?$' })
-    $lastupdateIdx = $file.findindex($openidx, { $args[0] -match '^LastUpdate\s.*$' })
-    $authorIdx = $file.findindex($openidx, { $args[0] -match '^Author(\s.*)?$' })
-    $tagsIdx = $file.findindex($openidx, { $args[0] -match '^Tags(\s.*)?$' })
-    $companyIdx = $file.findindex($openidx, { $args[0] -match '^Companyname(\s.*)?$' })
-    $copyIdx = $file.findindex($openidx, { $args[0] -match '^Copyright(\s.*)?$' })
-    $sourceIdx = $file.findindex($openidx, { $args[0] -match '^Source(\s.*)?$' })
+    #Find index of Version|Description|LastUpdate starting from the function index
+    $versionIdx = $file.FindIndex($openIdx, { $args[0] -match '^Version\s.*$' })
+    $descriptionIdx = $file.FindIndex($openIdx, { $args[0] -match '^Description(\s.*)?$' })
+    $lastUpdateIdx = $file.FindIndex($openIdx, { $args[0] -match '^LastUpdate\s.*$' })
+    $authorIdx = $file.FindIndex($openIdx, { $args[0] -match '^Author(\s.*)?$' })
+    $tagsIdx = $file.FindIndex($openIdx, { $args[0] -match '^Tags(\s.*)?$' })
+    $companyIdx = $file.FindIndex($openIdx, { $args[0] -match '^CompanyName(\s.*)?$' })
+    $copyIdx = $file.FindIndex($openIdx, { $args[0] -match '^Copyright(\s.*)?$' })
+    $sourceIdx = $file.FindIndex($openIdx, { $args[0] -match '^Source(\s.*)?$' })
 
     [ordered]@{
         Name        = $Name
@@ -116,9 +118,9 @@ function _getInfoIndex {
         Copyright   = $copyIdx
         Description = $descriptionIdx
         Tags        = $tagsIdx
-        LastUpdate  = $lastupdateIdx
+        LastUpdate  = $lastUpdateIdx
         Source      = $sourceIdx
-        OpenIndex   = $OpenIdx
+        OpenIndex   = $openIdx
         CloseIndex  = $CloseIdx
     }
 }

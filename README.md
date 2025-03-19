@@ -22,7 +22,7 @@ Or using `PSResourceGet`:
 Install-PSResource PSFunctionInfo  [-scope CurrentUser]
 ```
 
-The module should work on both Windows PowerShell and PowerShell 7, even cross-platform, except for a few PowerShell-ISE-related commands.
+The module should work on both Windows PowerShell and PowerShell 7, even cross-platform, except for a few PowerShell ISE related commands.
 
 ## Description
 
@@ -32,7 +32,7 @@ The code in this module isn't concerned with loading, running, or finding functi
 
 ![Get a single function](images/get-psfunctioninfo-1.png)
 
-The default behavior is to show all functions that __don't__ belong to a module.
+The default behavior is to show all functions that __don't__ belong to a module and excluding a few common functions that PowerShell defines.
 
 ![Get stand-alone functions](images/get-psfunctioninfo-2.png)
 
@@ -45,14 +45,13 @@ The PSFunctionInfo object includes a PropertySet called `AuthorInfo`.
 ```dos
 PS C:\> Get-PSFunctionInfo -Tag modules | Select-Object -property AuthorInfo
 
-
 Name        : Test-HelpLink
 Version     : 0.9.0
 Source      : C:\scripts\update-helplinks.ps1
 CompanyName : JDH IT Solutions, Inc.
 Copyright   : (c) JDH IT Solutions, Inc.
 Description : Test if help file is missing the online link
-LastUpdate  : 4/23/2021 9:21:00 AM
+LastUpdate  : 4/23/2024 9:21:00 AM
 ```
 
 Or you can use the `TagInfo` property set. This gives you the same result as using the `tag` named view with `Format-Table`.,
@@ -70,7 +69,7 @@ Finally, you can also search .ps1 files for PSFunctionInfo metadata.
 Use the [New-PSFunctionInfo](docs/New-PSFunctionInfo.md) command to insert the metadata tag into your script file.
 
 ```powershell
-New-PSFunctionInfo -Path c:\scripts\Test-ConsoleColors.ps1 -Description "show console color combinations" -Name Test-ConsoleColor -Author "Jeff Hicks" -CompanyName "JDH IT Solutions" -Copyright "2023 JDH IT Solutions, Inc." -Tags "scripting","console"
+New-PSFunctionInfo -Path c:\scripts\Test-ConsoleColors.ps1 -Description "show console color combinations" -Name Test-ConsoleColor -Author "Jeff Hicks" -CompanyName "JDH IT Solutions" -Copyright "2024 JDH IT Solutions, Inc." -Tags "scripting","console"
 ```
 
 The default behavior is to insert the metadata tag immediately after the opening brace (`{`) into the file. __This command will update the file__. Or you can use the `ToClipBoard` parameter which will copy the metadata to the clipboard. You can then manually insert it into your script file that defines the function. You should avoid changing the formatting of the comment block.
@@ -84,11 +83,11 @@ You should get something like this:
 Version 1.0.0
 Author Jeff Hicks
 CompanyName JDH IT Solutions
-Copyright 2023 JDH IT Solutions, Inc.
+Copyright 2024 JDH IT Solutions, Inc.
 Description show console color combinations
 Guid 8e43a9d9-1df6-48c7-8595-7363087aba43
 Tags scripting,console
-LastUpdate 2/22/2023 10:43 AM
+LastUpdate 2/22/2024 10:43 AM
 Source C:\scripts\Test-ConsoleColors.ps1
 
 #>
@@ -110,11 +109,11 @@ Function Get-Foo {
 Version 1.0.0
 Author Jeff Hicks
 CompanyName JDH IT Solutions
-Copyright 2023 JDH IT Solutions, Inc.
+Copyright 2024 JDH IT Solutions, Inc.
 Description Get Foo Stuff
 Guid 490595c6-6a0c-4572-baf4-f808c010de70
 Tags scripting,console
-LastUpdate 2/21/2023 10:41 AM
+LastUpdate 2/21/2024 10:41 AM
 Source C:\scripts\FooStuff.ps1
 
 #>
@@ -212,7 +211,11 @@ This code is a prototype for a [suggestion](https://github.com/PowerShell/PowerS
 
 This module was first described at <https://jdhitsolutions.com/blog/powershell/8343/a-better-way-to-manage-powershell-functions/>.
 
+## Related Modules
+
+:bulb: You might also be interested in the [PSFunctionTools](https://github.com/jdhitsolutions/PSFunctionTools) module which contains a set of PowerShell 7 tools for automating and accelerating script and module development.
+
 ## Roadmap
 
-+ Add function metadata by file, auto-detecting the function name.
-+ Consider a bulk removal command to clean PSFunctionInfo metadata from files.
+- Add function metadata by file, auto-detecting the function name.
+- Consider a bulk removal command to clean PSFunctionInfo metadata from files.

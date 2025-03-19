@@ -152,7 +152,7 @@
     <maml:alertSet>
       <maml:alert>
         <maml:para>This command has an alias of epfi.</maml:para>
-        <maml:para>Learn more about PowerShell: http://jdhitsolutions.com/blog/essential-powershell-resources/</maml:para>
+        <maml:para>Learn more about PowerShell: https://jdhitsolutions.com/yourls/newsletter</maml:para>
       </maml:alert>
     </maml:alertSet>
     <command:examples>
@@ -174,7 +174,7 @@
     <command:relatedLinks>
       <maml:navigationLink>
         <maml:linkText>Online Version:</maml:linkText>
-        <maml:uri>https://bit.ly/3w8SBFj</maml:uri>
+        <maml:uri>https://jdhitsolutions.com/yourls/06a244</maml:uri>
       </maml:navigationLink>
       <maml:navigationLink>
         <maml:linkText>Get-PSFunctionInfo</maml:linkText>
@@ -316,7 +316,7 @@
     <maml:alertSet>
       <maml:alert>
         <maml:para>This function has an alias of gpfi. The PSFunctionInfo object has additional named table views of source and tags.</maml:para>
-        <maml:para>Learn more about PowerShell: http://jdhitsolutions.com/blog/essential-powershell-resources/</maml:para>
+        <maml:para>Learn more about PowerShell: https://jdhitsolutions.com/yourls/newsletter</maml:para>
       </maml:alert>
     </maml:alertSet>
     <command:examples>
@@ -409,7 +409,7 @@ Get-StatusString          1.1.0      gss        C:\scripts\getstat.ps1</dev:code
       </command:example>
       <command:example>
         <maml:title>-------------------------- Example 5 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; get-psfunctioninfo Get-qotd | Select-Object *
+        <dev:code>PS C:\&gt; Get-PSFunctionInfo Get-qotd | Select-Object *
 
 Name        : Get-QOTD
 Version     : 2.0.0
@@ -456,7 +456,7 @@ Source      : C:\scripts\update-helplinks.ps1
 CompanyName : JDH IT Solutions, Inc.
 Copyright   : (c) JDH IT Solutions, Inc.
 Description : Test if help file is missing the online link
-LastUpdate  : 4/23/2021 9:21:00 AM</dev:code>
+LastUpdate  : 4/23/2023 9:21:00 AM</dev:code>
         <dev:remarks>
           <maml:para>The PSFunctionInfo object includes a PropertySet called AuthorInfo.</maml:para>
         </dev:remarks>
@@ -477,7 +477,7 @@ Test-EventLog             1.0.0                 C:\work\sample.ps1</dev:code>
     <command:relatedLinks>
       <maml:navigationLink>
         <maml:linkText>Online Version:</maml:linkText>
-        <maml:uri>https://bit.ly/3dFmdRb</maml:uri>
+        <maml:uri>https://jdhitsolutions.com/yourls/1f9f84</maml:uri>
       </maml:navigationLink>
       <maml:navigationLink>
         <maml:linkText>New-PSFunctionInfo</maml:linkText>
@@ -537,7 +537,7 @@ Test-EventLog             1.0.0                 C:\work\sample.ps1</dev:code>
     </command:returnValues>
     <maml:alertSet>
       <maml:alert>
-        <maml:para>Learn more about PowerShell: http://jdhitsolutions.com/blog/essential-powershell-resources/</maml:para>
+        <maml:para>Learn more about PowerShell: https://jdhitsolutions.com/yourls/newsletter</maml:para>
       </maml:alert>
     </maml:alertSet>
     <command:examples>
@@ -559,7 +559,7 @@ Copyright   : (c) JDH IT Solutions, Inc.</dev:code>
     <command:relatedLinks>
       <maml:navigationLink>
         <maml:linkText>Online Version:</maml:linkText>
-        <maml:uri>https://bit.ly/3xiHPuc</maml:uri>
+        <maml:uri>https://jdhitsolutions.com/yourls/a2852b</maml:uri>
       </maml:navigationLink>
       <maml:navigationLink>
         <maml:linkText>Set-PSFunctionInfoDefaults</maml:linkText>
@@ -611,7 +611,7 @@ Copyright   : (c) JDH IT Solutions, Inc.</dev:code>
     </command:returnValues>
     <maml:alertSet>
       <maml:alert>
-        <maml:para>Learn more about PowerShell: http://jdhitsolutions.com/blog/essential-powershell-resources/</maml:para>
+        <maml:para>Learn more about PowerShell: https://jdhitsolutions.com/yourls/newsletter</maml:para>
       </maml:alert>
     </maml:alertSet>
     <command:examples>
@@ -635,7 +635,7 @@ Web</dev:code>
     <command:relatedLinks>
       <maml:navigationLink>
         <maml:linkText>Online Version:</maml:linkText>
-        <maml:uri>https://bit.ly/3atA4ba</maml:uri>
+        <maml:uri>https://jdhitsolutions.com/yourls/241397</maml:uri>
       </maml:navigationLink>
       <maml:navigationLink>
         <maml:linkText>Get-PSFunctionInfo</maml:linkText>
@@ -653,7 +653,7 @@ Web</dev:code>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>This command will create a function metadata comment block and insert it into the source script file. Or you can copy it to the clipboard and insert it yourself. There are no commands to modify or remove the function metatdata once it has been inserted into the file. It is assumed that if you update the function, you can manually update (or remove) the metadata at the same time.</maml:para>
+      <maml:para>This command will create a function metadata comment block and insert it into the source script file. Or you can copy it to the clipboard and insert it yourself. There are no commands to modify or remove the function metadata once it has been inserted into the file. It is assumed that if you update the function, you can manually update (or remove) the metadata at the same time.</maml:para>
       <maml:para>NOTE: This command will not work properly with one-line function declarations like Function Get-This { Get-Date }. It is also expected that you don't have multiple versions of the function in the same file. DO NOT modify spacing or formatting of the function metadata.</maml:para>
     </maml:description>
     <command:syntax>
@@ -995,31 +995,31 @@ Web</dev:code>
     <maml:alertSet>
       <maml:alert>
         <maml:para>This function has an alias of npfi.</maml:para>
-        <maml:para>Learn more about PowerShell: http://jdhitsolutions.com/blog/essential-powershell-resources/</maml:para>
+        <maml:para>Learn more about PowerShell: https://jdhitsolutions.com/yourls/newsletter</maml:para>
       </maml:alert>
     </maml:alertSet>
     <command:examples>
       <command:example>
         <maml:title>-------------------------- Example 1 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; New-PSFunctionInfo -Path c:\scripts\Test-ConsoleColors.ps1 -Description "show console color combinations" -Name Test-ConsoleColor -Author "Jeff Hicks" -CompanyName "JDH IT Solutions" -Copyright "2022 JDH IT Solutions, Inc." -Tags "scripting","console" -backup</dev:code>
+        <dev:code>PS C:\&gt; New-PSFunctionInfo -Path c:\scripts\Test-ConsoleColors.ps1 -Description "show console color combinations" -Name Test-ConsoleColor -Author "Jeff Hicks" -CompanyName "JDH IT Solutions" -Copyright "2025 JDH IT Solutions, Inc." -Tags "scripting","console" -backup</dev:code>
         <dev:remarks>
           <maml:para>Insert function metadata into the script file before the [cmdletbinding()] tag. This example will produce this comment block:</maml:para>
           <maml:para>PSFunctionInfo</maml:para>
           <maml:para>Version 1.0.0</maml:para>
           <maml:para>Author Jeff Hicks</maml:para>
           <maml:para>CompanyName JDH IT Solutions</maml:para>
-          <maml:para>Copyright 2022 JDH IT Solutions, Inc.</maml:para>
+          <maml:para>Copyright 2025 JDH IT Solutions, Inc.</maml:para>
           <maml:para>Description show console color combinations</maml:para>
           <maml:para>Guid e07e256e-a2d6-4acc-a1cf-5d8d1be7db27</maml:para>
           <maml:para>Tags scripting,console</maml:para>
-          <maml:para>LastUpdate 10/02/2022 10:34:18</maml:para>
+          <maml:para>LastUpdate 03/02/2025 10:34:18</maml:para>
           <maml:para>Source C:\Scripts\Test-ConsoleColors.ps1</maml:para>
           <maml:para>This example will also create a backup copy of the source file at c:\scripts\Test-ConsoleColors.ps1.bak1.</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
         <maml:title>-------------------------- Example 2 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; New-PSFunctionInfo -Path c:\scripts\Test-ConsoleColors.ps1 -Description "show console color combinations" -Name Test-ConsoleColor -Author "Jeff Hicks" -CompanyName "JDH IT Solutions" -Copyright "2024 JDH IT Solutions, Inc." -Tags "scripting","console" -ToClipboard</dev:code>
+        <dev:code>PS C:\&gt; New-PSFunctionInfo -Path c:\scripts\Test-ConsoleColors.ps1 -Description "show console color combinations" -Name Test-ConsoleColor -Author "Jeff Hicks" -CompanyName "JDH IT Solutions" -Copyright "2025 JDH IT Solutions, Inc." -Tags "scripting","console" -ToClipboard</dev:code>
         <dev:remarks>
           <maml:para>This will create the same metadata as the first example. Except it will be copied to the clipboard and not to the file.</maml:para>
         </dev:remarks>
@@ -1028,7 +1028,7 @@ Web</dev:code>
     <command:relatedLinks>
       <maml:navigationLink>
         <maml:linkText>Online Version:</maml:linkText>
-        <maml:uri>https://bit.ly/3avf181</maml:uri>
+        <maml:uri>https://jdhitsolutions.com/yourls/acc59c</maml:uri>
       </maml:navigationLink>
       <maml:navigationLink>
         <maml:linkText>Get-PSFunctionInfo</maml:linkText>
@@ -1183,7 +1183,7 @@ Web</dev:code>
     </command:returnValues>
     <maml:alertSet>
       <maml:alert>
-        <maml:para>Learn more about PowerShell: http://jdhitsolutions.com/blog/essential-powershell-resources/</maml:para>
+        <maml:para>Learn more about PowerShell: https://jdhitsolutions.com/yourls/newsletter</maml:para>
       </maml:alert>
     </maml:alertSet>
     <command:examples>
@@ -1205,7 +1205,7 @@ Web</dev:code>
     <command:relatedLinks>
       <maml:navigationLink>
         <maml:linkText>Online Version:</maml:linkText>
-        <maml:uri>https://bit.ly/3Bffk55</maml:uri>
+        <maml:uri>https://jdhitsolutions.com/yourls/b91632</maml:uri>
       </maml:navigationLink>
       <maml:navigationLink>
         <maml:linkText>Set-PSFunctionInfo</maml:linkText>
@@ -1522,7 +1522,7 @@ Web</dev:code>
     </command:returnValues>
     <maml:alertSet>
       <maml:alert>
-        <maml:para>Learn more about PowerShell: http://jdhitsolutions.com/blog/essential-powershell-resources/</maml:para>
+        <maml:para>Learn more about PowerShell: https://jdhitsolutions.com/yourls/newsletter</maml:para>
       </maml:alert>
     </maml:alertSet>
     <command:examples>
@@ -1544,7 +1544,7 @@ Web</dev:code>
     <command:relatedLinks>
       <maml:navigationLink>
         <maml:linkText>Online Version:</maml:linkText>
-        <maml:uri>https://bit.ly/3OBoaxi</maml:uri>
+        <maml:uri>https://jdhitsolutions.com/yourls/30835d</maml:uri>
       </maml:navigationLink>
       <maml:navigationLink>
         <maml:linkText>Get-PSFunctionInfo</maml:linkText>
@@ -1570,7 +1570,7 @@ Web</dev:code>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>Because you might define function metadata often, and want to maintain consistency, you can define a set of default values for New-PSFunctionInfo.  Set-PSFunctionInfoDefaults will create a JSON file at $home\psfunctioninfo-defaults.json. When you import this module, these values will be used to define entries in $PSDefaultParameterValues. Or, run Update-PSFunctionInfoDefaults to update parameter defaults.</maml:para>
+      <maml:para>Because you might define function metadata often, and want to maintain consistency, you can define a set of default values for New-PSFunctionInfo. Set-PSFunctionInfoDefaults will create a JSON file at $home\psfunctioninfo-defaults.json. When you import this module, these values will be used to define entries in $PSDefaultParameterValues. Or, run Update-PSFunctionInfoDefaults to update parameter defaults.</maml:para>
       <maml:para>If you run the command without specifying any parameters, you will get a warning and no file will be created.</maml:para>
     </maml:description>
     <command:syntax>
@@ -1776,7 +1776,7 @@ Web</dev:code>
     </command:returnValues>
     <maml:alertSet>
       <maml:alert>
-        <maml:para>Learn more about PowerShell: http://jdhitsolutions.com/blog/essential-powershell-resources/</maml:para>
+        <maml:para>Learn more about PowerShell: https://jdhitsolutions.com/yourls/newsletter</maml:para>
       </maml:alert>
     </maml:alertSet>
     <command:examples>
@@ -1791,7 +1791,7 @@ Web</dev:code>
     <command:relatedLinks>
       <maml:navigationLink>
         <maml:linkText>Online Version:</maml:linkText>
-        <maml:uri>https://bit.ly/2QgCu6g</maml:uri>
+        <maml:uri>https://jdhitsolutions.com/yourls/82077e</maml:uri>
       </maml:navigationLink>
       <maml:navigationLink>
         <maml:linkText>Get-PSFunctionInfoDefaults</maml:linkText>
@@ -1890,7 +1890,7 @@ Web</dev:code>
     </command:returnValues>
     <maml:alertSet>
       <maml:alert>
-        <maml:para>Learn more about PowerShell: http://jdhitsolutions.com/blog/essential-powershell-resources/</maml:para>
+        <maml:para>Learn more about PowerShell: https://jdhitsolutions.com/yourls/newsletter</maml:para>
       </maml:alert>
     </maml:alertSet>
     <command:examples>
@@ -1906,7 +1906,7 @@ PS C:\&gt; Update-PSFunctionInfoDefaults</dev:code>
     <command:relatedLinks>
       <maml:navigationLink>
         <maml:linkText>Online Version:</maml:linkText>
-        <maml:uri>https://bit.ly/3nimLPZ</maml:uri>
+        <maml:uri>https://jdhitsolutions.com/yourls/065d5b</maml:uri>
       </maml:navigationLink>
       <maml:navigationLink>
         <maml:linkText>Set-PSFunctionInfoDefaults</maml:linkText>

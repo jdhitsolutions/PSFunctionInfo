@@ -14,6 +14,7 @@ Function Get-PSFunctionInfo {
         )]
         [alias("Name")]
         [String]$FunctionName = "*",
+
         [Parameter(
             HelpMessage = "Specify a .ps1 file to search.",
             ValueFromPipelineByPropertyName,
@@ -107,7 +108,8 @@ Function Get-PSFunctionInfo {
             if (Test-Path Function:\$FunctionName) {
                 Write-Verbose "[$((Get-Date).TimeOfDay) PROCESS] Getting function $FunctionName"
                 # filter out functions with a module source and that pass the private filtering test
-                $functions = (Get-ChildItem -Path Function:\$FunctionName).where( { -Not $_.source -And (test_functionname $_.name) }) | Sort-Object -property Name
+                # 19 March 2025 - filter out functions with : in the name
+                $functions = (Get-ChildItem -Path Function:\$FunctionName).where( { -Not $_.source -And (test_functionName $_.name) }) | Sort-Object -property Name
                 Write-Verbose "[$((Get-Date).TimeOfDay) PROCESS] Found $($functions.count) functions"
                 Foreach ($fun in $functions) {
                     Write-Verbose "[$((Get-Date).TimeOfDay) PROCESS] $($fun.name)"

@@ -1,7 +1,7 @@
 ---
 external help file: PSFunctionInfo-help.xml
 Module Name: PSFunctionInfo
-online version: https://bit.ly/3avf181
+online version: https://jdhitsolutions.com/yourls/acc59c
 schema: 2.0.0
 ---
 
@@ -19,7 +19,7 @@ New-PSFunctionInfo [-Name] <String> -Path <String> [-Author <String>] [-CompanyN
 
 ## DESCRIPTION
 
-This command will create a function metadata comment block and insert it into the source script file. Or you can copy it to the clipboard and insert it yourself. There are no commands to modify or remove the function metatdata once it has been inserted into the file. It is assumed that if you update the function, you can manually update (or remove) the metadata at the same time.
+This command will create a function metadata comment block and insert it into the source script file. Or you can copy it to the clipboard and insert it yourself. There are no commands to modify or remove the function metadata once it has been inserted into the file. It is assumed that if you update the function, you can manually update (or remove) the metadata at the same time.
 
 NOTE: This command will not work properly with one-line function declarations like Function Get-This { Get-Date }. It is also expected that you don't have multiple versions of the function in the same file. DO NOT modify spacing or formatting of the function metadata.
 
@@ -28,7 +28,7 @@ NOTE: This command will not work properly with one-line function declarations li
 ### Example 1
 
 ```powershell
-PS C:\> New-PSFunctionInfo -Path c:\scripts\Test-ConsoleColors.ps1 -Description "show console color combinations" -Name Test-ConsoleColor -Author "Jeff Hicks" -CompanyName "JDH IT Solutions" -Copyright "2022 JDH IT Solutions, Inc." -Tags "scripting","console" -backup
+PS C:\> New-PSFunctionInfo -Path c:\scripts\Test-ConsoleColors.ps1 -Description "show console color combinations" -Name Test-ConsoleColor -Author "Jeff Hicks" -CompanyName "JDH IT Solutions" -Copyright "2025 JDH IT Solutions, Inc." -Tags "scripting","console" -backup
 ```
 
 Insert function metadata into the script file before the [cmdletbinding()] tag. This example will produce this comment block:
@@ -41,7 +41,7 @@ Author Jeff Hicks
 
 CompanyName JDH IT Solutions
 
-Copyright 2022 JDH IT Solutions, Inc.
+Copyright 2025 JDH IT Solutions, Inc.
 
 Description show console color combinations
 
@@ -49,7 +49,7 @@ Guid e07e256e-a2d6-4acc-a1cf-5d8d1be7db27
 
 Tags scripting,console
 
-LastUpdate 10/02/2022 10:34:18
+LastUpdate 03/02/2025 10:34:18
 
 Source C:\Scripts\Test-ConsoleColors.ps1
 
@@ -58,7 +58,7 @@ This example will also create a backup copy of the source file at c:\scripts\Tes
 ### Example 2
 
 ```powershell
-PS C:\> New-PSFunctionInfo -Path c:\scripts\Test-ConsoleColors.ps1 -Description "show console color combinations" -Name Test-ConsoleColor -Author "Jeff Hicks" -CompanyName "JDH IT Solutions" -Copyright "2024 JDH IT Solutions, Inc." -Tags "scripting","console" -ToClipboard
+PS C:\> New-PSFunctionInfo -Path c:\scripts\Test-ConsoleColors.ps1 -Description "show console color combinations" -Name Test-ConsoleColor -Author "Jeff Hicks" -CompanyName "JDH IT Solutions" -Copyright "2025 JDH IT Solutions, Inc." -Tags "scripting","console" -ToClipboard
 ```
 
 This will create the same metadata as the first example. Except it will be copied to the clipboard and not to the file.
@@ -291,7 +291,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 This function has an alias of npfi.
 
-Learn more about PowerShell: http://jdhitsolutions.com/blog/essential-powershell-resources/
+Learn more about PowerShell: https://jdhitsolutions.com/yourls/newsletter
 
 ## RELATED LINKS
 

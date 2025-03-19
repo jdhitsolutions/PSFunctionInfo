@@ -19,16 +19,16 @@ The default behavior is to show all functions that __don't__ belong to a module.
 Use the `New-PSFunctionInfo` command to insert the metadata tag into your script file.
 
 ```powershell
-    $params = @{
-        Name = 'Test-ConsoleColor'
-        Path = 'c:\scripts\Test-ConsoleColors.ps1'
-        Description = 'show console color combinations'
-        Author = 'Jeff Hicks'
-        CompanyName = 'JDH IT Solutions'
-        Copyright = '2023 JDH IT Solutions, Inc.'
-        Tags  = @('scripting','console')
-    }
-    New-PSFunctionInfo @params
+$params = @{
+    Name        = 'Test-ConsoleColor'
+    Path        = 'c:\scripts\Test-ConsoleColors.ps1'
+    Description = 'show console color combinations'
+    Author      = 'Jeff Hicks'
+    CompanyName = 'JDH IT Solutions'
+    Copyright   = '2024 JDH IT Solutions, Inc.'
+    Tags        = @('scripting', 'console')
+}
+New-PSFunctionInfo @params
 ```
 
 The default behavior is to insert the metadata tag immediately after the opening brace ({) into the file. **This command will update the file**. Or you can use the `ToClipBoard` parameter which will copy the metadata to the clipboard and you can manually insert it into your script file that defines the function.
@@ -42,11 +42,11 @@ You should get something like this:
 Version 1.0.0
 Author Jeff Hicks
 CompanyName JDH IT Solutions
-Copyright 2023 JDH IT Solutions, Inc.
+Copyright 2024 JDH IT Solutions, Inc.
 Description show console color combinations
 Guid 8e43a9d9-1df6-48c7-8595-7363087aba43
 Tags scripting,console
-LastUpdate 4/21/2023 10:43 AM
+LastUpdate 4/21/2024 10:43 AM
 Source C:\scripts\Test-ConsoleColors.ps1
 
 #>
@@ -68,11 +68,11 @@ Function Get-Foo {
 Version 1.0.0
 Author Jeff Hicks
 CompanyName JDH IT Solutions
-Copyright 2023 JDH IT Solutions, Inc.
+Copyright 2024 JDH IT Solutions, Inc.
 Description Get Foo Stuff
 Guid 490595c6-6a0c-4572-baf4-f808c010de70
 Tags scripting,console
-LastUpdate 4/21/2023 10:4f AM
+LastUpdate 4/21/2024 10:4f AM
 Source C:\scripts\FooStuff.ps1
 
 #>
