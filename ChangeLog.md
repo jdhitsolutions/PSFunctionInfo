@@ -2,6 +2,13 @@
 
 ## [Unreleased]
 
+## [1.6.0] - 2026-05-14
+
+### Changed
+
+- Minor documentation updates.
+- License and manifest year updates.
+
 ## [1.5.0] - 2025-03-19
 
 ### Added
@@ -11,7 +18,7 @@
 
 ### Changed
 
-- Replaced bitly online help links
+- Replaced bitly online help links.
 - Refined filtering regex for PSFunctionInfo objects to exclude functions that end in a colon. These are typically PSDrive shortcuts. __This is a potential breaking change.__
 - Converted changelog to new format.
 - Updated help documentation.
@@ -169,7 +176,8 @@ Preview release published to the PowerShell Gallery.
 
 - initial module files
 
-[Unreleased]: https://github.com/jdhitsolutions/PSFunctionInfo/compare/v1.5.0..HEAD
+[Unreleased]: https://github.com/jdhitsolutions/PSFunctionInfo/compare/v1.6.0..HEAD
+[1.6.0]: https://github.com/jdhitsolutions/PSFunctionInfo/compare/v1.5.0..v1.6.0
 [1.5.0]: https://github.com/jdhitsolutions/PSFunctionInfo/compare/v1.4.0..v1.5.0
 [1.4.0]: https://github.com/jdhitsolutions/PSFunctionInfo/compare/v1.3.0..v1.4.0
 [1.3.0]: https://github.com/jdhitsolutions/PSFunctionInfo/compare/v1.2.0..v1.3.0

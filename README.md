@@ -6,7 +6,7 @@
 
 ![documents](images/psfunctioninfo-icon.png)
 
-This module contains a set of PowerShell commands to add and manage metadata in stand-alone PowerShell functions.
+This module contains a set of PowerShell commands to add and manage metadata to stand-alone PowerShell functions.
 
 ## Installation
 
@@ -28,7 +28,7 @@ The module should work on both Windows PowerShell and PowerShell 7, even cross-p
 
 The purpose of this code is to provide a way to get versioning and other metadata information for functions that do not belong to a module. This is information you want to get after the function has been loaded into your PowerShell session. I have numerous stand-alone functions. These functions don't belong to a module, so there is no version or source information. However, I'd like to have that type of information for non-module functions.
 
-The code in this module isn't concerned with loading, running, or finding functions. By default, [Get-PSFunctionInfo](docs/Get-PSFunctionInfo.md) queries whatever is in the `Function:` PSDrive. If the PowerShell function belongs to a module, then you'll get the module version and source. Otherwise, the command will use the function metadata.
+The code in this module isn't concerned with loading, running, or finding functions. By default, [Get-PSFunctionInfo](docs/Get-PSFunctionInfo.md) queries whatever is in the `Function:` PSDrive. If the PowerShell function belongs to a module, then you'll get the module version and source. Otherwise, the command will use the function metadata created with this module.
 
 ![Get a single function](images/get-psfunctioninfo-1.png)
 
@@ -42,7 +42,7 @@ You can also get currently loaded functions by tag. Use `Get-PSFunctionInfoTag` 
 
 The PSFunctionInfo object includes a PropertySet called `AuthorInfo`.
 
-```dos
+```powershell
 PS C:\> Get-PSFunctionInfo -Tag modules | Select-Object -property AuthorInfo
 
 Name        : Test-HelpLink
@@ -51,13 +51,13 @@ Source      : C:\scripts\update-helplinks.ps1
 CompanyName : JDH IT Solutions, Inc.
 Copyright   : (c) JDH IT Solutions, Inc.
 Description : Test if help file is missing the online link
-LastUpdate  : 4/23/2024 9:21:00 AM
+LastUpdate  : 4/23/2025 9:21:00 AM
 ```
 
 Or you can use the `TagInfo` property set. This gives you the same result as using the `tag` named view with `Format-Table`.,
 
 ```powershell
-Get-PSFunctionInfo | Select-Object taginfo
+Get-PSFunctionInfo | Select-Object TagInfo
 ```
 
 Finally, you can also search .ps1 files for PSFunctionInfo metadata.
@@ -69,7 +69,7 @@ Finally, you can also search .ps1 files for PSFunctionInfo metadata.
 Use the [New-PSFunctionInfo](docs/New-PSFunctionInfo.md) command to insert the metadata tag into your script file.
 
 ```powershell
-New-PSFunctionInfo -Path c:\scripts\Test-ConsoleColors.ps1 -Description "show console color combinations" -Name Test-ConsoleColor -Author "Jeff Hicks" -CompanyName "JDH IT Solutions" -Copyright "2024 JDH IT Solutions, Inc." -Tags "scripting","console"
+New-PSFunctionInfo -Path c:\scripts\Test-ConsoleColors.ps1 -Description "show console color combinations" -Name Test-ConsoleColor -Author "Jeff Hicks" -CompanyName "JDH IT Solutions" -Copyright "2025 JDH IT Solutions, Inc." -Tags "scripting","console"
 ```
 
 The default behavior is to insert the metadata tag immediately after the opening brace (`{`) into the file. __This command will update the file__. Or you can use the `ToClipBoard` parameter which will copy the metadata to the clipboard. You can then manually insert it into your script file that defines the function. You should avoid changing the formatting of the comment block.
@@ -83,11 +83,11 @@ You should get something like this:
 Version 1.0.0
 Author Jeff Hicks
 CompanyName JDH IT Solutions
-Copyright 2024 JDH IT Solutions, Inc.
+Copyright 2025 JDH IT Solutions, Inc.
 Description show console color combinations
 Guid 8e43a9d9-1df6-48c7-8595-7363087aba43
 Tags scripting,console
-LastUpdate 2/22/2024 10:43 AM
+LastUpdate 2/22/2025 10:43 AM
 Source C:\scripts\Test-ConsoleColors.ps1
 
 #>
@@ -109,11 +109,11 @@ Function Get-Foo {
 Version 1.0.0
 Author Jeff Hicks
 CompanyName JDH IT Solutions
-Copyright 2024 JDH IT Solutions, Inc.
+Copyright 2025 JDH IT Solutions, Inc.
 Description Get Foo Stuff
 Guid 490595c6-6a0c-4572-baf4-f808c010de70
 Tags scripting,console
-LastUpdate 2/21/2024 10:41 AM
+LastUpdate 2/21/2025 10:41 AM
 Source C:\scripts\FooStuff.ps1
 
 #>
@@ -209,7 +209,6 @@ PS C:\> Set-PSFunctionInfo -Name Get-EventlogInfo -Path c:\work\LogTools.ps1 -So
 
 This code is a prototype for a [suggestion](https://github.com/PowerShell/PowerShell/issues/11667) I made for PowerShell 7. Early versions of this code were published as [https://gist.github.com/jdhitsolutions/65070cd51b5cfb572bc6375f67bcbc3d](https://gist.github.com/jdhitsolutions/65070cd51b5cfb572bc6375f67bcbc3d "view the Github gist")
 
-This module was first described at <https://jdhitsolutions.com/blog/powershell/8343/a-better-way-to-manage-powershell-functions/>.
 
 ## Related Modules
 

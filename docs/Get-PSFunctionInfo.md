@@ -125,22 +125,23 @@ Get functions by tag.
 ### Example 5
 
 ```powershell
-PS C:\> Get-PSFunctionInfo Get-qotd | Select-Object *
+PS C:\> Get-PSFunctionInfo Get-QOTD | Select-Object *
 
-Name        : Get-QOTD
-Version     : 2.0.0
+NName        : Get-QOTD
+Version     : 3.2.0
 Source      : C:\scripts\Get-QOTD.ps1
 CompanyName : JDH IT Solutions
-Copyright   : 2020
+Copyright   : 2020-2025
 Description : Get a quote of the day
-LastUpdate  : 5/21/2020 5:56:01 PM
-Module      :
+LastUpdate  : 10/21/2025 11:04:00 AM
+Tags        : {web,profile,ansi}
 Path        : C:\scripts\Get-QOTD.ps1
 Alias       : qotd
-Author      : Jeff
+Age         : 21.04:42:06.4616345
+Author      : Jeff Hicks
+Module      :
 Guid        : 16b5d672-4778-46d9-bbe5-08e7860e4e8a
-Tags        : {Web,profile}
-Commandtype : Function
+CommandType : Function
 ```
 
 Get all properties for a single function.

@@ -32,7 +32,6 @@ cim
 console
 directory
 git
-powershellget
 profile
 secrets
 Web
